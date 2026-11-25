@@ -26,6 +26,12 @@ export class UI {
 
   build() {
     this.buildTop(); this.buildLeft(); this.buildRight(); this.buildHud(); this.buildWalk(); this.buildRooms();
+    // phones: the panels would cover the whole 3D view, so start with both tucked away and show one at a time
+    const small = matchMedia('(max-width: 900px)');
+    if (small.matches) { $('left').classList.add('collapsed'); $('right').classList.add('collapsed'); }
+    for (const [a, b] of [['left', 'right'], ['right', 'left']]) {
+      new MutationObserver(() => { if (small.matches && !$(a).classList.contains('collapsed')) $(b).classList.add('collapsed'); }).observe($(a), { attributes: true, attributeFilter: ['class'] });
+    }
     this.app.editor.addEventListener('select', () => { if (this.app.editor.selection) this.rightTab = 'inspect'; this.renderRight(); });
     addEventListener('keydown', (e) => {
       if (isTyping(e) || e.ctrlKey || e.metaKey) return;
