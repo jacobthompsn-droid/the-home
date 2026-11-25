@@ -28,6 +28,20 @@ Add a file, rebuild the index, push → it appears in everyone's Playbox.
 
 Optionally save the reference image to `models/refs/<id>.jpg` and put the link in `source`.
 
+### No repo checkout? (chat apps, web-only agents)
+
+You can still do everything except steps 5–8 yourself:
+
+- Read files straight from GitHub with raw links:
+  `https://raw.githubusercontent.com/jacobthompsn-droid/the-home/main/<path>`. For example
+  `models/index.json` lists every model and its file path; open a few similar ones as patterns.
+  The validator's rules live in `js/model-spec.js`.
+- Write the model JSON following the schema and gravity rules below, and check them carefully by hand.
+- Give the user the finished JSON. In The Home they open **📷 Add a model from a photo**, paste it in, and the
+  app validates it on the spot (it shows any errors). From there they can keep it in their Playbox or save it to
+  the repo. If you have GitHub write access through a tool, you can instead commit
+  `models/<category>/<id>.json` to `main`; a GitHub Action rebuilds `models/index.json`.
+
 ## Coordinate rules (important)
 
 - Units: **meters**. `x` = width (left/right), `y` = up, `z` = depth. **Front faces +z.**

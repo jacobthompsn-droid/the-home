@@ -6,7 +6,8 @@ of furniture, first-person walk-throughs with physics (cannon-es), real sun, sea
 an indoor climate simulation, saved camera views, share links, GitHub saving and live sessions.
 
 ## Most common task: add furniture from a photo
-Follow **`.claude/skills/photo-to-model/SKILL.md`**. In short: write `models/<category>/<id>.json`,
+Follow **`.claude/skills/photo-to-model/SKILL.md`**
+(no checkout? fetch it from https://raw.githubusercontent.com/jacobthompsn-droid/the-home/main/.claude/skills/photo-to-model/SKILL.md). In short: write `models/<category>/<id>.json`,
 run `node tools/models.mjs validate`, then `node tools/models.mjs manifest`, check it in
 `preview.html?model=<id>`, and commit.
 

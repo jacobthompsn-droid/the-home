@@ -78,6 +78,9 @@ Give any coding agent (Claude Code, Cursor, Copilot…) the photo and say:
 
 > Read `.claude/skills/photo-to-model/SKILL.md` in this repo and turn this photo into a Playbox model.
 
+Agents that can't see the repo (for example a chat app) can fetch the skill directly:
+https://raw.githubusercontent.com/jacobthompsn-droid/the-home/main/.claude/skills/photo-to-model/SKILL.md
+
 The agent writes `models/<category>/<id>.json`, validates it, and pushes. A GitHub Action rebuilds the
 Playbox list and the new piece shows up for both of you. You can also paste a model JSON in the app with
 **📷 Add a model from a photo**.

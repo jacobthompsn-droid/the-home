@@ -690,7 +690,10 @@ export class UI {
       this.renderLeft();
     };
     ta.addEventListener('input', check);
-    const prompt = `Read the skill at .claude/skills/photo-to-model/SKILL.md in ${gh.repo ? 'https://github.com/' + gh.repo : 'our The Home repo'} and turn this photo into a Playbox model for The Home: <paste the Pinterest link or attach the image>`;
+    // give agents a direct raw link — many can't browse github.com pages or guess paths inside hidden folders
+    const repo = gh.repo || CONFIG.defaultRepo, branch = CONFIG.githubBranch || 'main';
+    const skillURL = `https://raw.githubusercontent.com/${repo}/${branch}/.claude/skills/photo-to-model/SKILL.md`;
+    const prompt = `Follow the photo-to-model skill for The Home (repo https://github.com/${repo}). If you have the repo checked out it's at .claude/skills/photo-to-model/SKILL.md; otherwise fetch it here: ${skillURL} — then turn this photo into a Playbox model: <paste the Pinterest link or attach the image>`;
     const m = this.modal('📷 Add a model from a photo',
       h('ol.steps', {},
         h('li', {}, 'Find a piece you love (Pinterest, a store, a photo you took).'),

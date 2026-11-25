@@ -3,6 +3,8 @@ export const CONFIG = {
   appName: 'The Home',
   // "owner/repo". Leave blank to auto-detect when hosted on <owner>.github.io/<repo>/
   githubRepo: '',
+  // Used when the repo can't be detected (localhost, custom domains) so links to the repo always work.
+  defaultRepo: 'jacobthompsn-droid/the-home',
   githubBranch: 'main',
   designsDir: 'designs',
   modelsDir: 'models',
