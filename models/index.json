@@ -1,6 +1,6 @@
 {
  "spec": 1,
- "count": 59,
+ "count": 60,
  "models": [
   {
    "id": "vanity",
@@ -198,6 +198,31 @@
     "sleep"
    ],
    "source": "builtin"
+  },
+  {
+   "id": "scallop-accent-chair",
+   "path": "models/bedroom/scallop-accent-chair.json",
+   "name": "Scalloped Velvet Chair",
+   "category": "bedroom",
+   "icon": "🐚",
+   "price": 259,
+   "size": [
+    0.74,
+    0.86,
+    0.68
+   ],
+   "placement": "floor",
+   "collection": "Pinterest – Blush Bedroom",
+   "tags": [
+    "chair",
+    "accent chair",
+    "vanity chair",
+    "velvet",
+    "scallop",
+    "shell",
+    "seating"
+   ],
+   "source": "photo"
   },
   {
    "id": "wardrobe",

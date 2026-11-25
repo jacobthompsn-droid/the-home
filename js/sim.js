@@ -30,7 +30,7 @@ export const ACTIVITIES = [
   { id: 'pool', name: 'Pool break', icon: '🎱', models: ['pool-table'], dur: 9, mood: { fun: 0.2 }, stand: 1.1, blurb: 'Break the rack.' },
   { id: 'arcade', name: 'Heart Catch', icon: '🕹️', models: ['arcade-cabinet'], game: 'arcade', mood: { fun: 0.25 }, blurb: '30-second arcade game. Beat your high score.' },
   { id: 'guitar', name: 'Play guitar', icon: '🎸', models: ['guitar-stand'], dur: 16, mood: { fun: 0.15, cozy: 0.15 }, blurb: 'G · D · Em · C' },
-  { id: 'read', name: 'Read a book', icon: '📚', models: ['armchair', 'bookshelf', 'sofa-3seat', 'loveseat'], dur: 14, mood: { cozy: 0.25 }, seat: true, blurb: 'A quiet chapter.' },
+  { id: 'read', name: 'Read a book', icon: '📚', models: ['armchair', 'scallop-accent-chair', 'bookshelf', 'sofa-3seat', 'loveseat'], dur: 14, mood: { cozy: 0.25 }, seat: true, blurb: 'A quiet chapter.' },
   { id: 'coffee', name: 'Coffee outside', icon: '☕', models: ['patio-set', 'sun-lounger'], dur: 14, mood: { cozy: 0.2, together: 0.1 }, seat: true, skipHours: 0.5, blurb: 'Watch the weather roll by.' },
   { id: 'soak', name: 'Hot tub soak', icon: '♨️', models: ['hot-tub'], dur: 14, mood: { cozy: 0.3, together: 0.15 }, blurb: 'Steam rising into the night.' },
   { id: 'bath', name: 'Bubble bath', icon: '🛁', models: ['bathtub', 'shower'], dur: 12, mood: { cozy: 0.25 }, blurb: 'Warm water, zero emails.' },
@@ -191,7 +191,7 @@ export class Sim extends EventTarget {
 
   seatPose(def, e) {
     const all = this.entries();
-    const SEATS = ['sofa-3seat', 'sectional-l', 'loveseat', 'armchair', 'patio-set', 'sun-lounger', 'dining-chair', 'bar-stool'];
+    const SEATS = ['sofa-3seat', 'sectional-l', 'loveseat', 'armchair', 'scallop-accent-chair', 'patio-set', 'sun-lounger', 'dining-chair', 'bar-stool'];
     let seat = SEATS.includes(e.model.id) ? e : null, look = null;
     const pos3 = (x) => new THREE.Vector3(x.item.x, (x.item.y || 0), x.item.z);
     if (def.id === 'movie') {

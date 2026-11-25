@@ -1,0 +1,526 @@
+{
+  "version": 1,
+  "id": "scallop-accent-chair",
+  "name": "Scalloped Velvet Chair",
+  "category": "bedroom",
+  "icon": "🐚",
+  "price": 259,
+  "size": [
+    0.74,
+    0.86,
+    0.68
+  ],
+  "placement": "floor",
+  "collection": "Pinterest – Blush Bedroom",
+  "tags": [
+    "chair",
+    "accent chair",
+    "vanity chair",
+    "velvet",
+    "scallop",
+    "shell",
+    "seating"
+  ],
+  "source": {
+    "type": "photo",
+    "url": "models/refs/scallop-accent-chair.png",
+    "notes": "Cream velvet shell-back vanity chair with channel-tufted petals and tapered wood legs with gold tips, from a Pinterest bedroom photo."
+  },
+  "physics": {
+    "body": "static",
+    "colliders": [
+      [
+        0,
+        0.23,
+        0.03,
+        0.6,
+        0.46,
+        0.52
+      ],
+      [
+        0,
+        0.6,
+        -0.18,
+        0.62,
+        0.46,
+        0.22
+      ]
+    ]
+  },
+  "parts": [
+    {
+      "name": "leg",
+      "shape": "cylinder",
+      "taper": 1.6,
+      "size": [
+        0.038,
+        0.25,
+        0.038
+      ],
+      "pos": [
+        0.215,
+        0.125,
+        0.19
+      ],
+      "rot": [
+        -8,
+        0,
+        8
+      ],
+      "material": {
+        "color": "#c9a46c",
+        "finish": "wood"
+      },
+      "mirror": "xz"
+    },
+    {
+      "name": "leg-tip",
+      "shape": "cylinder",
+      "size": [
+        0.026,
+        0.035,
+        0.026
+      ],
+      "pos": [
+        0.232,
+        0.0175,
+        0.207
+      ],
+      "material": {
+        "color": "#c8a14e",
+        "finish": "metal"
+      },
+      "mirror": "xz"
+    },
+    {
+      "name": "seat-base",
+      "shape": "cylinder",
+      "size": [
+        0.6,
+        0.12,
+        0.55
+      ],
+      "pos": [
+        0,
+        0.3,
+        0.02
+      ],
+      "material": {
+        "color": "#dccfbe",
+        "finish": "fabric"
+      }
+    },
+    {
+      "name": "seat-cushion",
+      "shape": "cylinder",
+      "taper": 0.94,
+      "size": [
+        0.6,
+        0.1,
+        0.55
+      ],
+      "pos": [
+        0,
+        0.405,
+        0.03
+      ],
+      "material": {
+        "color": "#dccfbe",
+        "finish": "fabric"
+      }
+    },
+    {
+      "name": "seat-welt",
+      "shape": "torus",
+      "size": [
+        0.6,
+        0.018,
+        0.6
+      ],
+      "pos": [
+        0,
+        0.36,
+        0.02
+      ],
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "material": {
+        "color": "#dccfbe",
+        "finish": "fabric"
+      }
+    },
+    {
+      "name": "petal-left-outer-mount",
+      "shape": "group",
+      "pos": [
+        -0.212,
+        0.3,
+        -0.093
+      ],
+      "rot": [
+        0,
+        62,
+        0
+      ],
+      "children": [
+        {
+          "name": "petal-left-outer-tilt",
+          "shape": "group",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rot": [
+            -7,
+            0,
+            4.34
+          ],
+          "children": [
+            {
+              "name": "petal-left-outer",
+              "shape": "roundedBox",
+              "radius": 0.045,
+              "size": [
+                0.2,
+                0.36,
+                0.1
+              ],
+              "pos": [
+                0,
+                0.18,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            },
+            {
+              "name": "petal-left-outer-top",
+              "shape": "cylinder",
+              "size": [
+                0.2,
+                0.1,
+                0.2
+              ],
+              "pos": [
+                0,
+                0.36,
+                0
+              ],
+              "rot": [
+                90,
+                0,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "petal-left-mount",
+      "shape": "group",
+      "pos": [
+        -0.124,
+        0.3,
+        -0.186
+      ],
+      "rot": [
+        0,
+        31,
+        0
+      ],
+      "children": [
+        {
+          "name": "petal-left-tilt",
+          "shape": "group",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rot": [
+            -7,
+            0,
+            2.17
+          ],
+          "children": [
+            {
+              "name": "petal-left",
+              "shape": "roundedBox",
+              "radius": 0.045,
+              "size": [
+                0.2,
+                0.43,
+                0.1
+              ],
+              "pos": [
+                0,
+                0.215,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            },
+            {
+              "name": "petal-left-top",
+              "shape": "cylinder",
+              "size": [
+                0.2,
+                0.1,
+                0.2
+              ],
+              "pos": [
+                0,
+                0.43,
+                0
+              ],
+              "rot": [
+                90,
+                0,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "petal-center-mount",
+      "shape": "group",
+      "pos": [
+        0,
+        0.3,
+        -0.22
+      ],
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "children": [
+        {
+          "name": "petal-center-tilt",
+          "shape": "group",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rot": [
+            -7,
+            0,
+            0
+          ],
+          "children": [
+            {
+              "name": "petal-center",
+              "shape": "roundedBox",
+              "radius": 0.045,
+              "size": [
+                0.2,
+                0.46,
+                0.1
+              ],
+              "pos": [
+                0,
+                0.23,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            },
+            {
+              "name": "petal-center-top",
+              "shape": "cylinder",
+              "size": [
+                0.2,
+                0.1,
+                0.2
+              ],
+              "pos": [
+                0,
+                0.46,
+                0
+              ],
+              "rot": [
+                90,
+                0,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "petal-right-mount",
+      "shape": "group",
+      "pos": [
+        0.124,
+        0.3,
+        -0.186
+      ],
+      "rot": [
+        0,
+        -31,
+        0
+      ],
+      "children": [
+        {
+          "name": "petal-right-tilt",
+          "shape": "group",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rot": [
+            -7,
+            0,
+            -2.17
+          ],
+          "children": [
+            {
+              "name": "petal-right",
+              "shape": "roundedBox",
+              "radius": 0.045,
+              "size": [
+                0.2,
+                0.43,
+                0.1
+              ],
+              "pos": [
+                0,
+                0.215,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            },
+            {
+              "name": "petal-right-top",
+              "shape": "cylinder",
+              "size": [
+                0.2,
+                0.1,
+                0.2
+              ],
+              "pos": [
+                0,
+                0.43,
+                0
+              ],
+              "rot": [
+                90,
+                0,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "petal-right-outer-mount",
+      "shape": "group",
+      "pos": [
+        0.212,
+        0.3,
+        -0.093
+      ],
+      "rot": [
+        0,
+        -62,
+        0
+      ],
+      "children": [
+        {
+          "name": "petal-right-outer-tilt",
+          "shape": "group",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rot": [
+            -7,
+            0,
+            -4.34
+          ],
+          "children": [
+            {
+              "name": "petal-right-outer",
+              "shape": "roundedBox",
+              "radius": 0.045,
+              "size": [
+                0.2,
+                0.36,
+                0.1
+              ],
+              "pos": [
+                0,
+                0.18,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            },
+            {
+              "name": "petal-right-outer-top",
+              "shape": "cylinder",
+              "size": [
+                0.2,
+                0.1,
+                0.2
+              ],
+              "pos": [
+                0,
+                0.36,
+                0
+              ],
+              "rot": [
+                90,
+                0,
+                0
+              ],
+              "material": {
+                "color": "#dccfbe",
+                "finish": "fabric"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
