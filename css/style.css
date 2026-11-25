@@ -282,9 +282,9 @@ section > input[type=range] { width: 100%; margin: 6px 0; }
 
 /* ------------------------------------------------ walk mode */
 #walk-overlay, #crosshair, #walk-hint { display: none; }
-body[data-mode=walk] #left { transform: translateX(-120%); opacity: 0; pointer-events: none; }
-body[data-mode=walk] #right { transform: translateX(120%); opacity: 0; pointer-events: none; }
-body[data-mode=walk]:not(.locked):not(.in-activity) #walk-overlay { display: grid; }
+body.locked #left { transform: translateX(-120%); opacity: 0; pointer-events: none; }
+body.locked #right { transform: translateX(120%); opacity: 0; pointer-events: none; }
+body[data-mode=walk] #scene { cursor: grab; }
 body[data-mode=walk].locked #crosshair, body[data-mode=walk].locked #walk-hint { display: block; }
 body.locked #topbar, body.locked #hud { opacity: .45; pointer-events: none; }
 body.in-activity #topbar { opacity: .3; }
@@ -295,6 +295,9 @@ body.in-activity #topbar { opacity: .3; }
 .walk-keys div { display: flex; gap: 12px; align-items: center; color: var(--text2); }
 .walk-keys kbd { min-width: 74px; text-align: center; }
 #crosshair { position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px rgba(0,0,0,.3), 0 0 12px rgba(255,255,255,.5); z-index: 15; pointer-events: none; }
+body[data-mode=walk]:not(.locked) #walk-hint { display: block; top: auto; bottom: 128px; }
+#walk-help { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); z-index: 12; display: none; gap: 14px; padding: 7px 14px; border-radius: 12px; background: rgba(14,13,17,.62); backdrop-filter: blur(12px); border: 1px solid var(--line); color: var(--text2); font-size: 11.5px; white-space: nowrap; pointer-events: none; }
+body[data-mode=walk]:not(.touch):not(.in-activity) #walk-help { display: flex; }
 #walk-hint { position: fixed; left: 50%; top: calc(50% + 28px); transform: translateX(-50%); background: rgba(14,13,17,.7); backdrop-filter: blur(10px); border: 1px solid var(--line); padding: 6px 14px; border-radius: 12px; font-weight: 600; z-index: 15; pointer-events: none; white-space: pre; }
 #walk-hint:empty { display: none !important; }
 
@@ -387,3 +390,6 @@ body.touch[data-mode=walk] #hud { display: none; }
 .tbtn:active { background: var(--grad); color: #2a140c; }
 .tbtn.exit { position: fixed; top: 84px; right: 16px; width: 44px; height: 44px; }
 body.touch #scene { touch-action: none; }
+
+/* auto-update banner */
+#update-banner { position: fixed; top: 84px; left: 50%; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 10px; padding: 9px 12px 9px 16px; border-radius: 14px; background: var(--glass-strong); backdrop-filter: blur(18px); border: 1px solid rgba(255,158,107,.45); box-shadow: 0 14px 40px rgba(0,0,0,.5); animation: toastIn .35s var(--ease); white-space: nowrap; }

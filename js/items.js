@@ -81,7 +81,7 @@ export class ItemsLayer {
       const model = this.library.get(item.model);
       if (!model) continue;
       seen.add(item.id);
-      const key = JSON.stringify([item.model, style.id, item.tokens, item.parts, model.version, model.parts.length, model.size]);
+      const key = JSON.stringify([item.model, style.id, item.tokens, item.parts, model.version, model.parts.length, model.size, this.library.meta.get(item.model)?.hash]);
       let e = this.entries.get(item.id), fresh = false;
       if (!e || e.key !== key) {
         if (e) { this.removeEntry(e); item._displayY = e.displayY; }

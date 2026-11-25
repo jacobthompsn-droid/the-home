@@ -100,14 +100,17 @@ export class Editor extends EventTarget {
       if (o.id === item.id) continue;
       const om = lib.get(o.model);
       if (!om || om.rug || om.placement !== 'floor' || om.physics?.body === 'dynamic') continue;
-      if (satOverlap(A, obb(o, om))) return true;
+      // chairs & stools are meant to tuck under tables, islands and desks
+      const tucks = (x, y) => (x.tags || []).some((t) => ['chair', 'stool', 'seating'].includes(t)) && (y.tags || []).some((t) => ['table', 'island', 'desk', 'surface'].includes(t));
+      if (tucks(m, om) || tucks(om, m)) continue;
+      if (satOverlap(A, obb(o, om), 0.04)) return true;
     }
     for (const w of this.app.apartment.walls) {
       const t = w.t / 2;
       const B = w.axis === 'h' ? { cx: (w.a0 + w.a1) / 2, cz: w.c, hx: (w.a1 - w.a0) / 2, hz: t, r: 0 } : { cx: w.c, cz: (w.a0 + w.a1) / 2, hx: t, hz: (w.a1 - w.a0) / 2, r: 0 };
-      if (satOverlap(A, B, -0.02)) {
+      if (satOverlap(A, B, 0.03)) {
         // allow overlaps that are inside a doorway/window gap
-        const hitPiece = w.meshes.some((mesh) => { const bb = new THREE.Box3().setFromObject(mesh); return bb.min.y < 0.5 && satOverlap(A, { cx: (bb.min.x + bb.max.x) / 2, cz: (bb.min.z + bb.max.z) / 2, hx: (bb.max.x - bb.min.x) / 2, hz: (bb.max.z - bb.min.z) / 2, r: 0 }, -0.02); });
+        const hitPiece = w.meshes.some((mesh) => { const bb = new THREE.Box3().setFromObject(mesh); return bb.min.y < 0.5 && satOverlap(A, { cx: (bb.min.x + bb.max.x) / 2, cz: (bb.min.z + bb.max.z) / 2, hx: (bb.max.x - bb.min.x) / 2, hz: (bb.max.z - bb.min.z) / 2, r: 0 }, 0.03); });
         if (hitPiece || w.rail) return true;
       }
     }
@@ -170,11 +173,15 @@ export class Editor extends EventTarget {
   // ------------------------------------------------------------- pointer
   onDown(e) {
     const app = this.app;
-    if (app.cameras.mode === 'walk' || e.button !== 0) return;
+    if (e.button !== 0) return;
+    if (app.cameras.mode === 'walk' && app.cameras.lock.isLocked) return;
     this.setNDC(e);
+    if (app.cameras.mode === 'walk' && app.sim.darts) { e.stopImmediatePropagation(); app.sim.click(this.ray.ray.direction.clone()); return; }
     if (this.placing) { e.stopImmediatePropagation(); this.updateGhost(e); this.placeGhost(); if (!e.shiftKey) this.cancelPlacing(); return; }
     const hit = this.pick();
     this.down = { x: e.clientX, y: e.clientY, hit, t: performance.now() };
+    // walking: a drag looks around unless you grab furniture that's already selected
+    if (hit?.type === 'item' && app.cameras.mode === 'walk' && this.selection?.id !== hit.id) return;
     if (hit?.type === 'item') {
       const it = this.item(hit.id); if (!it) return;
       app.cameras.orbit.enabled = false; app.cameras.plan.enabled = false;
@@ -190,6 +197,7 @@ export class Editor extends EventTarget {
     return acc;
   }
   onMove(e) {
+    if (e.target === this.app.canvas) { const r = this.app.canvas.getBoundingClientRect(); (this.mouse ||= new THREE.Vector2()).set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); }
     if (this.placing && e.target === this.app.canvas) this.updateGhost(e);
     if (!this.drag) return;
     this.setNDC(e);
@@ -208,23 +216,35 @@ export class Editor extends EventTarget {
     this.app.refreshItems({ live: true });
     this.app.live?.sendMove([it, ...this.drag.deps.map((x) => x.d)]);
   }
-  onUp() {
+  onUp(e) {
     const app = this.app;
+    const still = !e || !this.down || Math.hypot(e.clientX - this.down.x, e.clientY - this.down.y) < 6;
     if (this.drag) {
       if (this.drag.moved) { const m = app.library.get(this.item(this.drag.id)?.model); app.store.record(`Moved ${m?.name || 'item'}`, this.drag.before); }
       this.drag = null;
-    } else if (this.down && performance.now() - this.down.t < 400) {
+    } else if (this.down && still && performance.now() - this.down.t < 500) {
       const h = this.down.hit;
       if (!h) this.select(null);
       else if (h.type === 'opening') this.toggleOpening(h.key);
       else if (h.type === 'wall' || h.type === 'room') this.select(h);
+      else if (h.type === 'item' && this.selection?.id !== h.id) this.select({ type: 'item', id: h.id });
     }
     this.down = null;
     app.cameras.orbit.enabled = app.cameras.mode === 'orbit'; app.cameras.plan.enabled = app.cameras.mode === 'plan';
   }
   onDouble(e) {
-    if (this.app.cameras.mode !== 'orbit') return;
+    if (this.app.cameras.mode === 'walk') return;
     this.setNDC(e); const h = this.pick();
+    // double-click any floor to step inside right there
+    if (h?.type === 'room' || (this.app.cameras.mode === 'plan' && !h)) {
+      const p = h?.point || this.rayPlane(0);
+      if (p && this.app.apartment.isInside(p.x, p.z)) {
+        const cam = this.app.cameras.persp, yaw = this.app.cameras.mode === 'orbit' ? Math.atan2(-(p.x - cam.position.x), -(p.z - cam.position.z)) : 0;
+        this.app.setMode('walk', { at: p, yaw });
+        return;
+      }
+    }
+    if (this.app.cameras.mode !== 'orbit') return;
     if (h?.type === 'item') {
       const it = this.item(h.id), t = new THREE.Vector3(it.x, (it.y || 0) + 0.6, it.z);
       const cam = this.app.cameras.persp.position, dir = cam.clone().sub(t).normalize();
@@ -283,10 +303,14 @@ export class Editor extends EventTarget {
     const app = this.app, mod = e.ctrlKey || e.metaKey;
     if (mod && e.code === 'KeyZ') { e.preventDefault(); e.shiftKey ? app.store.redo() : app.store.undo(); return; }
     if (mod && e.code === 'KeyY') { e.preventDefault(); app.store.redo(); return; }
-    if (app.cameras.mode === 'walk') return this.walkKey(e);
+    if (app.cameras.mode === 'walk') {
+      if (this.walkKey(e)) return;
+      const editKey = ['Delete', 'Backspace', 'KeyR', 'Escape'].includes(e.code) || (mod && e.code === 'KeyD');
+      if (!editKey) return;
+    }
     if (mod && e.code === 'KeyD') { e.preventDefault(); this.duplicateSelected(); return; }
     switch (e.code) {
-      case 'Escape': this.cancelPlacing(); this.select(null); break;
+      case 'Escape': if (this.placing || this.selection) e.escHandled = true; this.cancelPlacing(); this.select(null); break;
       case 'Delete': case 'Backspace': this.removeSelected(); break;
       case 'KeyR': this.rotateSelected(e.shiftKey ? -90 : 90); break;
       case 'KeyQ': this.rotateSelected(-15); break;
@@ -299,18 +323,24 @@ export class Editor extends EventTarget {
   }
 
   // ------------------------------------------------------------- walk mode
-  centerRay() { this.ndc.set(0, 0); this.ray.setFromCamera(this.ndc, this.app.cameras.persp); this.ray.far = 3.2; const h = this.pick(); this.ray.far = Infinity; return h; }
+  // What the player is pointing at: screen center when mouse-look is on, otherwise whatever is under the cursor.
+  centerRay() {
+    if (this.app.cameras.lock.isLocked || !this.mouse) this.ndc.set(0, 0); else this.ndc.copy(this.mouse);
+    this.ray.setFromCamera(this.ndc, this.app.cameras.persp); this.ray.far = 4; const h = this.pick(); this.ray.far = Infinity; return h;
+  }
   walkKey(e) {
     const app = this.app;
+    if (!['KeyE', 'KeyQ', 'KeyG', 'KeyB', 'KeyF', 'KeyM'].includes(e.code)) return false;
+    if (e.code === 'KeyM') { if (app.cameras.lock.isLocked) app.cameras.lock.unlock(); else app.cameras.lock.lock(); return true; }
     if (e.code === 'KeyE') {
       const h = this.centerRay();
-      if (h?.type === 'item' && app.sim.use(app.items.get(h.id))) return;
+      if (h?.type === 'item' && app.sim.use(app.items.get(h.id))) return true;
       if (h?.type === 'opening') this.toggleOpening(h.key);
       else if (h?.type === 'item') { const en = app.items.get(h.id); if (en && en.behaviors.some((b) => ['light', 'spin', 'screen', 'airflow'].includes(b.type))) this.toggleItem(h.id); }
     }
-    if (e.code === 'KeyQ') { const h = this.centerRay(); if (h?.type === 'item') app.sim.activity(app.items.get(h.id), e.shiftKey); return; }
+    if (e.code === 'KeyQ') { const h = this.centerRay(); if (h?.type === 'item') app.sim.activity(app.items.get(h.id), e.shiftKey); return true; }
     if (e.code === 'KeyG') {
-      if (app.physics.held) { app.physics.held = null; return; }
+      if (app.physics.held) { app.physics.held = null; return true; }
       const cam = app.cameras.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir);
       const r = app.physics.dynamicAt(cam.position, dir, 3);
       if (r) app.physics.held = { body: r.body, target: new THREE.Vector3() };
@@ -320,6 +350,7 @@ export class Editor extends EventTarget {
       app.scene.add(app.physics.throwBall(cam.position, dir));
     }
     if (e.code === 'KeyF') this.flashlight.intensity = this.flashlight.intensity ? 0 : 40;
+    return true;
   }
   walkClick() {
     const app = this.app, cam = app.cameras.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir);
@@ -338,7 +369,7 @@ export class Editor extends EventTarget {
     const app = this.app;
     if (app.cameras.mode === 'walk') {
       if (app.physics.held) { const cam = app.cameras.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir); app.physics.held.target.copy(cam.position).addScaledVector(dir, 1.3); }
-      if (app.cameras.walking) {
+      if (app.cameras.mode === 'walk') {
         const h = this.centerRay();
         let hint = '';
         if (h?.type === 'opening') { const o = app.apartment.openings.find((p) => p.key === h.key); hint = `E · ${o?.target > 0.5 ? 'Close' : 'Open'} ${o?.type === 'door' ? 'door' : o?.type === 'slider' ? 'sliding door' : 'window'}`; }

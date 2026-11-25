@@ -543,6 +543,28 @@ M({
   ],
 });
 
+M({
+  id: 'wet-bar', name: 'Wet Bar + Wine Rack', category: 'kitchen', icon: '🍷', price: 1650, size: [1.5, 2.2, 0.57], placement: 'floor', surface: 0.94,
+  tags: ['bar', 'wine', 'entertaining', 'surface'],
+  physics: { body: 'static', colliders: [[0, 0.47, 0, 1.5, 0.94, 0.57]] },
+  parts: [
+    B('toe-kick', [1.5, 0.1, 0.5], [0, 0, -0.03], BLACK),
+    B('cabinet', [0.9, 0.8, 0.55], [-0.3, 0.1, -0.01], '@cabinet'),
+    B('door-line', [0.006, 0.74, 0.005], [-0.3, 0.13, 0.27], '@woodDark'),
+    B('handle', [0.012, 0.16, 0.02], [0.05, 0.66, 0.28], '@metal', { mirror: 'x' }),
+    B('wine-rack', [0.6, 0.8, 0.55], [0.45, 0.1, -0.01], '@woodDark'),
+    ...[0.2, 0.38, 0.56, 0.74].flatMap((y, r) => [0.24, 0.38, 0.52, 0.66].map((x, c) => Cc(`bottle-${r * 4 + c + 1}`, [0.075, 0.3, 0.075], [x, y + 0.06, 0.12], { color: ['#1d3b26', '#4a0f19', '#1d3b26', '#2b2219'][(r + c) % 4], finish: 'glass', opacity: 0.92 }, { rot: [90, 0, 0] }))),
+    B('countertop', [1.5, 0.04, 0.57], [0, 0.9, 0], '@stone'),
+    B('backsplash', [1.5, 1.26, 0.015], [0, 0.94, -0.277], { color: '@accent2', finish: 'gloss', texture: 'subway' }),
+    B('shelf', [1.4, 0.03, 0.25], [0, 1.54, -0.14], '@wood'),
+    B('shelf-2', [1.4, 0.03, 0.25], [0, 1.92, -0.14], '@wood'),
+    ...[-0.5, -0.35, -0.2, -0.05].map((x, i) => C(`glass-${i + 1}`, [0.07, 0.14, 0.07], [x, 1.57, -0.14], { color: '#e6f2f5', finish: 'glass', opacity: 0.35 }, { taper: 1.15 })),
+    ...[0.2, 0.32, 0.44].map((x, i) => C(`bottle-top-${i + 1}`, [0.08, 0.3, 0.08], [x, 1.57, -0.14], { color: ['#5a2a12', '#1d3b26', '#c8a14e'][i], finish: 'glass', opacity: 0.9 })),
+    C('decanter', [0.12, 0.26, 0.12], [-0.55, 0.94, 0.05], { color: '#e6f2f5', finish: 'glass', opacity: 0.35 }, { taper: 0.35 }),
+    S('fruit-bowl', [0.26, 0.08, 0.26], [-0.2, 0.94, 0.05], { color: '@ceramic', finish: 'ceramic' }),
+  ],
+});
+
 // ===================== BATH & LAUNDRY =====================
 M({
   id: 'bathtub', name: 'Bathtub', category: 'bath', icon: '🛁', price: 1299, size: [1.7, 0.75, 0.8], placement: 'floor',

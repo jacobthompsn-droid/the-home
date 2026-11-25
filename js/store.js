@@ -5,16 +5,16 @@ import { blueprintById } from './data/blueprints.js';
 const LS_AUTOSAVE = 'thehome.autosave', LS_SAVED = 'thehome.saved', LS_USER = 'thehome.user';
 export const USER_COLORS = ['#ff7a59', '#7c6cff', '#2bb3a3', '#e8a33d', '#e2559f', '#3d8bfd'];
 
-export function newDesign({ blueprint = 'the-home', style = 'modern', furnished = true, user } = {}) {
+export function newDesign({ blueprint = 'pierce-204', style = 'modern', furnished = true, user } = {}) {
   const bp = blueprintById(blueprint);
-  const items = furnished ? bp.furniture.map(([model, x, z, rot, extra = {}]) => ({ id: uid(), model, x, z, y: extra.y ?? 0, rot: rot || 0, addedBy: user?.name })) : [];
+  const items = furnished ? bp.furniture.map(([model, x, z, rot, extra = {}]) => ({ id: uid(), model, x, z, y: extra.y ?? 0, rot: rot || 0, ...(extra.scale ? { scale: extra.scale } : {}), addedBy: user?.name })) : [];
   return {
     app: 'the-home', version: 1, id: uid(), name: `${user?.name ? user.name + "'s" : 'Our'} ${bp.name}`,
     blueprint: bp.id, style,
     structure: { floors: {}, wallColors: {}, wallFinishes: {}, openState: {} },
     items,
     cameras: [],
-    env: { season: 'summer', hour: 16.5, weather: 'clear', wind: 0.25, windDir: 300, timeSpeed: 0, live: false, level: 6 },
+    env: { season: 'summer', hour: 16.5, weather: 'clear', wind: 0.25, windDir: 300, timeSpeed: 0, live: false, level: bp.level ?? 6 },
     climate: { mode: 'auto', set: 71 },
     settings: { autoLights: true, units: 'imperial' },
     customModels: {},

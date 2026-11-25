@@ -8,6 +8,18 @@ storm or a snowy winter night. Turn on the AC, open the windows and watch the br
 
 **Open it:** `https://<owner>.github.io/<repo>/` (after GitHub Pages is on; see below).
 
+## Floor plans from real listings
+
+| Plan | Based on | Size | Layout |
+|---|---|---|---|
+| **Pierce St Flats #204** | [207 Pierce St #204, Midtown](https://redf.in/2GCSsV) | 1,015 ft² | 1 bed + study · 1 bath · wet bar · covered balcony · loft ceilings |
+| **Stratford St #18** | [309 Stratford St #18, Montrose](https://redf.in/4MsX8d) | 704 ft² | 1 bed · 1 bath · laundry room · remodeled 1960 condo |
+| **S Bartell Dr #210** | [2830 S Bartell Dr #210, near NRG](https://redf.in/IACap9) | 1,000 ft² | 2 bed · 2 bath · split bedrooms with walk-in closets · balcony |
+
+These layouts are reconstructed from each listing's size, room list and description; the listings don't
+publish floor plans. Each one is placed on its real floor (2nd), so the view out the windows is at tree height.
+The original concept plans (The Home sketch, Studio Loft, Penthouse) are still available.
+
 ## What you can do
 
 | | |
@@ -46,6 +58,13 @@ The Home keeps living while you're away, on **real time**:
 - **Welcome back:** when you return after a while, you get a summary of what needs doing and what your partner did.
 - **Pace:** in the Life tab you can speed things up (6× or 48×) if real days feel too slow.
 
+### Walking
+
+Press **Walk** (or double-click any floor) to step in right where you're looking. **Drag** to look around,
+**WASD** to move and **← →** to turn. The Playbox and inspector stay open, so you can drag furniture in, click a piece to
+select it, then drag it, rotate it (R) or delete it while you're standing in the room. **M** turns on full mouse-look,
+and **Esc** steps back out.
+
 ### Walk-mode keys
 
 `WASD` move · `Shift` run · `Space` jump · `E` use (doors, lights, water plants, chores) · `Q` activity · `G` grab ·
@@ -62,6 +81,13 @@ Give any coding agent (Claude Code, Cursor, Copilot…) the photo and say:
 The agent writes `models/<category>/<id>.json`, validates it, and pushes. A GitHub Action rebuilds the
 Playbox list and the new piece shows up for both of you. You can also paste a model JSON in the app with
 **📷 Add a model from a photo**.
+
+## Always up to date
+
+You never need to refresh. Open copies of The Home check GitHub about every 40 seconds:
+- **New or changed Playbox models** load straight into the running app with a "🧸 New in the Playbox" toast.
+- **App code updates** save your work and reload. This happens instantly if the tab is in the background, or after a
+  20-second heads-up (with a "Later" button) if you're using it. The `version.json` stamp is written by a GitHub Action.
 
 ## Running it locally
 

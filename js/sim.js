@@ -350,9 +350,9 @@ export class Sim extends EventTarget {
   }
 
   // walk-mode click during darts
-  click() {
+  click(aim) {
     const D = this.darts; if (!D || !this.active) return false;
-    const app = this.app, cam = app.cameras.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir);
+    const app = this.app, cam = app.cameras.persp, dir = new THREE.Vector3(); if (aim) dir.copy(aim).normalize(); else cam.getWorldDirection(dir);
     // a little hand wobble
     dir.x += (Math.random() - 0.5) * 0.012; dir.y += (Math.random() - 0.5) * 0.012; dir.normalize();
     const ray = new THREE.Raycaster(cam.position, dir, 0, 6);

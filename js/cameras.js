@@ -32,11 +32,37 @@ export class Cameras extends EventTarget {
     addEventListener('keyup', (e) => this.keys.delete(e.code));
     addEventListener('blur', () => this.keys.clear());
     this.setupTouch(canvas);
+    this.setupDragLook(canvas);
+    this.speed = 0; this.vel = new THREE.Vector3();
   }
 
   get camera() { return this.mode === 'plan' ? this.ortho : this.persp; }
   // walking with input captured (pointer lock on desktop; always on touch devices)
   get walking() { return this.mode === 'walk' && (this.lock.isLocked || this.touch); }
+
+  // Desktop walk mode: click-and-drag anywhere on empty space to look around (no pointer lock needed).
+  setupDragLook(canvas) {
+    let drag = null;
+    canvas.addEventListener('contextmenu', (e) => { if (this.mode === 'walk') e.preventDefault(); });
+    canvas.addEventListener('pointerdown', (e) => {
+      if (this.mode !== 'walk' || e.pointerType === 'touch' || this.lock.isLocked) return;
+      drag = { x: e.clientX, y: e.clientY, moved: 0 };
+      canvas.setPointerCapture?.(e.pointerId);
+      canvas.style.cursor = 'grabbing';
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY; drag.moved += Math.abs(dx) + Math.abs(dy);
+      this.look(dx, dy, 0.0042);
+    });
+    const end = () => { drag = null; canvas.style.cursor = ''; };
+    canvas.addEventListener('pointerup', end); canvas.addEventListener('pointercancel', end);
+    this.lock.pointerSpeed = 0.75;
+  }
+  look(dx, dy, k) {
+    const r = this.persp.rotation; r.order = 'YXZ';
+    r.y -= dx * k; r.x = Math.max(-1.35, Math.min(1.35, r.x - dy * k)); r.z = 0;
+  }
 
   // Phones & tablets: left thumb = joystick, right thumb = look, tap = click.
   setupTouch(canvas) {
@@ -102,9 +128,10 @@ export class Cameras extends EventTarget {
       this.persp.position.set(pos.x, EYE, pos.z);
       const yaw = opts.yaw ?? rad(sp[2] || 0); // spawn[2] = yaw degrees, 0 = facing north
       this.persp.rotation.set(0, yaw, 0, 'YXZ');
-      this.persp.fov = 70; this.persp.updateProjectionMatrix();
-      if (opts.lock !== false && !this.touch) this.lock.lock();
-      if (this.touch) setTimeout(() => this.dispatchEvent(new Event('lockchange')), 0);
+      this.persp.fov = 72; this.persp.updateProjectionMatrix();
+      this.vel.set(0, 0, 0); this.speed = 0;
+      if (opts.lock === true && !this.touch) this.lock.lock();
+      setTimeout(() => this.dispatchEvent(new Event('lockchange')), 0);
     } else {
       if (prev === 'walk') {
         this.physics.setPlayerActive(false);
@@ -142,17 +169,29 @@ export class Cameras extends EventTarget {
     if (this.mode === 'walk') {
       const k = this.keys, run = k.has('ShiftLeft') || k.has('ShiftRight');
       const f = (k.has('KeyW') || k.has('ArrowUp') ? 1 : 0) - (k.has('KeyS') || k.has('ArrowDown') ? 1 : 0);
-      const r = (k.has('KeyD') || k.has('ArrowRight') ? 1 : 0) - (k.has('KeyA') || k.has('ArrowLeft') ? 1 : 0);
+      const r = (k.has('KeyD') ? 1 : 0) - (k.has('KeyA') ? 1 : 0);
+      const turn = (k.has('ArrowLeft') ? 1 : 0) - (k.has('ArrowRight') ? 1 : 0);
+      if (turn) this.look(-turn * 160 * dt, 0, 0.012);
       const dir = new THREE.Vector3(); this.persp.getWorldDirection(dir); dir.y = 0; dir.normalize();
       const right = new THREE.Vector3(-dir.z, 0, dir.x);
-      const v = dir.clone().multiplyScalar(f - this.joy.y).add(right.multiplyScalar(r + this.joy.x));
-      if (v.lengthSq() > 0) v.normalize().multiplyScalar(run ? 4.2 : 1.9);
-      if (this.frozen) { if (v.lengthSq() > 0) this.onMoveAttempt?.(); return; }
-      this.physics.movePlayer(v.x, v.z, k.has('Space'));
-      const p = this.physics.player.position;
-      const moving = v.lengthSq() > 0 && this.physics.onGround();
-      this.bob += dt * (run ? 11 : 7) * (moving ? 1 : 0);
-      this.persp.position.set(p.x, p.y + EYE + (moving ? Math.sin(this.bob) * 0.03 : 0), p.z);
+      const want = dir.clone().multiplyScalar(f - this.joy.y).add(right.multiplyScalar(r + this.joy.x));
+      if (want.lengthSq() > 1) want.normalize();
+      want.multiplyScalar(run ? 4.6 : 2.3);
+      if (this.frozen) { if (want.lengthSq() > 0) this.onMoveAttempt?.(); return; }
+      // ease in / ease out like a real walk (frame-rate independent)
+      const ground = this.physics.onGround();
+      const accel = want.lengthSq() ? (ground ? 9 : 2) : (ground ? 12 : 1.5);
+      this.vel.lerp(want, 1 - Math.exp(-accel * dt));
+      this.physics.movePlayer(this.vel.x, this.vel.z, k.has('Space'));
+      const p = this.physics.player.interpolatedPosition || this.physics.player.position;
+      const sp = Math.hypot(this.vel.x, this.vel.z);
+      this.speed += (sp - this.speed) * Math.min(1, dt * 8);
+      if (ground) this.bob += dt * (4.2 + this.speed * 2.2);
+      const amp = Math.min(this.speed / 4.6, 1) * 0.028;
+      const eye = p.y + EYE + Math.sin(this.bob * 2) * amp;
+      // smooth camera follow removes physics jitter
+      this.persp.position.x = p.x; this.persp.position.z = p.z;
+      this.persp.position.y += (eye - this.persp.position.y) * Math.min(1, dt * 18);
     }
   }
 }

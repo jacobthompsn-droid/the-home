@@ -107,10 +107,8 @@ export class Physics {
   }
   movePlayer(vx, vz, jump) {
     const p = this.player;
-    const k = this.onGround() ? 0.35 : 0.06;
-    p.velocity.x += (vx - p.velocity.x) * k * 2;
-    p.velocity.z += (vz - p.velocity.z) * k * 2;
-    if (jump && this.onGround()) p.velocity.y = 4.2;
+    p.velocity.x = vx; p.velocity.z = vz;
+    if (jump && this.onGround() && p.velocity.y < 0.5) p.velocity.y = 4.2;
   }
   onGround() {
     const from = this.player.position.clone(); from.y += 0.1;

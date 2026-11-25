@@ -6,6 +6,7 @@
 //   node tools/models.mjs manifest            # rebuild models/index.json (the Playbox list)
 //   node tools/models.mjs check               # validate + fail if index.json is out of date (used by CI)
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateModel, manifestEntry, SPEC_VERSION } from '../js/model-spec.js';
@@ -54,7 +55,7 @@ function validate(files) {
 
 function buildManifest(results) {
   const entries = results.filter((r) => r.model && !r.parseError && !validateModel(r.model).errors.length)
-    .map((r) => manifestEntry(r.model, r.rel))
+    .map((r) => ({ ...manifestEntry(r.model, r.rel), hash: crypto.createHash('sha1').update(JSON.stringify(r.model)).digest('hex').slice(0, 10) }))
     .sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
   return JSON.stringify({ spec: SPEC_VERSION, count: entries.length, models: entries }, null, 1) + '\n';
 }

@@ -32,7 +32,7 @@ export class UI {
       if (e.code === 'Digit1') this.app.setMode('orbit');
       if (e.code === 'Digit2') this.app.setMode('plan');
       if (e.code === 'Digit3') this.app.setMode('walk');
-      if (e.code === 'Escape' && this.app.cameras.mode === 'walk') this.app.setMode('orbit');
+      if (e.code === 'Escape' && this.app.cameras.mode === 'walk' && !e.escHandled) { if (this.app.sim.active) this.app.sim.cancel(); else this.app.setMode('orbit'); }
     });
     document.addEventListener('click', (e) => { if (!e.target.closest('.menu-wrap')) document.querySelectorAll('.menu').forEach((m) => m.classList.remove('open')); });
   }
@@ -501,6 +501,7 @@ export class UI {
       ? { onpointerdown: (e) => { e.preventDefault(); this.app.cameras.keys.add(code); }, onpointerup: () => this.app.cameras.keys.delete(code), onpointerleave: () => this.app.cameras.keys.delete(code) }
       : { onpointerdown: (e) => { e.preventDefault(); key(code, true); key(code, false); } }, label);
     document.body.append(h('div#touch-ui', {}, tb('Use', 'KeyE'), tb('Do', 'KeyQ'), tb('Grab', 'KeyG'), tb('Jump', 'Space', true), h('button.tbtn.exit', { onclick: () => this.app.setMode('orbit') }, '✕')));
+    document.body.append(h('div#walk-help', {}, ...[['WASD', 'move'], ['drag', 'look'], ['← →', 'turn'], ['Shift', 'run'], ['E', 'use'], ['Q', 'do'], ['M', 'mouse-look'], ['Esc', 'exit']].map(([k, t]) => h('span', {}, h('kbd', {}, k), ' ', t))));
     const o = $('walk-overlay');
     o.append(h('div.walk-card', {},
       h('h2', {}, '🚶 Walk through The Home'),
@@ -511,7 +512,7 @@ export class UI {
       h('button.btn.wide', { onclick: () => this.app.setMode('orbit') }, 'Back to dollhouse')));
   }
   setWalkHint(t) { const el = $('walk-hint'); if (el.textContent !== t) el.textContent = t; }
-  onLock() { document.body.classList.toggle('locked', this.app.cameras.walking); }
+  onLock() { document.body.classList.toggle('locked', this.app.cameras.mode === 'walk' && this.app.cameras.lock.isLocked); }
   onMode() {
     document.querySelectorAll('#topbar .seg').forEach((b) => b.classList.toggle('on', b.dataset.mode === this.app.cameras.mode));
     this.onLock();

@@ -23,6 +23,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { Sim } from './sim.js';
 import { Thumbs } from './thumbs.js';
+import { Updater } from './updater.js';
 
 // quality presets: pixel ratio cap, ambient occlusion, bloom, shadow map size
 const QUALITY = {
@@ -85,6 +86,8 @@ class App {
     else { this.loadDesign(newDesign({ user: this.store.user || { name: 'Us' } }), 'Preview'); this.ui.wizard(); }
 
     this.sim.welcome();
+    this.updater = new Updater(this); this.updater.start();
+    if (sessionStorage.getItem('thehome.updated')) { sessionStorage.removeItem('thehome.updated'); setTimeout(() => this.ui.toast('✨ Updated to the latest version', 3000), 800); }
     this.clock = new THREE.Clock();
     this.renderer.setAnimationLoop(() => this.tick());
     setInterval(() => this.store.saveLocal(), 5000); // keeps time-of-day/weather between visits
@@ -175,10 +178,20 @@ class App {
     this.applyCutaway();
   }
 
-  setMode(mode) {
-    if (mode === 'walk' && this.cameras.mode === 'walk') return this.cameras.lock.lock();
+  setMode(mode, opts = {}) {
+    const cams = this.cameras, from = cams.mode;
+    if (mode === from) return;
+    this.sim.cancel();
     this.editor.cancelPlacing();
-    this.cameras.setMode(mode);
+    if (mode === 'walk' && !opts.at) {
+      // step in right where you were looking, facing the same way
+      const t = from === 'plan' ? cams.plan.target : cams.orbit.target;
+      if (this.apartment.isInside(t.x, t.z)) {
+        opts.at = t.clone();
+        if (from === 'orbit') opts.yaw = Math.atan2(-(t.x - cams.persp.position.x), -(t.z - cams.persp.position.z));
+      }
+    }
+    cams.setMode(mode, opts);
   }
   onMode() {
     const m = this.cameras.mode;

@@ -29,6 +29,7 @@ run `node tools/models.mjs validate`, then `node tools/models.mjs manifest`, che
 - `js/minigames.js`: the arcade game
 - `js/thumbs.js`: rendered Playbox thumbnails
 - `js/icons.js`: UI icons
+- `js/updater.js`: live updates (hot-loads new models, self-updates the app)
 - `js/cameras.js`: dollhouse, blueprint and walk camera modes
 - `js/editor.js`: interaction
 - `js/ui.js`: all panels

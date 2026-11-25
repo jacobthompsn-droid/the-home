@@ -1,6 +1,6 @@
 {
  "spec": 1,
- "count": 60,
+ "count": 61,
  "models": [
   {
    "id": "vanity",
@@ -20,7 +20,8 @@
     "bath",
     "sink"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "99304354f6"
   },
   {
    "id": "bathtub",
@@ -39,7 +40,8 @@
    "tags": [
     "bath"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "148cbc1161"
   },
   {
    "id": "dryer",
@@ -59,7 +61,8 @@
     "laundry",
     "appliance"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "110a792c9e"
   },
   {
    "id": "shower",
@@ -78,7 +81,8 @@
    "tags": [
     "bath"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "5a81aab047"
   },
   {
    "id": "toilet",
@@ -97,7 +101,8 @@
    "tags": [
     "bath"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "c78c4b2892"
   },
   {
    "id": "washer",
@@ -117,7 +122,8 @@
     "laundry",
     "appliance"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "e69ba902a3"
   },
   {
    "id": "dresser",
@@ -137,7 +143,8 @@
     "storage",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "5a12347843"
   },
   {
    "id": "bed-king",
@@ -157,7 +164,8 @@
     "bed",
     "sleep"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "e00b3ef40f"
   },
   {
    "id": "nightstand",
@@ -177,7 +185,8 @@
     "storage",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "365818c34d"
   },
   {
    "id": "bed-queen",
@@ -197,7 +206,8 @@
     "bed",
     "sleep"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "64474963f6"
   },
   {
    "id": "scallop-accent-chair",
@@ -222,7 +232,8 @@
     "shell",
     "seating"
    ],
-   "source": "photo"
+   "source": "photo",
+   "hash": "d8dcc542d5"
   },
   {
    "id": "wardrobe",
@@ -242,7 +253,8 @@
     "storage",
     "closet"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "4d0508c3ef"
   },
   {
    "id": "ceiling-fan",
@@ -263,7 +275,8 @@
     "airflow",
     "light"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "3604ed8f4a"
   },
   {
    "id": "mini-split",
@@ -285,7 +298,8 @@
     "airflow",
     "thermostat"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "1e8c609af9"
   },
   {
    "id": "space-heater",
@@ -305,7 +319,8 @@
     "heat",
     "airflow"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "bc70eefc53"
   },
   {
    "id": "floor-fan",
@@ -325,7 +340,8 @@
     "fan",
     "airflow"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "3de1b14daa"
   },
   {
    "id": "guitar-stand",
@@ -345,7 +361,8 @@
     "music",
     "guitar"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "6abba20de4"
   },
   {
    "id": "curtains",
@@ -365,7 +382,8 @@
     "textile",
     "window"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "1cc434f56a"
   },
   {
    "id": "plant-fiddle",
@@ -384,7 +402,8 @@
    "tags": [
     "plant"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "7e93c8a173"
   },
   {
    "id": "wall-shelf",
@@ -404,7 +423,8 @@
     "shelf",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "fd370769c2"
   },
   {
    "id": "wall-art",
@@ -423,7 +443,8 @@
    "tags": [
     "art"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "f562cb31e8"
   },
   {
    "id": "mirror-round",
@@ -442,7 +463,8 @@
    "tags": [
     "mirror"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "b8777f4191"
   },
   {
    "id": "plant-small",
@@ -461,7 +483,8 @@
    "tags": [
     "plant"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "18adb6f34e"
   },
   {
    "id": "snake-plant",
@@ -480,7 +503,8 @@
    "tags": [
     "plant"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "6da2ca9205"
   },
   {
    "id": "bar-stool",
@@ -500,7 +524,8 @@
     "stool",
     "seating"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "bbe35a1560"
   },
   {
    "id": "dining-chair",
@@ -520,7 +545,8 @@
     "chair",
     "seating"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "af9071c30e"
   },
   {
    "id": "dining-table",
@@ -540,7 +566,8 @@
     "table",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "8f450a505e"
   },
   {
    "id": "round-table",
@@ -560,7 +587,8 @@
     "table",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "ad8b8d4c13"
   },
   {
    "id": "arcade-cabinet",
@@ -580,7 +608,8 @@
     "game",
     "retro"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "0e135aea93"
   },
   {
    "id": "dartboard",
@@ -599,7 +628,8 @@
    "tags": [
     "game"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "56001c2505"
   },
   {
    "id": "pool-table",
@@ -618,7 +648,8 @@
    "tags": [
     "game"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "7c56f6309d"
   },
   {
    "id": "kitchen-counter",
@@ -639,7 +670,8 @@
     "cabinet",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "0e0ad644e3"
   },
   {
    "id": "kitchen-island",
@@ -660,7 +692,8 @@
     "island",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "595f03c3cd"
   },
   {
    "id": "stove-range",
@@ -681,7 +714,8 @@
     "stove",
     "appliance"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "6306e61f37"
   },
   {
    "id": "fridge",
@@ -701,7 +735,8 @@
     "kitchen",
     "appliance"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "471f228806"
   },
   {
    "id": "kitchen-sink",
@@ -722,7 +757,31 @@
     "sink",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "6628d41851"
+  },
+  {
+   "id": "wet-bar",
+   "path": "models/kitchen/wet-bar.json",
+   "name": "Wet Bar + Wine Rack",
+   "category": "kitchen",
+   "icon": "🍷",
+   "price": 1650,
+   "size": [
+    1.5,
+    2.2,
+    0.57
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "bar",
+    "wine",
+    "entertaining",
+    "surface"
+   ],
+   "source": "builtin",
+   "hash": "77ce3f60c3"
   },
   {
    "id": "floor-lamp",
@@ -742,7 +801,8 @@
     "light",
     "lamp"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "325acb53a1"
   },
   {
    "id": "ceiling-light",
@@ -761,7 +821,8 @@
    "tags": [
     "light"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "6f7aa4e9b2"
   },
   {
    "id": "pendant-light",
@@ -781,7 +842,8 @@
     "light",
     "pendant"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "f6a93ec7f9"
   },
   {
    "id": "table-lamp",
@@ -801,7 +863,8 @@
     "light",
     "lamp"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "1bfa6f27fb"
   },
   {
    "id": "sofa-3seat",
@@ -822,7 +885,8 @@
     "sofa",
     "couch"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "89490346c9"
   },
   {
    "id": "rug",
@@ -842,7 +906,8 @@
     "rug",
     "textile"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "ad2e2bc2c5"
   },
   {
    "id": "armchair",
@@ -862,7 +927,8 @@
     "seating",
     "chair"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "748261e6be"
   },
   {
    "id": "bookshelf",
@@ -882,7 +948,8 @@
     "storage",
     "books"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "888ae84aae"
   },
   {
    "id": "coffee-table",
@@ -902,7 +969,8 @@
     "table",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "bf0264a30b"
   },
   {
    "id": "sectional-l",
@@ -923,7 +991,8 @@
     "sectional",
     "couch"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "9077f4aa78"
   },
   {
    "id": "loveseat",
@@ -944,7 +1013,8 @@
     "sofa",
     "couch"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "7676d387bb"
   },
   {
    "id": "rug-runner",
@@ -964,7 +1034,8 @@
     "rug",
     "textile"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "b153a626de"
   },
   {
    "id": "side-table",
@@ -984,7 +1055,8 @@
     "table",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "83da1e2598"
   },
   {
    "id": "tv-console",
@@ -1004,7 +1076,8 @@
     "tv",
     "entertainment"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "a7e195d77e"
   },
   {
    "id": "desk",
@@ -1025,7 +1098,8 @@
     "work",
     "surface"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "5c220e97b8"
   },
   {
    "id": "office-chair",
@@ -1045,7 +1119,8 @@
     "chair",
     "work"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "dfa61a373e"
   },
   {
    "id": "patio-set",
@@ -1065,7 +1140,8 @@
     "outdoor",
     "balcony"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "08cec9129b"
   },
   {
    "id": "hot-tub",
@@ -1085,7 +1161,8 @@
     "outdoor",
     "spa"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "f385e3fbc8"
   },
   {
    "id": "sun-lounger",
@@ -1105,7 +1182,8 @@
     "outdoor",
     "seating"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "189bb63c12"
   },
   {
    "id": "basketball",
@@ -1125,7 +1203,8 @@
     "toy",
     "physics"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "4793ac6308"
   },
   {
    "id": "bean-bag",
@@ -1146,7 +1225,8 @@
     "game",
     "physics"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "5838906c75"
   },
   {
    "id": "moving-box",
@@ -1166,7 +1246,8 @@
     "box",
     "physics"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "0d1c6d9d7f"
   },
   {
    "id": "pouf",
@@ -1186,7 +1267,8 @@
     "seating",
     "physics"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "44989ef8aa"
   },
   {
    "id": "throw-pillow",
@@ -1206,7 +1288,8 @@
     "textile",
     "physics"
    ],
-   "source": "builtin"
+   "source": "builtin",
+   "hash": "3ec076428d"
   }
  ]
 }

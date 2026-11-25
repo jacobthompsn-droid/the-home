@@ -17,7 +17,7 @@ export class ModelLibrary extends EventTarget {
       entries = (await res.json()).models || [];
     } catch (e) { console.warn('Could not load models/index.json', e); }
     await Promise.all(entries.map(async (e) => {
-      try { this.add(await (await fetch(e.path, { cache: 'no-cache' })).json(), { path: e.path }); }
+      try { this.add(await (await fetch(`${e.path}?v=${e.hash || ''}`, { cache: 'no-cache' })).json(), { path: e.path, hash: e.hash }); }
       catch (err) { console.warn('Model failed to load', e.path, err); }
     }));
     // Models imported in this browser that aren't in the repo yet
@@ -25,9 +25,9 @@ export class ModelLibrary extends EventTarget {
     this.dispatchEvent(new Event('change'));
   }
 
-  add(model, { path, local } = {}) {
+  add(model, { path, local, hash } = {}) {
     this.models.set(model.id, model);
-    this.meta.set(model.id, { ...manifestEntry(model, path || ''), local: !!local });
+    this.meta.set(model.id, { ...manifestEntry(model, path || ''), local: !!local, hash });
   }
 
   // Import a model from JSON text (paste / file / design embed). Returns {model, errors, warnings}.
