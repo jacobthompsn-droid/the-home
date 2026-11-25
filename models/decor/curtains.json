@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "textile",
+    "window"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "curtains",
+  "name": "Curtains",
+  "category": "decor",
+  "icon": "🪟",
+  "price": 119,
+  "size": [
+    2.4,
+    2.42,
+    0.14
+  ],
+  "placement": "wall",
+  "mountHeight": 0.02,
+  "behaviors": [
+    {
+      "type": "cloth",
+      "part": "panel"
+    }
+  ],
+  "parts": [
+    {
+      "name": "bracket",
+      "shape": "box",
+      "size": [
+        0.03,
+        0.06,
+        0.1
+      ],
+      "pos": [
+        1.1,
+        2.36,
+        -0.035
+      ],
+      "material": "@metal",
+      "mirror": "x"
+    },
+    {
+      "name": "rod",
+      "shape": "cylinder",
+      "size": [
+        0.03,
+        2.4,
+        0.03
+      ],
+      "pos": [
+        0,
+        2.38,
+        0
+      ],
+      "material": "@metal",
+      "rot": [
+        0,
+        0,
+        90
+      ]
+    },
+    {
+      "name": "panel",
+      "shape": "cloth",
+      "size": [
+        0.8,
+        2.36,
+        0.06
+      ],
+      "pos": [
+        -0.75,
+        1.18,
+        0
+      ],
+      "material": {
+        "color": "@fabric2",
+        "finish": "fabric",
+        "opacity": 0.96
+      },
+      "mirror": "x"
+    }
+  ]
+}

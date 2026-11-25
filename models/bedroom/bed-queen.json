@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "bed",
+    "sleep"
+  ],
+  "physics": {
+    "body": "static",
+    "colliders": [
+      [
+        0,
+        0.3,
+        0.05,
+        1.6,
+        0.6,
+        2.05
+      ],
+      [
+        0,
+        0.55,
+        -1.025,
+        1.7,
+        1.1,
+        0.1
+      ]
+    ]
+  },
+  "id": "bed-queen",
+  "name": "Queen Bed",
+  "category": "bedroom",
+  "icon": "🛏️",
+  "price": 1599,
+  "size": [
+    1.7,
+    1.1,
+    2.15
+  ],
+  "placement": "floor",
+  "surface": 0.6,
+  "parts": [
+    {
+      "name": "leg",
+      "shape": "box",
+      "size": [
+        0.05,
+        0.08,
+        0.05
+      ],
+      "pos": [
+        0.74,
+        0.04,
+        0.98
+      ],
+      "material": "@woodDark",
+      "mirror": "xz"
+    },
+    {
+      "name": "frame",
+      "shape": "roundedBox",
+      "radius": 0.02,
+      "size": [
+        1.6,
+        0.25,
+        2.05
+      ],
+      "pos": [
+        0,
+        0.205,
+        0.05
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "mattress",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        1.5,
+        0.24,
+        1.95
+      ],
+      "pos": [
+        0,
+        0.45,
+        0.06
+      ],
+      "material": {
+        "color": "#f4f1ea",
+        "finish": "fabric"
+      }
+    },
+    {
+      "name": "duvet",
+      "shape": "roundedBox",
+      "radius": 0.03,
+      "size": [
+        1.56,
+        0.06,
+        1.42
+      ],
+      "pos": [
+        0,
+        0.57,
+        0.33
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "throw-blanket",
+      "shape": "roundedBox",
+      "radius": 0.012,
+      "size": [
+        1.58,
+        0.03,
+        0.42
+      ],
+      "pos": [
+        0,
+        0.615,
+        0.78
+      ],
+      "material": "@accent"
+    },
+    {
+      "name": "pillow",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        0.6,
+        0.13,
+        0.38
+      ],
+      "pos": [
+        0.4,
+        0.635,
+        -0.7
+      ],
+      "material": {
+        "color": "#fbfaf7",
+        "finish": "fabric"
+      },
+      "mirror": "x"
+    },
+    {
+      "name": "accent-pillow",
+      "shape": "roundedBox",
+      "radius": 0.05,
+      "size": [
+        0.45,
+        0.3,
+        0.1
+      ],
+      "pos": [
+        0.32,
+        0.75,
+        -0.5
+      ],
+      "material": "@accent2",
+      "rot": [
+        -18,
+        0,
+        0
+      ],
+      "mirror": "x"
+    },
+    {
+      "name": "headboard",
+      "shape": "roundedBox",
+      "radius": 0.03,
+      "size": [
+        1.7,
+        1.1,
+        0.1
+      ],
+      "pos": [
+        0,
+        0.55,
+        -1.025
+      ],
+      "material": "@fabric2"
+    }
+  ]
+}

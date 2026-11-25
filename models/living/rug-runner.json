@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "rug",
+    "textile"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "rug-runner",
+  "name": "Runner Rug",
+  "category": "living",
+  "icon": "🟫",
+  "price": 149,
+  "size": [
+    0.8,
+    0.012,
+    2.6
+  ],
+  "placement": "floor",
+  "rug": true,
+  "parts": [
+    {
+      "name": "rug",
+      "shape": "roundedBox",
+      "radius": 0.004,
+      "size": [
+        0.8,
+        0.012,
+        2.6
+      ],
+      "pos": [
+        0,
+        0.006,
+        0
+      ],
+      "material": {
+        "color": "@accent",
+        "finish": "fabric",
+        "texture": "rug"
+      }
+    }
+  ]
+}

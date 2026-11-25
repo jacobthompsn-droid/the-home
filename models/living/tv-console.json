@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "tv",
+    "entertainment"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "tv-console",
+  "name": "TV + Media Console",
+  "category": "living",
+  "icon": "📺",
+  "price": 1499,
+  "size": [
+    1.8,
+    1.38,
+    0.45
+  ],
+  "placement": "floor",
+  "surface": 0.51,
+  "defaultOn": false,
+  "behaviors": [
+    {
+      "type": "screen",
+      "part": "screen"
+    }
+  ],
+  "parts": [
+    {
+      "name": "leg",
+      "shape": "box",
+      "size": [
+        0.04,
+        0.06,
+        0.04
+      ],
+      "pos": [
+        0.85,
+        0.03,
+        0.18
+      ],
+      "material": "@metal",
+      "mirror": "xz"
+    },
+    {
+      "name": "cabinet",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        1.8,
+        0.45,
+        0.45
+      ],
+      "pos": [
+        0,
+        0.285,
+        0
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "door-line",
+      "shape": "box",
+      "size": [
+        0.006,
+        0.38,
+        0.006
+      ],
+      "pos": [
+        0.3,
+        0.285,
+        0.226
+      ],
+      "material": "@woodDark",
+      "mirror": "x"
+    },
+    {
+      "name": "tv-base",
+      "shape": "box",
+      "size": [
+        0.4,
+        0.02,
+        0.22
+      ],
+      "pos": [
+        0,
+        0.52,
+        0
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      }
+    },
+    {
+      "name": "tv-neck",
+      "shape": "box",
+      "size": [
+        0.06,
+        0.12,
+        0.04
+      ],
+      "pos": [
+        0,
+        0.59,
+        -0.03
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      }
+    },
+    {
+      "name": "tv-frame",
+      "shape": "box",
+      "size": [
+        1.46,
+        0.85,
+        0.05
+      ],
+      "pos": [
+        0,
+        0.955,
+        -0.06
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      }
+    },
+    {
+      "name": "screen",
+      "shape": "box",
+      "size": [
+        1.42,
+        0.81,
+        0.01
+      ],
+      "pos": [
+        0,
+        0.955,
+        -0.03
+      ],
+      "material": {
+        "color": "#06080b",
+        "finish": "gloss"
+      }
+    }
+  ]
+}

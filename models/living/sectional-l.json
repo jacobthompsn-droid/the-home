@@ -1,0 +1,370 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "seating",
+    "sectional",
+    "couch"
+  ],
+  "physics": {
+    "body": "static",
+    "colliders": [
+      [
+        0,
+        0.245,
+        -0.58,
+        2.9,
+        0.49,
+        1.04
+      ],
+      [
+        -0.975,
+        0.245,
+        0.475,
+        0.95,
+        0.49,
+        1.25
+      ],
+      [
+        0,
+        0.425,
+        -1,
+        2.9,
+        0.85,
+        0.2
+      ],
+      [
+        -1.35,
+        0.425,
+        0,
+        0.2,
+        0.85,
+        2.2
+      ]
+    ]
+  },
+  "id": "sectional-l",
+  "name": "L-Shaped Sectional",
+  "category": "living",
+  "icon": "🛋️",
+  "price": 2399,
+  "size": [
+    2.9,
+    0.85,
+    2.2
+  ],
+  "placement": "floor",
+  "parts": [
+    {
+      "name": "leg",
+      "shape": "cylinder",
+      "size": [
+        0.05,
+        0.1,
+        0.05
+      ],
+      "pos": [
+        1.37,
+        0.05,
+        -1.02
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "leg",
+      "shape": "cylinder",
+      "size": [
+        0.05,
+        0.1,
+        0.05
+      ],
+      "pos": [
+        1.37,
+        0.05,
+        -0.2
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "leg",
+      "shape": "cylinder",
+      "size": [
+        0.05,
+        0.1,
+        0.05
+      ],
+      "pos": [
+        -1.37,
+        0.05,
+        -1.02
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "leg",
+      "shape": "cylinder",
+      "size": [
+        0.05,
+        0.1,
+        0.05
+      ],
+      "pos": [
+        -1.37,
+        0.05,
+        1.02
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "leg",
+      "shape": "cylinder",
+      "size": [
+        0.05,
+        0.1,
+        0.05
+      ],
+      "pos": [
+        -0.58,
+        0.05,
+        1.02
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "leg",
+      "shape": "cylinder",
+      "size": [
+        0.05,
+        0.1,
+        0.05
+      ],
+      "pos": [
+        -0.58,
+        0.05,
+        -0.2
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "base-main",
+      "shape": "roundedBox",
+      "radius": 0.04,
+      "size": [
+        2.9,
+        0.25,
+        0.95
+      ],
+      "pos": [
+        0,
+        0.225,
+        -0.625
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "base-chaise",
+      "shape": "roundedBox",
+      "radius": 0.04,
+      "size": [
+        0.95,
+        0.25,
+        1.25
+      ],
+      "pos": [
+        -0.975,
+        0.225,
+        0.475
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "back-main",
+      "shape": "roundedBox",
+      "radius": 0.05,
+      "size": [
+        2.9,
+        0.5,
+        0.2
+      ],
+      "pos": [
+        0,
+        0.6,
+        -1
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "back-side",
+      "shape": "roundedBox",
+      "radius": 0.05,
+      "size": [
+        0.2,
+        0.5,
+        2.2
+      ],
+      "pos": [
+        -1.35,
+        0.6,
+        0
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "arm",
+      "shape": "roundedBox",
+      "radius": 0.05,
+      "size": [
+        0.18,
+        0.32,
+        0.95
+      ],
+      "pos": [
+        1.36,
+        0.51,
+        -0.625
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "arm-chaise",
+      "shape": "roundedBox",
+      "radius": 0.05,
+      "size": [
+        0.95,
+        0.32,
+        0.18
+      ],
+      "pos": [
+        -0.975,
+        0.51,
+        1.01
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "seat-main",
+      "shape": "roundedBox",
+      "radius": 0.05,
+      "size": [
+        2.5,
+        0.14,
+        0.74
+      ],
+      "pos": [
+        0.01,
+        0.42,
+        -0.53
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "seat-chaise",
+      "shape": "roundedBox",
+      "radius": 0.05,
+      "size": [
+        0.74,
+        0.14,
+        1.06
+      ],
+      "pos": [
+        -0.875,
+        0.42,
+        0.385
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "back-cushion-a",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        1.2,
+        0.36,
+        0.14
+      ],
+      "pos": [
+        -0.6,
+        0.63,
+        -0.83
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "back-cushion-b",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        1.2,
+        0.36,
+        0.14
+      ],
+      "pos": [
+        0.65,
+        0.63,
+        -0.83
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "back-cushion-side",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        0.14,
+        0.36,
+        1
+      ],
+      "pos": [
+        -1.18,
+        0.63,
+        0.3
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "throw-pillow",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        0.42,
+        0.38,
+        0.12
+      ],
+      "pos": [
+        0.9,
+        0.68,
+        -0.7
+      ],
+      "material": "@accent",
+      "rot": [
+        -12,
+        -10,
+        0
+      ]
+    },
+    {
+      "name": "throw-pillow-2",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        0.12,
+        0.38,
+        0.42
+      ],
+      "pos": [
+        -1.05,
+        0.68,
+        -0.6
+      ],
+      "material": "@accent2",
+      "rot": [
+        0,
+        30,
+        12
+      ]
+    }
+  ]
+}

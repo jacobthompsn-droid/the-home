@@ -1,0 +1,37 @@
+# Keeps the Playbox in sync: validates every model (nothing floating!) and rebuilds
+# models/index.json + designs/index.json whenever models or designs change.
+name: Playbox
+
+on:
+  push:
+    branches: [main]
+    paths: ['models/**', 'designs/**', 'js/model-spec.js', 'tools/**']
+  pull_request:
+    paths: ['models/**', 'js/model-spec.js', 'tools/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  playbox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate models
+        run: node tools/models.mjs validate
+      - name: Rebuild indexes
+        if: github.event_name != 'pull_request'
+        run: node tools/models.mjs manifest
+      - name: Commit updated indexes
+        if: github.event_name != 'pull_request'
+        run: |
+          if git diff --quiet; then echo "Indexes already up to date"; exit 0; fi
+          git config user.name "the-home-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add models/index.json designs/index.json
+          git commit -m "🧸 Update Playbox index"
+          git push

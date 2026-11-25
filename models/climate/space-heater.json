@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "heat",
+    "airflow"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "space-heater",
+  "name": "Space Heater",
+  "category": "climate",
+  "icon": "🔥",
+  "price": 59,
+  "size": [
+    0.35,
+    0.6,
+    0.25
+  ],
+  "placement": "floor",
+  "defaultOn": true,
+  "behaviors": [
+    {
+      "type": "airflow",
+      "kind": "heater",
+      "at": [
+        0,
+        0.4,
+        0.15
+      ],
+      "dir": [
+        0,
+        0.6,
+        1
+      ],
+      "strength": 0.8,
+      "range": 2.5
+    },
+    {
+      "type": "status",
+      "part": "grill"
+    }
+  ],
+  "parts": [
+    {
+      "name": "body",
+      "shape": "roundedBox",
+      "radius": 0.04,
+      "size": [
+        0.35,
+        0.58,
+        0.25
+      ],
+      "pos": [
+        0,
+        0.31,
+        0
+      ],
+      "material": {
+        "color": "#e9e6e0",
+        "finish": "plastic"
+      }
+    },
+    {
+      "name": "grill",
+      "shape": "box",
+      "size": [
+        0.27,
+        0.32,
+        0.01
+      ],
+      "pos": [
+        0,
+        0.34,
+        0.124
+      ],
+      "material": {
+        "color": "#ff7a2f",
+        "finish": "emissive",
+        "glow": true
+      }
+    },
+    {
+      "name": "foot",
+      "shape": "box",
+      "size": [
+        0.3,
+        0.02,
+        0.28
+      ],
+      "pos": [
+        0,
+        0.01,
+        0
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      }
+    }
+  ]
+}

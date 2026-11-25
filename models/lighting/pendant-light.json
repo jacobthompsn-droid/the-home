@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "light",
+    "pendant"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "pendant-light",
+  "name": "Pendant Light",
+  "category": "lighting",
+  "icon": "🔆",
+  "price": 159,
+  "size": [
+    0.36,
+    0.9,
+    0.36
+  ],
+  "placement": "ceiling",
+  "defaultOn": true,
+  "behaviors": [
+    {
+      "type": "light",
+      "at": [
+        0,
+        -0.86,
+        0
+      ],
+      "intensity": 0.9
+    }
+  ],
+  "parts": [
+    {
+      "name": "canopy",
+      "shape": "cylinder",
+      "size": [
+        0.1,
+        0.03,
+        0.1
+      ],
+      "pos": [
+        0,
+        -0.015,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "cord",
+      "shape": "cylinder",
+      "size": [
+        0.01,
+        0.62,
+        0.01
+      ],
+      "pos": [
+        0,
+        -0.33,
+        0
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      }
+    },
+    {
+      "name": "shade",
+      "shape": "cylinder",
+      "size": [
+        0.36,
+        0.24,
+        0.36
+      ],
+      "pos": [
+        0,
+        -0.74,
+        0
+      ],
+      "material": "@metal",
+      "taper": 0.18
+    },
+    {
+      "name": "bulb",
+      "shape": "sphere",
+      "size": [
+        0.09,
+        0.09,
+        0.09
+      ],
+      "pos": [
+        0,
+        -0.835,
+        0
+      ],
+      "material": {
+        "color": "#fff4dc",
+        "finish": "emissive",
+        "glow": true
+      }
+    }
+  ]
+}

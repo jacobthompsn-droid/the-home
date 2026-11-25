@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "textile",
+    "physics"
+  ],
+  "physics": {
+    "body": "dynamic",
+    "mass": 0.4,
+    "shape": "box"
+  },
+  "id": "throw-pillow",
+  "name": "Throw Pillow",
+  "category": "play",
+  "icon": "🟪",
+  "price": 35,
+  "size": [
+    0.45,
+    0.15,
+    0.45
+  ],
+  "placement": "surface",
+  "parts": [
+    {
+      "name": "pillow",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        0.45,
+        0.15,
+        0.45
+      ],
+      "pos": [
+        0,
+        0.075,
+        0
+      ],
+      "material": "@accent"
+    }
+  ]
+}

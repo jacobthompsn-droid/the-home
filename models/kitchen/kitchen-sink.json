@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "kitchen",
+    "sink",
+    "surface"
+  ],
+  "physics": {
+    "body": "static",
+    "colliders": [
+      [
+        0,
+        0.47,
+        0,
+        1.2,
+        0.94,
+        0.62
+      ]
+    ]
+  },
+  "id": "kitchen-sink",
+  "name": "Sink Counter",
+  "category": "kitchen",
+  "icon": "🚰",
+  "price": 1400,
+  "size": [
+    1.2,
+    2.22,
+    0.62
+  ],
+  "placement": "floor",
+  "surface": 0.94,
+  "parts": [
+    {
+      "name": "toe-kick",
+      "shape": "box",
+      "size": [
+        1.2,
+        0.1,
+        0.55
+      ],
+      "pos": [
+        0,
+        0.05,
+        -0.02
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      }
+    },
+    {
+      "name": "cabinet",
+      "shape": "box",
+      "size": [
+        1.2,
+        0.8,
+        0.6
+      ],
+      "pos": [
+        0,
+        0.5,
+        -0.01
+      ],
+      "material": "@cabinet"
+    },
+    {
+      "name": "countertop",
+      "shape": "box",
+      "size": [
+        1.2,
+        0.04,
+        0.62
+      ],
+      "pos": [
+        0,
+        0.92,
+        0
+      ],
+      "material": "@stone"
+    },
+    {
+      "name": "door-line",
+      "shape": "box",
+      "size": [
+        0.006,
+        0.74,
+        0.005
+      ],
+      "pos": [
+        0,
+        0.5,
+        0.29
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "sink-basin",
+      "shape": "box",
+      "size": [
+        0.62,
+        0.02,
+        0.42
+      ],
+      "pos": [
+        0,
+        0.935,
+        0.03
+      ],
+      "material": {
+        "color": "#c9ccce",
+        "finish": "metal"
+      }
+    },
+    {
+      "name": "faucet",
+      "shape": "cylinder",
+      "size": [
+        0.03,
+        0.32,
+        0.03
+      ],
+      "pos": [
+        0,
+        1.1,
+        -0.22
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "spout",
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.18
+      ],
+      "pos": [
+        0,
+        1.245,
+        -0.14
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "backsplash",
+      "shape": "box",
+      "size": [
+        1.2,
+        0.56,
+        0.015
+      ],
+      "pos": [
+        0,
+        1.22,
+        -0.3
+      ],
+      "material": {
+        "color": "#f2f0ea",
+        "finish": "ceramic",
+        "texture": "subway"
+      }
+    },
+    {
+      "name": "upper-cabinet",
+      "shape": "box",
+      "size": [
+        1.2,
+        0.72,
+        0.35
+      ],
+      "pos": [
+        0,
+        1.86,
+        -0.135
+      ],
+      "material": "@cabinet"
+    }
+  ]
+}

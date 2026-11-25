@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "fan",
+    "airflow"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "floor-fan",
+  "name": "Standing Fan",
+  "category": "climate",
+  "icon": "🌬️",
+  "price": 69,
+  "size": [
+    0.42,
+    1.12,
+    0.36
+  ],
+  "placement": "floor",
+  "defaultOn": false,
+  "behaviors": [
+    {
+      "type": "spin",
+      "part": "blades",
+      "axis": "z",
+      "speed": 22
+    },
+    {
+      "type": "oscillate",
+      "part": "head",
+      "axis": "y",
+      "amount": 35,
+      "speed": 0.6
+    },
+    {
+      "type": "airflow",
+      "kind": "fan",
+      "at": [
+        0,
+        0.92,
+        0.12
+      ],
+      "dir": [
+        0,
+        0,
+        1
+      ],
+      "strength": 3.2,
+      "range": 4
+    }
+  ],
+  "parts": [
+    {
+      "name": "base",
+      "shape": "cylinder",
+      "size": [
+        0.34,
+        0.04,
+        0.34
+      ],
+      "pos": [
+        0,
+        0.02,
+        -0.02
+      ],
+      "material": {
+        "color": "#eeeeec",
+        "finish": "plastic"
+      }
+    },
+    {
+      "name": "pole",
+      "shape": "cylinder",
+      "size": [
+        0.03,
+        0.8,
+        0.03
+      ],
+      "pos": [
+        0,
+        0.44,
+        -0.02
+      ],
+      "material": {
+        "color": "#eeeeec",
+        "finish": "plastic"
+      }
+    },
+    {
+      "name": "head",
+      "shape": "group",
+      "pos": [
+        0,
+        0.92,
+        -0.02
+      ],
+      "children": [
+        {
+          "name": "motor",
+          "shape": "cylinder",
+          "size": [
+            0.13,
+            0.14,
+            0.13
+          ],
+          "pos": [
+            0,
+            0,
+            -0.07
+          ],
+          "material": {
+            "color": "#eeeeec",
+            "finish": "plastic"
+          },
+          "rot": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "cage",
+          "shape": "torus",
+          "size": [
+            0.4,
+            0.015,
+            0.4
+          ],
+          "pos": [
+            0,
+            0,
+            0.04
+          ],
+          "material": {
+            "color": "#dddddd",
+            "finish": "metal"
+          },
+          "rot": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "blades",
+          "shape": "group",
+          "pos": [
+            0,
+            0,
+            0.04
+          ],
+          "children": [
+            {
+              "name": "blade",
+              "shape": "box",
+              "size": [
+                0.16,
+                0.08,
+                0.006
+              ],
+              "pos": [
+                0.08,
+                0,
+                0
+              ],
+              "material": {
+                "color": "#9fd3ff",
+                "finish": "plastic",
+                "opacity": 0.85
+              },
+              "rot": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "name": "blade",
+              "shape": "box",
+              "size": [
+                0.16,
+                0.08,
+                0.006
+              ],
+              "pos": [
+                -0.04,
+                0.069,
+                0
+              ],
+              "material": {
+                "color": "#9fd3ff",
+                "finish": "plastic",
+                "opacity": 0.85
+              },
+              "rot": [
+                0,
+                0,
+                120
+              ]
+            },
+            {
+              "name": "blade",
+              "shape": "box",
+              "size": [
+                0.16,
+                0.08,
+                0.006
+              ],
+              "pos": [
+                -0.04,
+                -0.069,
+                0
+              ],
+              "material": {
+                "color": "#9fd3ff",
+                "finish": "plastic",
+                "opacity": 0.85
+              },
+              "rot": [
+                0,
+                0,
+                240
+              ]
+            },
+            {
+              "name": "hub",
+              "shape": "cylinder",
+              "size": [
+                0.05,
+                0.03,
+                0.05
+              ],
+              "pos": [
+                0,
+                0,
+                0
+              ],
+              "material": {
+                "color": "#eeeeec",
+                "finish": "plastic"
+              },
+              "rot": [
+                90,
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

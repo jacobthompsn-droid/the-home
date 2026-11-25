@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "storage",
+    "closet"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "wardrobe",
+  "name": "Wardrobe",
+  "category": "bedroom",
+  "icon": "🚪",
+  "price": 899,
+  "size": [
+    1.2,
+    2.1,
+    0.6
+  ],
+  "placement": "floor",
+  "surface": 2.1,
+  "parts": [
+    {
+      "name": "body",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        1.2,
+        2.05,
+        0.6
+      ],
+      "pos": [
+        0,
+        1.075,
+        0
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "plinth",
+      "shape": "box",
+      "size": [
+        1.16,
+        0.05,
+        0.56
+      ],
+      "pos": [
+        0,
+        0.025,
+        0
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "door-split",
+      "shape": "box",
+      "size": [
+        0.006,
+        1.97,
+        0.005
+      ],
+      "pos": [
+        0,
+        1.075,
+        0.3
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "handle",
+      "shape": "box",
+      "size": [
+        0.02,
+        0.3,
+        0.02
+      ],
+      "pos": [
+        0.06,
+        1.15,
+        0.31
+      ],
+      "material": "@metal",
+      "mirror": "x"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "table",
+    "surface"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "dining-table",
+  "name": "Dining Table",
+  "category": "dining",
+  "icon": "🍽️",
+  "price": 799,
+  "size": [
+    1.8,
+    0.76,
+    0.9
+  ],
+  "placement": "floor",
+  "surface": 0.76,
+  "parts": [
+    {
+      "name": "top",
+      "shape": "roundedBox",
+      "radius": 0.012,
+      "size": [
+        1.8,
+        0.04,
+        0.9
+      ],
+      "pos": [
+        0,
+        0.74,
+        0
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "leg",
+      "shape": "box",
+      "size": [
+        0.06,
+        0.72,
+        0.06
+      ],
+      "pos": [
+        0.82,
+        0.36,
+        0.37
+      ],
+      "material": "@wood",
+      "mirror": "xz"
+    },
+    {
+      "name": "apron",
+      "shape": "box",
+      "size": [
+        1.6,
+        0.08,
+        0.02
+      ],
+      "pos": [
+        0,
+        0.68,
+        0.37
+      ],
+      "material": "@wood",
+      "mirror": "z"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "rug",
+    "textile"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "rug",
+  "name": "Area Rug",
+  "category": "living",
+  "icon": "🟫",
+  "price": 399,
+  "size": [
+    2.4,
+    0.012,
+    1.7
+  ],
+  "placement": "floor",
+  "rug": true,
+  "parts": [
+    {
+      "name": "rug",
+      "shape": "roundedBox",
+      "radius": 0.004,
+      "size": [
+        2.4,
+        0.012,
+        1.7
+      ],
+      "pos": [
+        0,
+        0.006,
+        0
+      ],
+      "material": {
+        "color": "@accent2",
+        "finish": "fabric",
+        "texture": "rug"
+      }
+    }
+  ]
+}

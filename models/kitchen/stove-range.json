@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "kitchen",
+    "stove",
+    "appliance"
+  ],
+  "physics": {
+    "body": "static",
+    "colliders": [
+      [
+        0,
+        0.47,
+        0,
+        0.76,
+        0.94,
+        0.65
+      ]
+    ]
+  },
+  "id": "stove-range",
+  "name": "Range + Hood",
+  "category": "kitchen",
+  "icon": "🍳",
+  "price": 1299,
+  "size": [
+    0.76,
+    2.25,
+    0.65
+  ],
+  "placement": "floor",
+  "surface": 0.94,
+  "parts": [
+    {
+      "name": "body",
+      "shape": "box",
+      "size": [
+        0.76,
+        0.92,
+        0.64
+      ],
+      "pos": [
+        0,
+        0.46,
+        0
+      ],
+      "material": {
+        "color": "#c9ccce",
+        "finish": "metal"
+      }
+    },
+    {
+      "name": "oven-door",
+      "shape": "box",
+      "size": [
+        0.66,
+        0.5,
+        0.01
+      ],
+      "pos": [
+        0,
+        0.4,
+        0.32
+      ],
+      "material": {
+        "color": "#1b1b1b",
+        "finish": "gloss"
+      }
+    },
+    {
+      "name": "oven-handle",
+      "shape": "box",
+      "size": [
+        0.5,
+        0.02,
+        0.03
+      ],
+      "pos": [
+        0,
+        0.71,
+        0.34
+      ],
+      "material": {
+        "color": "#c9ccce",
+        "finish": "metal"
+      }
+    },
+    {
+      "name": "cooktop",
+      "shape": "box",
+      "size": [
+        0.76,
+        0.02,
+        0.64
+      ],
+      "pos": [
+        0,
+        0.93,
+        0
+      ],
+      "material": {
+        "color": "#101010",
+        "finish": "gloss"
+      }
+    },
+    {
+      "name": "burner",
+      "shape": "cylinder",
+      "size": [
+        0.16,
+        0.008,
+        0.16
+      ],
+      "pos": [
+        0.17,
+        0.944,
+        0.14
+      ],
+      "material": {
+        "color": "#333333",
+        "finish": "metal"
+      },
+      "mirror": "xz"
+    },
+    {
+      "name": "backsplash",
+      "shape": "box",
+      "size": [
+        0.76,
+        0.66,
+        0.015
+      ],
+      "pos": [
+        0,
+        1.27,
+        -0.315
+      ],
+      "material": {
+        "color": "#f2f0ea",
+        "finish": "ceramic",
+        "texture": "subway"
+      }
+    },
+    {
+      "name": "hood",
+      "shape": "box",
+      "size": [
+        0.76,
+        0.15,
+        0.5
+      ],
+      "pos": [
+        0,
+        1.675,
+        -0.075
+      ],
+      "material": {
+        "color": "#c9ccce",
+        "finish": "metal"
+      }
+    },
+    {
+      "name": "chimney",
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.25
+      ],
+      "pos": [
+        0,
+        2,
+        -0.2
+      ],
+      "material": {
+        "color": "#c9ccce",
+        "finish": "metal"
+      }
+    }
+  ]
+}

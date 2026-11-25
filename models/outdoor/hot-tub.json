@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "outdoor",
+    "spa"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "hot-tub",
+  "name": "Hot Tub",
+  "category": "outdoor",
+  "icon": "♨️",
+  "price": 6999,
+  "size": [
+    2.2,
+    0.9,
+    2.2
+  ],
+  "placement": "floor",
+  "parts": [
+    {
+      "name": "shell",
+      "shape": "roundedBox",
+      "radius": 0.06,
+      "size": [
+        2.2,
+        0.78,
+        2.2
+      ],
+      "pos": [
+        0,
+        0.39,
+        0
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "rim",
+      "shape": "box",
+      "size": [
+        2.2,
+        0.1,
+        2.2
+      ],
+      "pos": [
+        0,
+        0.83,
+        0
+      ],
+      "material": {
+        "color": "#e8e6e0",
+        "finish": "plastic"
+      }
+    },
+    {
+      "name": "water",
+      "shape": "box",
+      "size": [
+        1.9,
+        0.02,
+        1.9
+      ],
+      "pos": [
+        0,
+        0.87,
+        0
+      ],
+      "material": {
+        "color": "#4fb8d6",
+        "finish": "water",
+        "opacity": 0.85
+      }
+    }
+  ]
+}

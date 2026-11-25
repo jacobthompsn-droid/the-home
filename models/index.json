@@ -1,0 +1,1187 @@
+{
+ "spec": 1,
+ "count": 59,
+ "models": [
+  {
+   "id": "vanity",
+   "path": "models/bath/vanity.json",
+   "name": "Bathroom Vanity + Mirror",
+   "category": "bath",
+   "icon": "🪞",
+   "price": 899,
+   "size": [
+    1,
+    1.9,
+    0.5
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "bath",
+    "sink"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "bathtub",
+   "path": "models/bath/bathtub.json",
+   "name": "Bathtub",
+   "category": "bath",
+   "icon": "🛁",
+   "price": 1299,
+   "size": [
+    1.7,
+    0.75,
+    0.8
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "bath"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "dryer",
+   "path": "models/bath/dryer.json",
+   "name": "Dryer",
+   "category": "bath",
+   "icon": "🧺",
+   "price": 899,
+   "size": [
+    0.6,
+    0.85,
+    0.65
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "laundry",
+    "appliance"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "shower",
+   "path": "models/bath/shower.json",
+   "name": "Glass Shower",
+   "category": "bath",
+   "icon": "🚿",
+   "price": 1599,
+   "size": [
+    0.9,
+    2.1,
+    0.9
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "bath"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "toilet",
+   "path": "models/bath/toilet.json",
+   "name": "Toilet",
+   "category": "bath",
+   "icon": "🚽",
+   "price": 349,
+   "size": [
+    0.4,
+    0.8,
+    0.7
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "bath"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "washer",
+   "path": "models/bath/washer.json",
+   "name": "Washer",
+   "category": "bath",
+   "icon": "🧺",
+   "price": 899,
+   "size": [
+    0.6,
+    0.85,
+    0.65
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "laundry",
+    "appliance"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "dresser",
+   "path": "models/bedroom/dresser.json",
+   "name": "Dresser",
+   "category": "bedroom",
+   "icon": "🗄️",
+   "price": 699,
+   "size": [
+    1.4,
+    0.85,
+    0.5
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "storage",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "bed-king",
+   "path": "models/bedroom/bed-king.json",
+   "name": "King Bed",
+   "category": "bedroom",
+   "icon": "🛏️",
+   "price": 1999,
+   "size": [
+    2.05,
+    1.1,
+    2.15
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "bed",
+    "sleep"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "nightstand",
+   "path": "models/bedroom/nightstand.json",
+   "name": "Nightstand",
+   "category": "bedroom",
+   "icon": "🗄️",
+   "price": 199,
+   "size": [
+    0.5,
+    0.55,
+    0.4
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "storage",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "bed-queen",
+   "path": "models/bedroom/bed-queen.json",
+   "name": "Queen Bed",
+   "category": "bedroom",
+   "icon": "🛏️",
+   "price": 1599,
+   "size": [
+    1.7,
+    1.1,
+    2.15
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "bed",
+    "sleep"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "wardrobe",
+   "path": "models/bedroom/wardrobe.json",
+   "name": "Wardrobe",
+   "category": "bedroom",
+   "icon": "🚪",
+   "price": 899,
+   "size": [
+    1.2,
+    2.1,
+    0.6
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "storage",
+    "closet"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "ceiling-fan",
+   "path": "models/climate/ceiling-fan.json",
+   "name": "Ceiling Fan",
+   "category": "climate",
+   "icon": "🌀",
+   "price": 249,
+   "size": [
+    1.3,
+    0.5,
+    1.3
+   ],
+   "placement": "ceiling",
+   "collection": "Built-in",
+   "tags": [
+    "fan",
+    "airflow",
+    "light"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "mini-split",
+   "path": "models/climate/mini-split.json",
+   "name": "Mini-Split AC / Heat Pump",
+   "category": "climate",
+   "icon": "❄️",
+   "price": 1199,
+   "size": [
+    0.9,
+    0.3,
+    0.22
+   ],
+   "placement": "wall",
+   "collection": "Built-in",
+   "tags": [
+    "ac",
+    "heat",
+    "airflow",
+    "thermostat"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "space-heater",
+   "path": "models/climate/space-heater.json",
+   "name": "Space Heater",
+   "category": "climate",
+   "icon": "🔥",
+   "price": 59,
+   "size": [
+    0.35,
+    0.6,
+    0.25
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "heat",
+    "airflow"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "floor-fan",
+   "path": "models/climate/floor-fan.json",
+   "name": "Standing Fan",
+   "category": "climate",
+   "icon": "🌬️",
+   "price": 69,
+   "size": [
+    0.42,
+    1.12,
+    0.36
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "fan",
+    "airflow"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "guitar-stand",
+   "path": "models/decor/guitar-stand.json",
+   "name": "Acoustic Guitar on Stand",
+   "category": "decor",
+   "icon": "🎸",
+   "price": 499,
+   "size": [
+    0.42,
+    1.3,
+    0.42
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "music",
+    "guitar"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "curtains",
+   "path": "models/decor/curtains.json",
+   "name": "Curtains",
+   "category": "decor",
+   "icon": "🪟",
+   "price": 119,
+   "size": [
+    2.4,
+    2.42,
+    0.14
+   ],
+   "placement": "wall",
+   "collection": "Built-in",
+   "tags": [
+    "textile",
+    "window"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "plant-fiddle",
+   "path": "models/decor/plant-fiddle.json",
+   "name": "Fiddle Leaf Fig",
+   "category": "decor",
+   "icon": "🪴",
+   "price": 129,
+   "size": [
+    0.7,
+    1.7,
+    0.7
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "plant"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "wall-shelf",
+   "path": "models/decor/wall-shelf.json",
+   "name": "Floating Wall Shelf",
+   "category": "decor",
+   "icon": "➖",
+   "price": 49,
+   "size": [
+    0.9,
+    0.04,
+    0.25
+   ],
+   "placement": "wall",
+   "collection": "Built-in",
+   "tags": [
+    "shelf",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "wall-art",
+   "path": "models/decor/wall-art.json",
+   "name": "Framed Art",
+   "category": "decor",
+   "icon": "🖼️",
+   "price": 149,
+   "size": [
+    1,
+    0.7,
+    0.04
+   ],
+   "placement": "wall",
+   "collection": "Built-in",
+   "tags": [
+    "art"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "mirror-round",
+   "path": "models/decor/mirror-round.json",
+   "name": "Round Wall Mirror",
+   "category": "decor",
+   "icon": "🪞",
+   "price": 119,
+   "size": [
+    0.8,
+    0.8,
+    0.04
+   ],
+   "placement": "wall",
+   "collection": "Built-in",
+   "tags": [
+    "mirror"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "plant-small",
+   "path": "models/decor/plant-small.json",
+   "name": "Small Potted Plant",
+   "category": "decor",
+   "icon": "🌿",
+   "price": 29,
+   "size": [
+    0.28,
+    0.42,
+    0.28
+   ],
+   "placement": "surface",
+   "collection": "Built-in",
+   "tags": [
+    "plant"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "snake-plant",
+   "path": "models/decor/snake-plant.json",
+   "name": "Snake Plant",
+   "category": "decor",
+   "icon": "🌱",
+   "price": 49,
+   "size": [
+    0.36,
+    0.95,
+    0.36
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "plant"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "bar-stool",
+   "path": "models/dining/bar-stool.json",
+   "name": "Bar Stool",
+   "category": "dining",
+   "icon": "🪑",
+   "price": 119,
+   "size": [
+    0.42,
+    0.76,
+    0.42
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "stool",
+    "seating"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "dining-chair",
+   "path": "models/dining/dining-chair.json",
+   "name": "Dining Chair",
+   "category": "dining",
+   "icon": "🪑",
+   "price": 149,
+   "size": [
+    0.46,
+    0.88,
+    0.5
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "chair",
+    "seating"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "dining-table",
+   "path": "models/dining/dining-table.json",
+   "name": "Dining Table",
+   "category": "dining",
+   "icon": "🍽️",
+   "price": 799,
+   "size": [
+    1.8,
+    0.76,
+    0.9
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "table",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "round-table",
+   "path": "models/dining/round-table.json",
+   "name": "Round Dining Table",
+   "category": "dining",
+   "icon": "⭕",
+   "price": 549,
+   "size": [
+    1.1,
+    0.76,
+    1.1
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "table",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "arcade-cabinet",
+   "path": "models/game/arcade-cabinet.json",
+   "name": "Arcade Cabinet",
+   "category": "game",
+   "icon": "🕹️",
+   "price": 1499,
+   "size": [
+    0.7,
+    1.8,
+    0.8
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "game",
+    "retro"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "dartboard",
+   "path": "models/game/dartboard.json",
+   "name": "Dartboard",
+   "category": "game",
+   "icon": "🎯",
+   "price": 79,
+   "size": [
+    0.46,
+    0.46,
+    0.05
+   ],
+   "placement": "wall",
+   "collection": "Built-in",
+   "tags": [
+    "game"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "pool-table",
+   "path": "models/game/pool-table.json",
+   "name": "Pool Table",
+   "category": "game",
+   "icon": "🎱",
+   "price": 2899,
+   "size": [
+    2.5,
+    0.82,
+    1.4
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "game"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "kitchen-counter",
+   "path": "models/kitchen/kitchen-counter.json",
+   "name": "Counter + Cabinets",
+   "category": "kitchen",
+   "icon": "🧱",
+   "price": 1100,
+   "size": [
+    1.2,
+    2.22,
+    0.62
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "kitchen",
+    "cabinet",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "kitchen-island",
+   "path": "models/kitchen/kitchen-island.json",
+   "name": "Kitchen Island",
+   "category": "kitchen",
+   "icon": "🏝️",
+   "price": 1999,
+   "size": [
+    2,
+    0.94,
+    1
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "kitchen",
+    "island",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "stove-range",
+   "path": "models/kitchen/stove-range.json",
+   "name": "Range + Hood",
+   "category": "kitchen",
+   "icon": "🍳",
+   "price": 1299,
+   "size": [
+    0.76,
+    2.25,
+    0.65
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "kitchen",
+    "stove",
+    "appliance"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "fridge",
+   "path": "models/kitchen/fridge.json",
+   "name": "Refrigerator",
+   "category": "kitchen",
+   "icon": "🧊",
+   "price": 1899,
+   "size": [
+    0.9,
+    1.85,
+    0.75
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "kitchen",
+    "appliance"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "kitchen-sink",
+   "path": "models/kitchen/kitchen-sink.json",
+   "name": "Sink Counter",
+   "category": "kitchen",
+   "icon": "🚰",
+   "price": 1400,
+   "size": [
+    1.2,
+    2.22,
+    0.62
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "kitchen",
+    "sink",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "floor-lamp",
+   "path": "models/lighting/floor-lamp.json",
+   "name": "Floor Lamp",
+   "category": "lighting",
+   "icon": "🪔",
+   "price": 189,
+   "size": [
+    0.42,
+    1.6,
+    0.42
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "light",
+    "lamp"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "ceiling-light",
+   "path": "models/lighting/ceiling-light.json",
+   "name": "Flush Ceiling Light",
+   "category": "lighting",
+   "icon": "⚪",
+   "price": 79,
+   "size": [
+    0.5,
+    0.1,
+    0.5
+   ],
+   "placement": "ceiling",
+   "collection": "Built-in",
+   "tags": [
+    "light"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "pendant-light",
+   "path": "models/lighting/pendant-light.json",
+   "name": "Pendant Light",
+   "category": "lighting",
+   "icon": "🔆",
+   "price": 159,
+   "size": [
+    0.36,
+    0.9,
+    0.36
+   ],
+   "placement": "ceiling",
+   "collection": "Built-in",
+   "tags": [
+    "light",
+    "pendant"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "table-lamp",
+   "path": "models/lighting/table-lamp.json",
+   "name": "Table Lamp",
+   "category": "lighting",
+   "icon": "💡",
+   "price": 89,
+   "size": [
+    0.3,
+    0.5,
+    0.3
+   ],
+   "placement": "surface",
+   "collection": "Built-in",
+   "tags": [
+    "light",
+    "lamp"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "sofa-3seat",
+   "path": "models/living/sofa-3seat.json",
+   "name": "3-Seat Sofa",
+   "category": "living",
+   "icon": "🛋️",
+   "price": 1299,
+   "size": [
+    2.2,
+    0.85,
+    0.95
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "seating",
+    "sofa",
+    "couch"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "rug",
+   "path": "models/living/rug.json",
+   "name": "Area Rug",
+   "category": "living",
+   "icon": "🟫",
+   "price": 399,
+   "size": [
+    2.4,
+    0.012,
+    1.7
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "rug",
+    "textile"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "armchair",
+   "path": "models/living/armchair.json",
+   "name": "Armchair",
+   "category": "living",
+   "icon": "💺",
+   "price": 649,
+   "size": [
+    0.9,
+    0.85,
+    0.9
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "seating",
+    "chair"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "bookshelf",
+   "path": "models/living/bookshelf.json",
+   "name": "Bookshelf",
+   "category": "living",
+   "icon": "📚",
+   "price": 279,
+   "size": [
+    1,
+    1.9,
+    0.35
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "storage",
+    "books"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "coffee-table",
+   "path": "models/living/coffee-table.json",
+   "name": "Coffee Table",
+   "category": "living",
+   "icon": "🪵",
+   "price": 349,
+   "size": [
+    1.2,
+    0.42,
+    0.6
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "table",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "sectional-l",
+   "path": "models/living/sectional-l.json",
+   "name": "L-Shaped Sectional",
+   "category": "living",
+   "icon": "🛋️",
+   "price": 2399,
+   "size": [
+    2.9,
+    0.85,
+    2.2
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "seating",
+    "sectional",
+    "couch"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "loveseat",
+   "path": "models/living/loveseat.json",
+   "name": "Loveseat",
+   "category": "living",
+   "icon": "🛋️",
+   "price": 899,
+   "size": [
+    1.6,
+    0.85,
+    0.95
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "seating",
+    "sofa",
+    "couch"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "rug-runner",
+   "path": "models/living/rug-runner.json",
+   "name": "Runner Rug",
+   "category": "living",
+   "icon": "🟫",
+   "price": 149,
+   "size": [
+    0.8,
+    0.012,
+    2.6
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "rug",
+    "textile"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "side-table",
+   "path": "models/living/side-table.json",
+   "name": "Side Table",
+   "category": "living",
+   "icon": "🪑",
+   "price": 129,
+   "size": [
+    0.5,
+    0.55,
+    0.5
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "table",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "tv-console",
+   "path": "models/living/tv-console.json",
+   "name": "TV + Media Console",
+   "category": "living",
+   "icon": "📺",
+   "price": 1499,
+   "size": [
+    1.8,
+    1.38,
+    0.45
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "tv",
+    "entertainment"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "desk",
+   "path": "models/office/desk.json",
+   "name": "Desk",
+   "category": "office",
+   "icon": "🖥️",
+   "price": 449,
+   "size": [
+    1.4,
+    0.75,
+    0.7
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "desk",
+    "work",
+    "surface"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "office-chair",
+   "path": "models/office/office-chair.json",
+   "name": "Office Chair",
+   "category": "office",
+   "icon": "🪑",
+   "price": 329,
+   "size": [
+    0.64,
+    1.05,
+    0.64
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "chair",
+    "work"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "patio-set",
+   "path": "models/outdoor/patio-set.json",
+   "name": "Bistro Patio Set",
+   "category": "outdoor",
+   "icon": "☕",
+   "price": 299,
+   "size": [
+    1.5,
+    0.85,
+    0.7
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "outdoor",
+    "balcony"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "hot-tub",
+   "path": "models/outdoor/hot-tub.json",
+   "name": "Hot Tub",
+   "category": "outdoor",
+   "icon": "♨️",
+   "price": 6999,
+   "size": [
+    2.2,
+    0.9,
+    2.2
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "outdoor",
+    "spa"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "sun-lounger",
+   "path": "models/outdoor/sun-lounger.json",
+   "name": "Sun Lounger",
+   "category": "outdoor",
+   "icon": "🏖️",
+   "price": 249,
+   "size": [
+    0.7,
+    0.75,
+    1.9
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "outdoor",
+    "seating"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "basketball",
+   "path": "models/play/basketball.json",
+   "name": "Basketball",
+   "category": "play",
+   "icon": "🏀",
+   "price": 30,
+   "size": [
+    0.24,
+    0.24,
+    0.24
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "toy",
+    "physics"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "bean-bag",
+   "path": "models/play/bean-bag.json",
+   "name": "Bean Bag",
+   "category": "play",
+   "icon": "🫘",
+   "price": 149,
+   "size": [
+    0.9,
+    0.7,
+    0.9
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "seating",
+    "game",
+    "physics"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "moving-box",
+   "path": "models/play/moving-box.json",
+   "name": "Moving Box",
+   "category": "play",
+   "icon": "📦",
+   "price": 5,
+   "size": [
+    0.5,
+    0.4,
+    0.4
+   ],
+   "placement": "surface",
+   "collection": "Built-in",
+   "tags": [
+    "box",
+    "physics"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "pouf",
+   "path": "models/play/pouf.json",
+   "name": "Pouf",
+   "category": "play",
+   "icon": "🟤",
+   "price": 129,
+   "size": [
+    0.5,
+    0.4,
+    0.5
+   ],
+   "placement": "floor",
+   "collection": "Built-in",
+   "tags": [
+    "seating",
+    "physics"
+   ],
+   "source": "builtin"
+  },
+  {
+   "id": "throw-pillow",
+   "path": "models/play/throw-pillow.json",
+   "name": "Throw Pillow",
+   "category": "play",
+   "icon": "🟪",
+   "price": 35,
+   "size": [
+    0.45,
+    0.15,
+    0.45
+   ],
+   "placement": "surface",
+   "collection": "Built-in",
+   "tags": [
+    "textile",
+    "physics"
+   ],
+   "source": "builtin"
+  }
+ ]
+}

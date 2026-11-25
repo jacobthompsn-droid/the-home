@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "bath",
+    "sink"
+  ],
+  "physics": {
+    "body": "static",
+    "colliders": [
+      [
+        0,
+        0.43,
+        0,
+        1,
+        0.86,
+        0.5
+      ]
+    ]
+  },
+  "id": "vanity",
+  "name": "Bathroom Vanity + Mirror",
+  "category": "bath",
+  "icon": "🪞",
+  "price": 899,
+  "size": [
+    1,
+    1.9,
+    0.5
+  ],
+  "placement": "floor",
+  "surface": 0.86,
+  "parts": [
+    {
+      "name": "cabinet",
+      "shape": "box",
+      "size": [
+        1,
+        0.82,
+        0.48
+      ],
+      "pos": [
+        0,
+        0.41,
+        -0.01
+      ],
+      "material": "@cabinet"
+    },
+    {
+      "name": "top",
+      "shape": "box",
+      "size": [
+        1,
+        0.04,
+        0.5
+      ],
+      "pos": [
+        0,
+        0.84,
+        0
+      ],
+      "material": "@stone"
+    },
+    {
+      "name": "basin",
+      "shape": "cylinder",
+      "size": [
+        0.42,
+        0.12,
+        0.34
+      ],
+      "pos": [
+        0,
+        0.92,
+        0.03
+      ],
+      "material": {
+        "color": "#f7f7f5",
+        "finish": "ceramic"
+      },
+      "taper": 1.15
+    },
+    {
+      "name": "faucet",
+      "shape": "cylinder",
+      "size": [
+        0.025,
+        0.22,
+        0.025
+      ],
+      "pos": [
+        0,
+        0.97,
+        -0.18
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "spout",
+      "shape": "box",
+      "size": [
+        0.025,
+        0.025,
+        0.1
+      ],
+      "pos": [
+        0,
+        1.073,
+        -0.13
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "backsplash",
+      "shape": "box",
+      "size": [
+        1,
+        0.3,
+        0.02
+      ],
+      "pos": [
+        0,
+        1.01,
+        -0.24
+      ],
+      "material": "@stone"
+    },
+    {
+      "name": "mirror",
+      "shape": "box",
+      "size": [
+        0.8,
+        0.74,
+        0.02
+      ],
+      "pos": [
+        0,
+        1.53,
+        -0.235
+      ],
+      "material": {
+        "color": "#dfe6ea",
+        "finish": "mirror"
+      }
+    }
+  ]
+}

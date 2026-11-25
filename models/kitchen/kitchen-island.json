@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "kitchen",
+    "island",
+    "surface"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "kitchen-island",
+  "name": "Kitchen Island",
+  "category": "kitchen",
+  "icon": "🏝️",
+  "price": 1999,
+  "size": [
+    2,
+    0.94,
+    1
+  ],
+  "placement": "floor",
+  "surface": 0.94,
+  "parts": [
+    {
+      "name": "base",
+      "shape": "box",
+      "size": [
+        1.8,
+        0.9,
+        0.8
+      ],
+      "pos": [
+        0,
+        0.45,
+        -0.05
+      ],
+      "material": "@cabinet"
+    },
+    {
+      "name": "countertop",
+      "shape": "box",
+      "size": [
+        2,
+        0.04,
+        1
+      ],
+      "pos": [
+        0,
+        0.92,
+        0
+      ],
+      "material": "@stone"
+    },
+    {
+      "name": "handle",
+      "shape": "box",
+      "size": [
+        0.18,
+        0.012,
+        0.02
+      ],
+      "pos": [
+        0.45,
+        0.786,
+        -0.46
+      ],
+      "material": "@metal",
+      "mirror": "x"
+    }
+  ]
+}

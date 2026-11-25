@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "desk",
+    "work",
+    "surface"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "desk",
+  "name": "Desk",
+  "category": "office",
+  "icon": "🖥️",
+  "price": 449,
+  "size": [
+    1.4,
+    0.75,
+    0.7
+  ],
+  "placement": "floor",
+  "surface": 0.75,
+  "parts": [
+    {
+      "name": "leg-panel",
+      "shape": "box",
+      "size": [
+        0.04,
+        0.71,
+        0.62
+      ],
+      "pos": [
+        0.66,
+        0.355,
+        0
+      ],
+      "material": "@metal",
+      "mirror": "x"
+    },
+    {
+      "name": "top",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        1.4,
+        0.04,
+        0.7
+      ],
+      "pos": [
+        0,
+        0.73,
+        0
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "drawer",
+      "shape": "box",
+      "size": [
+        0.42,
+        0.12,
+        0.6
+      ],
+      "pos": [
+        0.4,
+        0.65,
+        0
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "drawer-pull",
+      "shape": "box",
+      "size": [
+        0.12,
+        0.012,
+        0.012
+      ],
+      "pos": [
+        0.4,
+        0.656,
+        0.305
+      ],
+      "material": "@metal"
+    }
+  ]
+}

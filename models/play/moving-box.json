@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "box",
+    "physics"
+  ],
+  "physics": {
+    "body": "dynamic",
+    "mass": 3,
+    "shape": "box"
+  },
+  "id": "moving-box",
+  "name": "Moving Box",
+  "category": "play",
+  "icon": "📦",
+  "price": 5,
+  "size": [
+    0.5,
+    0.4,
+    0.4
+  ],
+  "placement": "surface",
+  "parts": [
+    {
+      "name": "box",
+      "shape": "box",
+      "size": [
+        0.5,
+        0.4,
+        0.4
+      ],
+      "pos": [
+        0,
+        0.2,
+        0
+      ],
+      "material": {
+        "color": "#b48a5a",
+        "finish": "matte"
+      }
+    },
+    {
+      "name": "tape",
+      "shape": "box",
+      "size": [
+        0.08,
+        0.004,
+        0.402
+      ],
+      "pos": [
+        0,
+        0.402,
+        0
+      ],
+      "material": {
+        "color": "#d9c49a",
+        "finish": "gloss"
+      }
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "game"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "pool-table",
+  "name": "Pool Table",
+  "category": "game",
+  "icon": "🎱",
+  "price": 2899,
+  "size": [
+    2.5,
+    0.82,
+    1.4
+  ],
+  "placement": "floor",
+  "surface": 0.8,
+  "parts": [
+    {
+      "name": "leg",
+      "shape": "box",
+      "size": [
+        0.12,
+        0.62,
+        0.12
+      ],
+      "pos": [
+        1.1,
+        0.31,
+        0.55
+      ],
+      "material": "@woodDark",
+      "mirror": "xz"
+    },
+    {
+      "name": "apron",
+      "shape": "box",
+      "size": [
+        2.5,
+        0.13,
+        1.4
+      ],
+      "pos": [
+        0,
+        0.685,
+        0
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "felt",
+      "shape": "box",
+      "size": [
+        2.3,
+        0.03,
+        1.2
+      ],
+      "pos": [
+        0,
+        0.765,
+        0
+      ],
+      "material": {
+        "color": "#1f6b45",
+        "finish": "fabric"
+      }
+    },
+    {
+      "name": "rail-long",
+      "shape": "box",
+      "size": [
+        2.5,
+        0.07,
+        0.1
+      ],
+      "pos": [
+        0,
+        0.785,
+        0.65
+      ],
+      "material": "@woodDark",
+      "mirror": "z"
+    },
+    {
+      "name": "rail-short",
+      "shape": "box",
+      "size": [
+        0.1,
+        0.07,
+        1.2
+      ],
+      "pos": [
+        1.2,
+        0.785,
+        0
+      ],
+      "material": "@woodDark",
+      "mirror": "x"
+    },
+    {
+      "name": "pocket",
+      "shape": "cylinder",
+      "size": [
+        0.1,
+        0.012,
+        0.1
+      ],
+      "pos": [
+        1.13,
+        0.796,
+        0.58
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      },
+      "mirror": "xz"
+    },
+    {
+      "name": "pocket-side",
+      "shape": "cylinder",
+      "size": [
+        0.1,
+        0.012,
+        0.1
+      ],
+      "pos": [
+        0,
+        0.796,
+        0.58
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      },
+      "mirror": "z"
+    },
+    {
+      "name": "ball-1",
+      "shape": "sphere",
+      "size": [
+        0.057,
+        0.057,
+        0.057
+      ],
+      "pos": [
+        0.6,
+        0.809,
+        0
+      ],
+      "material": {
+        "color": "#f2f2f2",
+        "finish": "gloss"
+      }
+    },
+    {
+      "name": "ball-2",
+      "shape": "sphere",
+      "size": [
+        0.057,
+        0.057,
+        0.057
+      ],
+      "pos": [
+        -0.5,
+        0.809,
+        0.05
+      ],
+      "material": {
+        "color": "#d42b2b",
+        "finish": "gloss"
+      }
+    },
+    {
+      "name": "ball-3",
+      "shape": "sphere",
+      "size": [
+        0.057,
+        0.057,
+        0.057
+      ],
+      "pos": [
+        -0.56,
+        0.809,
+        -0.05
+      ],
+      "material": {
+        "color": "#f0c419",
+        "finish": "gloss"
+      }
+    },
+    {
+      "name": "ball-4",
+      "shape": "sphere",
+      "size": [
+        0.057,
+        0.057,
+        0.057
+      ],
+      "pos": [
+        -0.62,
+        0.809,
+        0.02
+      ],
+      "material": {
+        "color": "#1d4fa8",
+        "finish": "gloss"
+      }
+    },
+    {
+      "name": "ball-5",
+      "shape": "sphere",
+      "size": [
+        0.057,
+        0.057,
+        0.057
+      ],
+      "pos": [
+        -0.4,
+        0.809,
+        -0.12
+      ],
+      "material": {
+        "color": "#111111",
+        "finish": "gloss"
+      }
+    }
+  ]
+}

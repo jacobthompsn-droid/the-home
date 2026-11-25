@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "game"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "dartboard",
+  "name": "Dartboard",
+  "category": "game",
+  "icon": "🎯",
+  "price": 79,
+  "size": [
+    0.46,
+    0.46,
+    0.05
+  ],
+  "placement": "wall",
+  "mountHeight": 1.5,
+  "parts": [
+    {
+      "name": "board",
+      "shape": "cylinder",
+      "size": [
+        0.46,
+        0.04,
+        0.46
+      ],
+      "pos": [
+        0,
+        0.23,
+        -0.005
+      ],
+      "material": {
+        "color": "#151515",
+        "finish": "satin"
+      },
+      "rot": [
+        90,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ring-1",
+      "shape": "cylinder",
+      "size": [
+        0.36,
+        0.01,
+        0.36
+      ],
+      "pos": [
+        0,
+        0.23,
+        0.018
+      ],
+      "material": {
+        "color": "#c0392b",
+        "finish": "matte"
+      },
+      "rot": [
+        90,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ring-2",
+      "shape": "cylinder",
+      "size": [
+        0.28,
+        0.01,
+        0.28
+      ],
+      "pos": [
+        0,
+        0.23,
+        0.02
+      ],
+      "material": {
+        "color": "#f2e6c9",
+        "finish": "matte"
+      },
+      "rot": [
+        90,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ring-3",
+      "shape": "cylinder",
+      "size": [
+        0.12,
+        0.01,
+        0.12
+      ],
+      "pos": [
+        0,
+        0.23,
+        0.022
+      ],
+      "material": {
+        "color": "#27ae60",
+        "finish": "matte"
+      },
+      "rot": [
+        90,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "bullseye",
+      "shape": "cylinder",
+      "size": [
+        0.035,
+        0.01,
+        0.035
+      ],
+      "pos": [
+        0,
+        0.23,
+        0.024
+      ],
+      "material": {
+        "color": "#c0392b",
+        "finish": "matte"
+      },
+      "rot": [
+        90,
+        0,
+        0
+      ]
+    }
+  ]
+}

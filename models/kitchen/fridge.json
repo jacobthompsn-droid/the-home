@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "kitchen",
+    "appliance"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "fridge",
+  "name": "Refrigerator",
+  "category": "kitchen",
+  "icon": "🧊",
+  "price": 1899,
+  "size": [
+    0.9,
+    1.85,
+    0.75
+  ],
+  "placement": "floor",
+  "surface": 1.85,
+  "parts": [
+    {
+      "name": "body",
+      "shape": "roundedBox",
+      "radius": 0.02,
+      "size": [
+        0.9,
+        1.85,
+        0.75
+      ],
+      "pos": [
+        0,
+        0.925,
+        0
+      ],
+      "material": {
+        "color": "#c9ccce",
+        "finish": "metal"
+      }
+    },
+    {
+      "name": "split",
+      "shape": "box",
+      "size": [
+        0.006,
+        1.2,
+        0.006
+      ],
+      "pos": [
+        0,
+        1.2,
+        0.376
+      ],
+      "material": {
+        "color": "#888888",
+        "finish": "metal"
+      }
+    },
+    {
+      "name": "freezer-line",
+      "shape": "box",
+      "size": [
+        0.88,
+        0.006,
+        0.006
+      ],
+      "pos": [
+        0,
+        0.603,
+        0.376
+      ],
+      "material": {
+        "color": "#888888",
+        "finish": "metal"
+      }
+    },
+    {
+      "name": "handle",
+      "shape": "box",
+      "size": [
+        0.025,
+        0.5,
+        0.03
+      ],
+      "pos": [
+        0.05,
+        1.25,
+        0.39
+      ],
+      "material": {
+        "color": "#c9ccce",
+        "finish": "metal"
+      },
+      "mirror": "x"
+    }
+  ]
+}

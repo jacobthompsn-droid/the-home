@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "plant"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "plant-small",
+  "name": "Small Potted Plant",
+  "category": "decor",
+  "icon": "🌿",
+  "price": 29,
+  "size": [
+    0.28,
+    0.42,
+    0.28
+  ],
+  "placement": "surface",
+  "behaviors": [
+    {
+      "type": "sway",
+      "part": "foliage",
+      "amount": 0.6
+    }
+  ],
+  "parts": [
+    {
+      "name": "pot",
+      "shape": "cylinder",
+      "size": [
+        0.18,
+        0.16,
+        0.18
+      ],
+      "pos": [
+        0,
+        0.08,
+        0
+      ],
+      "material": {
+        "color": "@ceramic",
+        "finish": "ceramic"
+      },
+      "taper": 1.2
+    },
+    {
+      "name": "foliage",
+      "shape": "group",
+      "pos": [
+        0,
+        0.24,
+        0
+      ],
+      "children": [
+        {
+          "name": "leaves",
+          "shape": "sphere",
+          "size": [
+            0.26,
+            0.2,
+            0.26
+          ],
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "material": "@plant"
+        },
+        {
+          "name": "leaves",
+          "shape": "sphere",
+          "size": [
+            0.16,
+            0.16,
+            0.16
+          ],
+          "pos": [
+            0.05,
+            0.08,
+            -0.03
+          ],
+          "material": "@plant"
+        },
+        {
+          "name": "leaves",
+          "shape": "sphere",
+          "size": [
+            0.15,
+            0.14,
+            0.15
+          ],
+          "pos": [
+            -0.06,
+            0.06,
+            0.04
+          ],
+          "material": "@plant"
+        }
+      ]
+    }
+  ]
+}

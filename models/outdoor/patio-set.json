@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "outdoor",
+    "balcony"
+  ],
+  "physics": {
+    "body": "static",
+    "colliders": [
+      [
+        0,
+        0.35,
+        0,
+        1.5,
+        0.7,
+        0.6
+      ]
+    ]
+  },
+  "id": "patio-set",
+  "name": "Bistro Patio Set",
+  "category": "outdoor",
+  "icon": "☕",
+  "price": 299,
+  "size": [
+    1.5,
+    0.85,
+    0.7
+  ],
+  "placement": "floor",
+  "surface": 0.7,
+  "parts": [
+    {
+      "name": "table-foot",
+      "shape": "cylinder",
+      "size": [
+        0.36,
+        0.03,
+        0.36
+      ],
+      "pos": [
+        0,
+        0.015,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "table-stem",
+      "shape": "cylinder",
+      "size": [
+        0.04,
+        0.64,
+        0.04
+      ],
+      "pos": [
+        0,
+        0.35,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "table-top",
+      "shape": "cylinder",
+      "size": [
+        0.6,
+        0.03,
+        0.6
+      ],
+      "pos": [
+        0,
+        0.685,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "chair-leg-l",
+      "shape": "box",
+      "size": [
+        0.025,
+        0.45,
+        0.025
+      ],
+      "pos": [
+        -0.42999999999999994,
+        0.225,
+        0.17
+      ],
+      "material": "@metal",
+      "mirror": "z"
+    },
+    {
+      "name": "chair-leg2-l",
+      "shape": "box",
+      "size": [
+        0.025,
+        0.45,
+        0.025
+      ],
+      "pos": [
+        -0.77,
+        0.225,
+        0.17
+      ],
+      "material": "@metal",
+      "mirror": "z"
+    },
+    {
+      "name": "chair-seat-l",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        0.4,
+        0.04,
+        0.4
+      ],
+      "pos": [
+        -0.6,
+        0.47,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "chair-back-l",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        0.04,
+        0.38,
+        0.38
+      ],
+      "pos": [
+        -0.78,
+        0.66,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "chair-leg-r",
+      "shape": "box",
+      "size": [
+        0.025,
+        0.45,
+        0.025
+      ],
+      "pos": [
+        0.77,
+        0.225,
+        0.17
+      ],
+      "material": "@metal",
+      "mirror": "z"
+    },
+    {
+      "name": "chair-leg2-r",
+      "shape": "box",
+      "size": [
+        0.025,
+        0.45,
+        0.025
+      ],
+      "pos": [
+        0.42999999999999994,
+        0.225,
+        0.17
+      ],
+      "material": "@metal",
+      "mirror": "z"
+    },
+    {
+      "name": "chair-seat-r",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        0.4,
+        0.04,
+        0.4
+      ],
+      "pos": [
+        0.6,
+        0.47,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "chair-back-r",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        0.04,
+        0.38,
+        0.38
+      ],
+      "pos": [
+        0.78,
+        0.66,
+        0
+      ],
+      "material": "@metal"
+    }
+  ]
+}

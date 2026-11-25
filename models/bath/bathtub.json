@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "bath"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "bathtub",
+  "name": "Bathtub",
+  "category": "bath",
+  "icon": "🛁",
+  "price": 1299,
+  "size": [
+    1.7,
+    0.75,
+    0.8
+  ],
+  "placement": "floor",
+  "parts": [
+    {
+      "name": "basin",
+      "shape": "box",
+      "size": [
+        1.7,
+        0.45,
+        0.8
+      ],
+      "pos": [
+        0,
+        0.225,
+        0
+      ],
+      "material": {
+        "color": "#f7f7f5",
+        "finish": "ceramic"
+      }
+    },
+    {
+      "name": "rim-long",
+      "shape": "box",
+      "size": [
+        1.7,
+        0.15,
+        0.08
+      ],
+      "pos": [
+        0,
+        0.525,
+        0.36
+      ],
+      "material": {
+        "color": "#f7f7f5",
+        "finish": "ceramic"
+      },
+      "mirror": "z"
+    },
+    {
+      "name": "rim-short",
+      "shape": "box",
+      "size": [
+        0.08,
+        0.15,
+        0.64
+      ],
+      "pos": [
+        0.81,
+        0.525,
+        0
+      ],
+      "material": {
+        "color": "#f7f7f5",
+        "finish": "ceramic"
+      },
+      "mirror": "x"
+    },
+    {
+      "name": "faucet",
+      "shape": "cylinder",
+      "size": [
+        0.03,
+        0.14,
+        0.03
+      ],
+      "pos": [
+        -0.8,
+        0.67,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "spout",
+      "shape": "box",
+      "size": [
+        0.12,
+        0.03,
+        0.03
+      ],
+      "pos": [
+        -0.75,
+        0.725,
+        0
+      ],
+      "material": "@metal"
+    }
+  ]
+}

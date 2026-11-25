@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "shelf",
+    "surface"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "wall-shelf",
+  "name": "Floating Wall Shelf",
+  "category": "decor",
+  "icon": "➖",
+  "price": 49,
+  "size": [
+    0.9,
+    0.04,
+    0.25
+  ],
+  "placement": "wall",
+  "mountHeight": 1.4,
+  "surface": 0.04,
+  "parts": [
+    {
+      "name": "shelf",
+      "shape": "box",
+      "size": [
+        0.9,
+        0.04,
+        0.25
+      ],
+      "pos": [
+        0,
+        0.02,
+        0
+      ],
+      "material": "@wood"
+    }
+  ]
+}

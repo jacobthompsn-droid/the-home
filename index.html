@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Home</title>
+  <meta name="description" content="The Home — design our future apartment together in 3D, with real weather, seasons, climate and physics.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+      "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+    }
+  }
+  </script>
+</head>
+<body data-mode="orbit">
+  <canvas id="scene"></canvas>
+  <div id="labels"></div>
+
+  <header id="topbar"></header>
+  <aside id="left" class="panel"></aside>
+  <aside id="right" class="panel"></aside>
+  <footer id="hud"></footer>
+
+  <div id="walk-overlay"></div>
+  <div id="crosshair"></div>
+  <div id="walk-hint"></div>
+  <div id="toasts"></div>
+  <div id="modal"></div>
+
+  <div id="loading"><div class="load-card"><div class="logo-big">🏡</div><b>The Home</b><span>Building our place…</span></div></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

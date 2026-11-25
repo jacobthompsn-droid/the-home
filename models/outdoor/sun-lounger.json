@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "outdoor",
+    "seating"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "sun-lounger",
+  "name": "Sun Lounger",
+  "category": "outdoor",
+  "icon": "🏖️",
+  "price": 249,
+  "size": [
+    0.7,
+    0.75,
+    1.9
+  ],
+  "placement": "floor",
+  "parts": [
+    {
+      "name": "leg",
+      "shape": "box",
+      "size": [
+        0.04,
+        0.25,
+        0.04
+      ],
+      "pos": [
+        0.3,
+        0.125,
+        0.88
+      ],
+      "material": "@wood",
+      "mirror": "xz"
+    },
+    {
+      "name": "frame",
+      "shape": "box",
+      "size": [
+        0.7,
+        0.06,
+        1.9
+      ],
+      "pos": [
+        0,
+        0.28,
+        0
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "cushion",
+      "shape": "roundedBox",
+      "radius": 0.03,
+      "size": [
+        0.64,
+        0.07,
+        1.25
+      ],
+      "pos": [
+        0,
+        0.345,
+        0.3
+      ],
+      "material": "@fabric"
+    },
+    {
+      "name": "backrest",
+      "shape": "box",
+      "size": [
+        0.64,
+        0.07,
+        0.7
+      ],
+      "pos": [
+        0,
+        0.5,
+        -0.6
+      ],
+      "material": "@fabric",
+      "rot": [
+        -35,
+        0,
+        0
+      ]
+    }
+  ]
+}

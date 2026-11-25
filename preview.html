@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Home · Model Preview</title>
+  <!-- Single-model viewer for checking a Playbox model.
+       preview.html?model=<id>            a model listed in models/index.json
+       preview.html?file=models/x/y.json  any model file
+       &style=boho                         preview with a different style palette -->
+  <style>
+    html, body { margin: 0; height: 100%; background: #e9e5de; font: 13px system-ui, sans-serif; color: #222; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+    #info { position: fixed; top: 12px; left: 12px; background: rgba(255,255,255,.92); border-radius: 12px; padding: 12px 14px; max-width: 360px; max-height: calc(100vh - 48px); overflow: auto; box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+    h1 { font-size: 16px; margin: 0 0 4px; }
+    .err { color: #b3261e; } .warn { color: #8a5a00; } .ok { color: #1b7a3d; font-weight: 600; }
+    ul { padding-left: 18px; margin: 6px 0; }
+    select { margin-top: 6px; }
+  </style>
+  <script type="importmap">
+  { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  } }
+  </script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="info">Loading…</div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { buildModel } from './js/models.js';
+import { validateModel, partBoxes } from './js/model-spec.js';
+import { STYLES, styleById } from './js/data/styles.js';
+
+const q = new URLSearchParams(location.search);
+const info = document.getElementById('info');
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(devicePixelRatio); renderer.shadowMap.enabled = true; renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const scene = new THREE.Scene(); scene.background = new THREE.Color('#e9e5de');
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.6;
+const cam = new THREE.PerspectiveCamera(40, 1, 0.01, 100);
+const controls = new OrbitControls(cam, renderer.domElement); controls.enableDamping = true;
+const sun = new THREE.DirectionalLight('#fff', 2.2); sun.position.set(3, 6, 4); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); scene.add(sun);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStandardMaterial({ color: '#d8d2c8', roughness: 1 }));
+floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+scene.add(new THREE.GridHelper(20, 80, '#b8b0a4', '#cfc8bd'));
+
+async function load() {
+  let model;
+  if (q.get('file')) model = await (await fetch(q.get('file'), { cache: 'no-cache' })).json();
+  else {
+    const idx = await (await fetch('models/index.json', { cache: 'no-cache' })).json();
+    const e = idx.models.find((m) => m.id === q.get('model')) || idx.models[0];
+    model = await (await fetch(e.path, { cache: 'no-cache' })).json();
+  }
+  return model;
+}
+
+const model = await load();
+const style = styleById(q.get('style') || 'modern');
+const { errors, warnings } = validateModel(model);
+const obj = buildModel(model, { style, seed: model.id });
+// ceiling models hang from y = 0, so lift them for viewing; wall models get a backing wall
+let lift = model.placement === 'ceiling' ? model.size[1] + 0.3 : model.placement === 'wall' ? (model.mountHeight || 1) : 0;
+obj.position.y = lift; scene.add(obj);
+if (model.placement === 'wall') {
+  const wall = new THREE.Mesh(new THREE.BoxGeometry(Math.max(2, model.size[0] + 1), 3, 0.1), new THREE.MeshStandardMaterial({ color: '#f2f0ec' }));
+  wall.position.set(0, 1.5, -model.size[2] / 2 - 0.05); wall.receiveShadow = true; scene.add(wall);
+}
+// light behaviors glow in preview
+obj.userData.glowMats.forEach((m) => { m.emissiveIntensity = m.userData.glowMax; });
+// bounding box of the declared size
+const [w, h, d] = model.size;
+const box = new THREE.Box3Helper(new THREE.Box3(new THREE.Vector3(-w / 2, model.placement === 'ceiling' ? lift - h : lift, -d / 2), new THREE.Vector3(w / 2, model.placement === 'ceiling' ? lift : lift + h, d / 2)), 0xff7a59);
+scene.add(box);
+const r = Math.max(w, h, d);
+cam.position.set(r * 1.4, lift + h * 0.9 + r * 0.5, r * 1.9); controls.target.set(0, lift + (model.placement === 'ceiling' ? -h / 2 : h / 2), 0);
+
+info.innerHTML = `<h1>${model.icon || ''} ${model.name}</h1>
+  <div>${model.id} · ${model.category} · ${model.placement}</div>
+  <div>${(w * 39.37).toFixed(0)}″ W × ${(h * 39.37).toFixed(0)}″ H × ${(d * 39.37).toFixed(0)}″ D (${w}×${h}×${d} m)</div>
+  <div>${partBoxes(model).length} parts${model.price ? ` · $${model.price}` : ''}</div>
+  ${errors.length ? `<p class="err"><b>Errors</b></p><ul class="err">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>` : '<p class="ok">✓ Valid — nothing floating</p>'}
+  ${warnings.length ? `<ul class="warn">${warnings.map((e) => `<li>${e}</li>`).join('')}</ul>` : ''}
+  ${model.source?.url ? `<p><a href="${model.source.url}" target="_blank" rel="noopener">Source photo ↗</a></p>` : ''}
+  <label>Style <select id="st">${STYLES.map((s) => `<option value="${s.id}" ${s.id === style.id ? 'selected' : ''}>${s.name}</option>`).join('')}</select></label>`;
+document.getElementById('st').onchange = (e) => { q.set('style', e.target.value); location.search = q.toString(); };
+document.title = `${model.name} · The Home preview`;
+window.previewReady = { errors, warnings };
+
+function resize() { renderer.setSize(innerWidth, innerHeight, false); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); }
+addEventListener('resize', resize); resize();
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, cam); });
+</script>
+</body>
+</html>

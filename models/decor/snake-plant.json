@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "plant"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "snake-plant",
+  "name": "Snake Plant",
+  "category": "decor",
+  "icon": "🌱",
+  "price": 49,
+  "size": [
+    0.36,
+    0.95,
+    0.36
+  ],
+  "placement": "floor",
+  "behaviors": [
+    {
+      "type": "sway",
+      "part": "foliage",
+      "amount": 0.4
+    }
+  ],
+  "parts": [
+    {
+      "name": "pot",
+      "shape": "cylinder",
+      "size": [
+        0.3,
+        0.3,
+        0.3
+      ],
+      "pos": [
+        0,
+        0.15,
+        0
+      ],
+      "material": {
+        "color": "@ceramic",
+        "finish": "ceramic"
+      }
+    },
+    {
+      "name": "foliage",
+      "shape": "group",
+      "pos": [
+        0,
+        0.3,
+        0
+      ],
+      "children": [
+        {
+          "name": "leaf",
+          "shape": "cylinder",
+          "size": [
+            0.06,
+            0.45,
+            0.025
+          ],
+          "pos": [
+            0,
+            0.22,
+            0
+          ],
+          "material": {
+            "color": "#5d8a48",
+            "finish": "leaf"
+          },
+          "taper": 0,
+          "rot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "leaf",
+          "shape": "cylinder",
+          "size": [
+            0.06,
+            0.55,
+            0.025
+          ],
+          "pos": [
+            0.06,
+            0.27,
+            0.03
+          ],
+          "material": {
+            "color": "#3f6b3a",
+            "finish": "leaf"
+          },
+          "taper": 0,
+          "rot": [
+            5.4,
+            40,
+            -2.7
+          ]
+        },
+        {
+          "name": "leaf",
+          "shape": "cylinder",
+          "size": [
+            0.06,
+            0.65,
+            0.025
+          ],
+          "pos": [
+            -0.05,
+            0.32,
+            0.04
+          ],
+          "material": {
+            "color": "#5d8a48",
+            "finish": "leaf"
+          },
+          "taper": 0,
+          "rot": [
+            -4.5,
+            80,
+            -3.6
+          ]
+        },
+        {
+          "name": "leaf",
+          "shape": "cylinder",
+          "size": [
+            0.06,
+            0.45,
+            0.025
+          ],
+          "pos": [
+            0.02,
+            0.22,
+            -0.06
+          ],
+          "material": {
+            "color": "#3f6b3a",
+            "finish": "leaf"
+          },
+          "taper": 0,
+          "rot": [
+            1.8,
+            120,
+            5.4
+          ]
+        },
+        {
+          "name": "leaf",
+          "shape": "cylinder",
+          "size": [
+            0.06,
+            0.55,
+            0.025
+          ],
+          "pos": [
+            -0.04,
+            0.27,
+            -0.03
+          ],
+          "material": {
+            "color": "#5d8a48",
+            "finish": "leaf"
+          },
+          "taper": 0,
+          "rot": [
+            -3.6,
+            160,
+            2.7
+          ]
+        },
+        {
+          "name": "leaf",
+          "shape": "cylinder",
+          "size": [
+            0.06,
+            0.65,
+            0.025
+          ],
+          "pos": [
+            0.07,
+            0.32,
+            -0.04
+          ],
+          "material": {
+            "color": "#3f6b3a",
+            "finish": "leaf"
+          },
+          "taper": 0,
+          "rot": [
+            6.3,
+            200,
+            3.6
+          ]
+        }
+      ]
+    }
+  ]
+}

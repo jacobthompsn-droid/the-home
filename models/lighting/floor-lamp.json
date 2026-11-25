@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "light",
+    "lamp"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "floor-lamp",
+  "name": "Floor Lamp",
+  "category": "lighting",
+  "icon": "🪔",
+  "price": 189,
+  "size": [
+    0.42,
+    1.6,
+    0.42
+  ],
+  "placement": "floor",
+  "defaultOn": true,
+  "behaviors": [
+    {
+      "type": "light",
+      "at": [
+        0,
+        1.42,
+        0
+      ],
+      "intensity": 1
+    }
+  ],
+  "parts": [
+    {
+      "name": "base",
+      "shape": "cylinder",
+      "size": [
+        0.3,
+        0.03,
+        0.3
+      ],
+      "pos": [
+        0,
+        0.015,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "pole",
+      "shape": "cylinder",
+      "size": [
+        0.025,
+        1.36,
+        0.025
+      ],
+      "pos": [
+        0,
+        0.71,
+        0
+      ],
+      "material": "@metal"
+    },
+    {
+      "name": "shade",
+      "shape": "cylinder",
+      "size": [
+        0.42,
+        0.3,
+        0.42
+      ],
+      "pos": [
+        0,
+        1.45,
+        0
+      ],
+      "material": {
+        "color": "#f3ead8",
+        "finish": "fabric",
+        "opacity": 0.93,
+        "glow": true
+      },
+      "taper": 0.72
+    },
+    {
+      "name": "bulb",
+      "shape": "sphere",
+      "size": [
+        0.08,
+        0.08,
+        0.08
+      ],
+      "pos": [
+        0,
+        1.4,
+        0
+      ],
+      "material": {
+        "color": "#fff4dc",
+        "finish": "emissive",
+        "glow": true
+      }
+    }
+  ]
+}

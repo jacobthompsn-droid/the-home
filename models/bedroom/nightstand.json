@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "storage",
+    "surface"
+  ],
+  "physics": {
+    "body": "static"
+  },
+  "id": "nightstand",
+  "name": "Nightstand",
+  "category": "bedroom",
+  "icon": "🗄️",
+  "price": 199,
+  "size": [
+    0.5,
+    0.55,
+    0.4
+  ],
+  "placement": "floor",
+  "surface": 0.55,
+  "parts": [
+    {
+      "name": "leg",
+      "shape": "box",
+      "size": [
+        0.03,
+        0.08,
+        0.03
+      ],
+      "pos": [
+        0.22,
+        0.04,
+        0.17
+      ],
+      "material": "@woodDark",
+      "mirror": "xz"
+    },
+    {
+      "name": "body",
+      "shape": "roundedBox",
+      "radius": 0.01,
+      "size": [
+        0.5,
+        0.47,
+        0.4
+      ],
+      "pos": [
+        0,
+        0.315,
+        0
+      ],
+      "material": "@wood"
+    },
+    {
+      "name": "drawer-line",
+      "shape": "box",
+      "size": [
+        0.46,
+        0.006,
+        0.005
+      ],
+      "pos": [
+        0,
+        0.323,
+        0.2
+      ],
+      "material": "@woodDark"
+    },
+    {
+      "name": "knob",
+      "shape": "sphere",
+      "size": [
+        0.03,
+        0.03,
+        0.02
+      ],
+      "pos": [
+        0,
+        0.405,
+        0.205
+      ],
+      "material": "@metal"
+    }
+  ]
+}

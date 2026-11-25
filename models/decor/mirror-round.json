@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "collection": "Built-in",
+  "source": {
+    "type": "builtin"
+  },
+  "tags": [
+    "mirror"
+  ],
+  "physics": {
+    "body": "none"
+  },
+  "id": "mirror-round",
+  "name": "Round Wall Mirror",
+  "category": "decor",
+  "icon": "🪞",
+  "price": 119,
+  "size": [
+    0.8,
+    0.8,
+    0.04
+  ],
+  "placement": "wall",
+  "mountHeight": 1.2,
+  "parts": [
+    {
+      "name": "frame",
+      "shape": "cylinder",
+      "size": [
+        0.8,
+        0.025,
+        0.8
+      ],
+      "pos": [
+        0,
+        0.4,
+        -0.007
+      ],
+      "material": "@metal",
+      "rot": [
+        90,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "mirror",
+      "shape": "cylinder",
+      "size": [
+        0.74,
+        0.01,
+        0.74
+      ],
+      "pos": [
+        0,
+        0.4,
+        0.01
+      ],
+      "material": {
+        "color": "#dfe6ea",
+        "finish": "mirror"
+      },
+      "rot": [
+        90,
+        0,
+        0
+      ]
+    }
+  ]
+}
