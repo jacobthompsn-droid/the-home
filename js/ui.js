@@ -25,13 +25,14 @@ export class UI {
   get store() { return this.app.store; }
 
   build() {
-    this.buildTop(); this.buildLeft(); this.buildRight(); this.buildHud(); this.buildWalk();
+    this.buildTop(); this.buildLeft(); this.buildRight(); this.buildHud(); this.buildWalk(); this.buildRooms();
     this.app.editor.addEventListener('select', () => { if (this.app.editor.selection) this.rightTab = 'inspect'; this.renderRight(); });
     addEventListener('keydown', (e) => {
       if (isTyping(e) || e.ctrlKey || e.metaKey) return;
       if (e.code === 'Digit1') this.app.setMode('orbit');
       if (e.code === 'Digit2') this.app.setMode('plan');
       if (e.code === 'Digit3') this.app.setMode('walk');
+      if ((e.code === 'Escape' || e.code === 'KeyH') && this.app.cameras.mode === 'orbit' && !e.escHandled && this.app.cameras.focused != null) this.app.cameras.frameAll();
       if (e.code === 'Escape' && this.app.cameras.mode === 'walk' && !e.escHandled) { if (this.app.sim.active) this.app.sim.cancel(); else this.app.setMode('orbit'); }
     });
     document.addEventListener('click', (e) => { if (!e.target.closest('.menu-wrap')) document.querySelectorAll('.menu').forEach((m) => m.classList.remove('open')); });
@@ -262,7 +263,10 @@ export class UI {
         h('button.icon-btn', { title: 'Delete', onclick: () => this.store.commit('Deleted view', (dd) => dd.cameras.splice(i, 1)) }, '🗑'),
       )) : h('p.muted', {}, 'No saved views yet.')),
       h('section', {}, h('h4', {}, 'Camera controls'), h('ul.keys', {},
-        h('li', {}, h('kbd', {}, '1'), ' Dollhouse — drag to orbit, right-drag to pan, scroll to zoom'),
+        h('li', {}, h('kbd', {}, '1'), ' Dollhouse — drag to orbit, right-drag or Shift-drag to pan (two fingers on touch), scroll to zoom toward the cursor'),
+        h('li', {}, h('kbd', {}, 'WASD'), ' Slide the dollhouse around (arrows too when nothing is selected)'),
+        h('li', {}, 'Double-click a room (or pick it in the room bar) to zoom in on it; double-click again to walk in. ', h('kbd', {}, 'H'), ' or ', h('kbd', {}, 'Esc'), ' backs out'),
+        h('li', {}, 'Click furniture to select it, then drag to move it'),
         h('li', {}, h('kbd', {}, '2'), ' Blueprint — top-down with room sizes'),
         h('li', {}, h('kbd', {}, '3'), ' Walk — first person with real physics'),
         h('li', {}, h('kbd', {}, '✂️'), ' Cutaway lowers the walls in dollhouse view'),
@@ -513,6 +517,23 @@ export class UI {
   }
   setWalkHint(t) { const el = $('walk-hint'); if (el.textContent !== t) el.textContent = t; }
   onLock() { document.body.classList.toggle('locked', this.app.cameras.mode === 'walk' && this.app.cameras.lock.isLocked); }
+  // Dollhouse room switcher: jump the camera to any room, or back out to the whole home.
+  buildRooms() {
+    this.roomsBar = h('nav#rooms-bar', { 'aria-label': 'Focus on a room' });
+    document.body.append(this.roomsBar);
+    this.app.cameras.addEventListener('focus', () => this.renderRooms());
+    this.renderRooms();
+  }
+  renderRooms() {
+    const cams = this.app.cameras, rooms = this.app.apartment?.rooms || [], bar = this.roomsBar;
+    if (!bar) return;
+    bar.innerHTML = '';
+    const chip = (label, on, fn, title) => h('button.room-chip' + (on ? '.on' : ''), { title, onclick: fn }, label);
+    add(bar,
+      chip('🏠 Whole home', cams.focused == null, () => cams.frameAll(), 'See the whole home (H or Esc)'),
+      rooms.map((r) => chip(r.name, cams.focused === r.index, () => { if (cams.mode !== 'orbit') this.app.setMode('orbit'); cams.focusRoom(r.index); }, `Zoom in on the ${r.name} — double-click it again to walk in`)));
+  }
+
   onMode() {
     document.querySelectorAll('#topbar .seg').forEach((b) => b.classList.toggle('on', b.dataset.mode === this.app.cameras.mode));
     this.onLock();

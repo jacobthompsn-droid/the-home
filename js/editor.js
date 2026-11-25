@@ -28,6 +28,7 @@ export class Editor extends EventTarget {
     addEventListener('keydown', (e) => this.onKey(e));
     c.addEventListener('click', () => { if (app.cameras.mode === 'walk' && !app.cameras.walking) app.cameras.lock.lock(); });
     app.cameras.onTap = () => this.walkClick();
+    app.cameras.arrowsBusy = () => this.selection?.type === 'item'; // arrows nudge the selected item instead of panning
     addEventListener('mousedown', (e) => { if (app.cameras.mode === 'walk' && app.cameras.lock.isLocked && e.button === 0) this.walkClick(); });
     this.flashlight = new THREE.SpotLight('#fff2d8', 0, 18, rad(28), 0.5, 1.5); this.flashlight.castShadow = false;
     app.cameras.persp.add(this.flashlight); app.cameras.persp.add(this.flashlight.target); this.flashlight.target.position.set(0, 0, -1);
@@ -180,8 +181,9 @@ export class Editor extends EventTarget {
     if (this.placing) { e.stopImmediatePropagation(); this.updateGhost(e); this.placeGhost(); if (!e.shiftKey) this.cancelPlacing(); return; }
     const hit = this.pick();
     this.down = { x: e.clientX, y: e.clientY, hit, t: performance.now() };
-    // walking: a drag looks around unless you grab furniture that's already selected
-    if (hit?.type === 'item' && app.cameras.mode === 'walk' && this.selection?.id !== hit.id) return;
+    // a drag moves the camera unless you grab furniture that's already selected
+    // (click once to select it, then drag to move it) — so furniture never blocks orbiting/panning
+    if (hit?.type === 'item' && this.selection?.id !== hit.id) return;
     if (hit?.type === 'item') {
       const it = this.item(hit.id); if (!it) return;
       app.cameras.orbit.enabled = false; app.cameras.plan.enabled = false;
@@ -235,6 +237,11 @@ export class Editor extends EventTarget {
   onDouble(e) {
     if (this.app.cameras.mode === 'walk') return;
     this.setNDC(e); const h = this.pick();
+    // dollhouse: double-click a room to zoom in on it; double-click it again to step inside
+    if (h?.type === 'room' && this.app.cameras.mode === 'orbit' && this.app.cameras.focused !== h.index) {
+      this.app.cameras.focusRoom(h.index);
+      return;
+    }
     // double-click any floor to step inside right there
     if (h?.type === 'room' || (this.app.cameras.mode === 'plan' && !h)) {
       const p = h?.point || this.rayPlane(0);

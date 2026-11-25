@@ -67,6 +67,7 @@ class App {
     this.env.onThunder = (d) => this.audio.thunder(d);
     this.env.onWeatherChange = () => this.ui.refreshClimate();
     this.cameras.addEventListener('mode', () => this.onMode());
+    this.cameras.addEventListener('focus', () => this.applyCutaway()); // lower the walls while zoomed in on a room
     this.cameras.addEventListener('lockchange', () => this.ui.onLock());
     this.setupLive();
     this.setupPost();
@@ -204,7 +205,7 @@ class App {
   setCutaway(on) { this.cutawayOn = on; this.applyCutaway(); }
   applyCutaway() {
     const m = this.cameras.mode;
-    this.cutaway = m === 'orbit' && this.cutawayOn ? 1.25 : null;
+    this.cutaway = m === 'orbit' && (this.cutawayOn || this.cameras.focused != null) ? 1.25 : null;
     this.apartment.setCutaway(this.cutaway);
     for (const e of this.items.entries.values()) {
       const p = e.model.placement;

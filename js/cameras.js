@@ -17,6 +17,11 @@ export class Cameras extends EventTarget {
     this.orbit = new OrbitControls(this.persp, canvas);
     this.orbit.enableDamping = true; this.orbit.dampingFactor = 0.08; this.orbit.maxPolarAngle = Math.PI * 0.495; this.orbit.minDistance = 1.5; this.orbit.maxDistance = 120;
     this.orbit.screenSpacePanning = true;
+    // zoom toward whatever is under the cursor, so scrolling dives into a room instead of the middle of the house
+    this.orbit.zoomToCursor = true;
+    this.orbit.panSpeed = 1.1;
+    this.orbit.addEventListener('start', () => { this.fly = null; });
+    this.focused = null; // index of the room the dollhouse is zoomed in on (null = whole home)
     this.plan = new OrbitControls(this.ortho, canvas);
     this.plan.enableRotate = false; this.plan.screenSpacePanning = true; this.plan.enableDamping = true;
     this.plan.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
@@ -28,7 +33,7 @@ export class Cameras extends EventTarget {
     this.mode = 'orbit';
     this.keys = new Set();
     this.fly = null; this.bob = 0;
-    addEventListener('keydown', (e) => { if (!isTyping(e)) this.keys.add(e.code); });
+    addEventListener('keydown', (e) => { if (!isTyping(e) && !e.ctrlKey && !e.metaKey) this.keys.add(e.code); });
     addEventListener('keyup', (e) => this.keys.delete(e.code));
     addEventListener('blur', () => this.keys.clear());
     this.setupTouch(canvas);
@@ -105,7 +110,35 @@ export class Cameras extends EventTarget {
     this.plan.target.set(c.x, 0, c.z);
     this.ortho.position.set(c.x, 60, c.z + 0.001);
     this.span = span;
+    this.home = { pos: this.persp.position.toArray(), target: this.orbit.target.toArray() };
+    this.focused = null;
     this.resize(this.w || innerWidth, this.h || innerHeight);
+    this.dispatchEvent(new Event('focus'));
+  }
+
+  // Dollhouse: swoop in so one room fills the screen, keeping the current compass direction.
+  focusRoom(index, duration = 1.1) {
+    const r = this.apt?.rooms[index]; if (!r) return;
+    const [x0, z0, x1, z1] = r.rect, c = new THREE.Vector3((x0 + x1) / 2, 0.6, (z0 + z1) / 2);
+    const radius = Math.hypot(x1 - x0, z1 - z0) / 2 + 1.1;
+    // only count the part of the screen that isn't covered by the side panels
+    const W = this.w || innerWidth, cover = [...document.querySelectorAll('#left:not(.collapsed), #right:not(.collapsed)')].reduce((a, el) => a + el.getBoundingClientRect().width + 14, 0);
+    const visible = W > 900 ? clamp((W - cover) / W, 0.4, 1) : 1;
+    const vf = rad(55), hf = 2 * Math.atan(Math.tan(vf / 2) * (this.persp.aspect || 1.6) * visible);
+    const dist = clamp(radius / Math.sin(Math.min(vf, hf) / 2), 6, 60);
+    const from = this.mode === 'orbit' ? this.persp.position.clone().sub(this.orbit.target) : new THREE.Vector3(0.5, 0, 1);
+    const az = Math.atan2(from.x, from.z), polar = rad(38);
+    const pos = c.clone().add(new THREE.Vector3(Math.sin(az) * Math.sin(polar), Math.cos(polar), Math.cos(az) * Math.sin(polar)).multiplyScalar(dist));
+    this.focused = index;
+    this.flyTo({ pos: pos.toArray(), target: c.toArray(), fov: 55 }, duration);
+    this.dispatchEvent(new Event('focus'));
+  }
+  // Back out to the whole-home view.
+  frameAll(duration = 1.1) {
+    if (!this.home) return;
+    this.focused = null;
+    this.flyTo({ pos: this.home.pos, target: this.home.target, fov: 55 }, duration);
+    this.dispatchEvent(new Event('focus'));
   }
 
   resize(w, h) {
@@ -146,6 +179,22 @@ export class Cameras extends EventTarget {
     this.dispatchEvent(new Event('mode'));
   }
 
+  // Dollhouse: WASD (and arrow keys when nothing is selected) slide the view across the floor plan.
+  keyPan(dt) {
+    const k = this.keys, arrows = !this.arrowsBusy?.();
+    const f = (k.has('KeyW') || (arrows && k.has('ArrowUp')) ? 1 : 0) - (k.has('KeyS') || (arrows && k.has('ArrowDown')) ? 1 : 0);
+    const r = (k.has('KeyD') || (arrows && k.has('ArrowRight')) ? 1 : 0) - (k.has('KeyA') || (arrows && k.has('ArrowLeft')) ? 1 : 0);
+    if (!f && !r) return;
+    this.fly = null;
+    const dir = this.orbit.target.clone().sub(this.persp.position); dir.y = 0;
+    if (dir.lengthSq() < 1e-6) dir.set(0, 0, -1);
+    dir.normalize();
+    const right = new THREE.Vector3(-dir.z, 0, dir.x);
+    const dist = this.persp.position.distanceTo(this.orbit.target);
+    const step = dir.multiplyScalar(f).add(right.multiplyScalar(r)).normalize().multiplyScalar(Math.max(2, dist * 0.8) * dt * (k.has('ShiftLeft') || k.has('ShiftRight') ? 2.2 : 1));
+    this.orbit.target.add(step); this.persp.position.add(step);
+  }
+
   // Save / restore points of view
   capture() {
     const cam = this.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir);
@@ -164,7 +213,7 @@ export class Cameras extends EventTarget {
       this.persp.fov = f.f0 + (f.f1 - f.f0) * e; this.persp.updateProjectionMatrix();
       if (k >= 1) this.fly = null;
     }
-    if (this.mode === 'orbit') this.orbit.update();
+    if (this.mode === 'orbit') { this.keyPan(dt); this.orbit.update(); }
     if (this.mode === 'plan') { this.plan.update(); }
     if (this.mode === 'walk') {
       const k = this.keys, run = k.has('ShiftLeft') || k.has('ShiftRight');
