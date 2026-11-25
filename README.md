@@ -22,10 +22,36 @@ storm or a snowy winter night. Turn on the AC, open the windows and watch the br
 | 💞 **Together** | Share links, save designs to this repo, and live sessions where you see each other's edits and avatars in real time |
 | 💰 **Budget** | Price for every item, totals by category, ❤️ "we both love this" list, activity log |
 
+## 🌱 Living there (the sim part)
+
+The Home keeps living while you're away, on **real time**:
+
+- **Plants dry out** over a few days. They visibly brown and droop until someone walks over and waters them (E).
+- **Dishes pile up** in the sink (cooking makes more), **laundry** fills the washer, and the **bed** gets messy after you sleep in it.
+- **Mood meters:** 🌿 Plants · 🧽 Tidy · 🎉 Fun · 🛋️ Cozy · 💞 Together. They combine into one **home happiness** score shown at the bottom of the screen.
+- **Activities** (Q while looking at furniture, or the **Life** tab):
+
+  | | |
+  |---|---|
+  | 🍿 Movie night | 🪩 Dance party |
+  | 🍳 Cook dinner | 🕯️ Candlelit dinner |
+  | 🎯 Darts (real aiming) | 🎱 Pool break (real ball physics) |
+  | 🕹️ Heart Catch arcade game | 🎸 Guitar (synthesized G–D–Em–C) |
+  | 📚 Reading | ☕ Coffee on the balcony |
+  | ♨️ Hot tub | 🛁 Bubble bath |
+  | 😴 Sleep till morning | |
+
+- **Memories:** every activity saves a snapshot to the journal. High scores are kept.
+- **Together:** activities done during a 💞 Live session count double for *Together*.
+- **Welcome back:** when you return after a while, you get a summary of what needs doing and what your partner did.
+- **Pace:** in the Life tab you can speed things up (6× or 48×) if real days feel too slow.
+
 ### Walk-mode keys
 
-`WASD` move · `Shift` run · `Space` jump · `E` open doors and windows or switch things on · `G` grab ·
-`Click` push or throw · `B` throw a ball · `F` flashlight · `Esc` pause · `1`/`2`/`3` switch views
+`WASD` move · `Shift` run · `Space` jump · `E` use (doors, lights, water plants, chores) · `Q` activity · `G` grab ·
+`Click` push, throw or throw a dart · `B` throw a ball · `F` flashlight · `Esc` pause · `1`/`2`/`3` switch views
+
+On phones and tablets, use the left thumb as a joystick and drag with the right thumb to look. On-screen buttons cover Use, Do, Grab and Jump.
 
 ## Adding furniture from a photo (Pinterest etc.)
 

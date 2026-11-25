@@ -10,11 +10,11 @@ export class Editor extends EventTarget {
   constructor(app) {
     super();
     this.app = app;
-    this.ray = new THREE.Raycaster();
+    this.ray = new THREE.Raycaster(); this.ray.layers.enableAll();
     this.ndc = new THREE.Vector2();
     this.selection = null; // {type:'item'|'wall'|'room', id|index}
     this.snap = true;
-    this.helper = new THREE.Box3Helper(new THREE.Box3(), 0xff8a5c); this.helper.visible = false; app.scene.add(this.helper);
+    this.helper = new THREE.Box3Helper(new THREE.Box3(), 0xff8a5c); this.helper.visible = false; this.helper.layers.set(1); app.scene.add(this.helper);
     this.ghost = null; this.placing = null;
     const c = app.canvas;
     // registered BEFORE OrbitControls so we can veto orbiting when grabbing furniture
@@ -26,7 +26,8 @@ export class Editor extends EventTarget {
     c.addEventListener('dragleave', () => { if (this.placing?.fromDrag) this.cancelPlacing(); });
     c.addEventListener('drop', (e) => { e.preventDefault(); if (this.placing) { this.updateGhost(e); this.placeGhost(); this.cancelPlacing(); } this.dragModelId = null; });
     addEventListener('keydown', (e) => this.onKey(e));
-    c.addEventListener('click', () => { if (app.cameras.mode === 'walk' && !app.cameras.lock.isLocked) app.cameras.lock.lock(); });
+    c.addEventListener('click', () => { if (app.cameras.mode === 'walk' && !app.cameras.walking) app.cameras.lock.lock(); });
+    app.cameras.onTap = () => this.walkClick();
     addEventListener('mousedown', (e) => { if (app.cameras.mode === 'walk' && app.cameras.lock.isLocked && e.button === 0) this.walkClick(); });
     this.flashlight = new THREE.SpotLight('#fff2d8', 0, 18, rad(28), 0.5, 1.5); this.flashlight.castShadow = false;
     app.cameras.persp.add(this.flashlight); app.cameras.persp.add(this.flashlight.target); this.flashlight.target.position.set(0, 0, -1);
@@ -303,9 +304,11 @@ export class Editor extends EventTarget {
     const app = this.app;
     if (e.code === 'KeyE') {
       const h = this.centerRay();
+      if (h?.type === 'item' && app.sim.use(app.items.get(h.id))) return;
       if (h?.type === 'opening') this.toggleOpening(h.key);
       else if (h?.type === 'item') { const en = app.items.get(h.id); if (en && en.behaviors.some((b) => ['light', 'spin', 'screen', 'airflow'].includes(b.type))) this.toggleItem(h.id); }
     }
+    if (e.code === 'KeyQ') { const h = this.centerRay(); if (h?.type === 'item') app.sim.activity(app.items.get(h.id), e.shiftKey); return; }
     if (e.code === 'KeyG') {
       if (app.physics.held) { app.physics.held = null; return; }
       const cam = app.cameras.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir);
@@ -320,6 +323,8 @@ export class Editor extends EventTarget {
   }
   walkClick() {
     const app = this.app, cam = app.cameras.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir);
+    if (app.sim.click()) return;
+    if (app.sim.active) return;
     if (app.physics.held) {
       const b = app.physics.held.body; app.physics.held = null;
       b.velocity.set(dir.x * 9, dir.y * 9 + 1.5, dir.z * 9); return;
@@ -333,10 +338,14 @@ export class Editor extends EventTarget {
     const app = this.app;
     if (app.cameras.mode === 'walk') {
       if (app.physics.held) { const cam = app.cameras.persp, dir = new THREE.Vector3(); cam.getWorldDirection(dir); app.physics.held.target.copy(cam.position).addScaledVector(dir, 1.3); }
-      if (app.cameras.lock.isLocked) {
+      if (app.cameras.walking) {
         const h = this.centerRay();
         let hint = '';
         if (h?.type === 'opening') { const o = app.apartment.openings.find((p) => p.key === h.key); hint = `E · ${o?.target > 0.5 ? 'Close' : 'Open'} ${o?.type === 'door' ? 'door' : o?.type === 'slider' ? 'sliding door' : 'window'}`; }
+        else if (h?.type === 'item' && app.sim.hint(app.items.get(h.id))) {
+          const en = app.items.get(h.id), toggle = en.behaviors.some((b) => ['light', 'spin', 'screen', 'airflow'].includes(b.type)) && !app.sim.choreFor(en);
+          hint = (toggle ? `E · Turn ${app.items.isOn(en) ? 'off' : 'on'}   ` : '') + app.sim.hint(en);
+        }
         else if (h?.type === 'item') {
           const en = app.items.get(h.id);
           if (en?.dynamic) hint = `G · Grab ${en.model.name} · Click · Push`;
@@ -344,6 +353,7 @@ export class Editor extends EventTarget {
           else if (en) hint = en.model.name;
         }
         if (app.physics.held) hint = 'Click · Throw   G · Drop';
+        if (app.sim.active) hint = app.sim.darts ? `🎯 ${app.sim.darts.left} dart${app.sim.darts.left === 1 ? '' : 's'} left · click to throw` : '';
         app.ui?.setWalkHint(hint);
       }
     }

@@ -16,15 +16,30 @@ import { UI } from './ui.js';
 import { blueprintById } from './data/blueprints.js';
 import { styleById } from './data/styles.js';
 import { download, slug } from './util.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { Sim } from './sim.js';
+import { Thumbs } from './thumbs.js';
+
+// quality presets: pixel ratio cap, ambient occlusion, bloom, shadow map size
+const QUALITY = {
+  ultra: { dpr: 2, ao: true, bloom: true, shadow: 4096 },
+  high: { dpr: 1.5, ao: true, bloom: true, shadow: 4096 },
+  medium: { dpr: 1.25, ao: false, bloom: true, shadow: 2048 },
+  low: { dpr: 1, ao: false, bloom: false, shadow: 1024 },
+};
 
 class App {
   async init() {
     const canvas = this.canvas = document.getElementById('scene');
-    this.quality = localStorage.getItem('thehome.quality') || 'high';
+    this.quality = QUALITY[localStorage.getItem('thehome.quality')] ? localStorage.getItem('thehome.quality') : 'high';
     const r = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-    r.setPixelRatio(Math.min(devicePixelRatio, this.quality === 'high' ? 2 : 1));
+    r.setPixelRatio(Math.min(devicePixelRatio, QUALITY[this.quality].dpr));
     r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
-    r.toneMapping = THREE.ACESFilmicToneMapping; r.localClippingEnabled = true;
+    r.toneMapping = THREE.AgXToneMapping; r.localClippingEnabled = true;
     this.labels = new CSS2DRenderer({ element: document.getElementById('labels') });
     this.scene = new THREE.Scene();
 
@@ -40,6 +55,8 @@ class App {
     this.github = new GitHub();
     this.live = new LiveSession(this.store);
     this.editor = new Editor(this);
+    this.sim = new Sim(this);
+    this.thumbs = new Thumbs();
     this.ui = new UI(this);
     this.partners = new Map();
     this.cutaway = null;
@@ -51,6 +68,7 @@ class App {
     this.cameras.addEventListener('mode', () => this.onMode());
     this.cameras.addEventListener('lockchange', () => this.ui.onLock());
     this.setupLive();
+    this.setupPost();
     addEventListener('resize', () => this.resize()); this.resize();
     addEventListener('pointerdown', () => this.audio.start(), { once: true });
     addEventListener('keydown', () => this.audio.start(), { once: true });
@@ -66,6 +84,7 @@ class App {
     else if (auto && this.store.user) this.loadDesign(auto, 'Welcome back');
     else { this.loadDesign(newDesign({ user: this.store.user || { name: 'Us' } }), 'Preview'); this.ui.wizard(); }
 
+    this.sim.welcome();
     this.clock = new THREE.Clock();
     this.renderer.setAnimationLoop(() => this.tick());
     setInterval(() => this.store.saveLocal(), 5000); // keeps time-of-day/weather between visits
@@ -75,16 +94,49 @@ class App {
   resize() {
     const w = innerWidth, h = innerHeight;
     this.renderer.setSize(w, h, false); this.labels.setSize(w, h); this.cameras.resize(w, h);
+    if (this.composer) { this.composer.setPixelRatio(this.renderer.getPixelRatio()); this.composer.setSize(w, h); }
   }
   setQuality(q) {
     this.quality = q; localStorage.setItem('thehome.quality', q);
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, q === 'high' ? 2 : 1));
-    this.env.sun.shadow.mapSize.set(q === 'high' ? 2048 : 1024, q === 'high' ? 2048 : 1024); this.env.sun.shadow.map?.dispose(); this.env.sun.shadow.map = null;
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, QUALITY[q].dpr));
+    this.setupPost();
     this.resize();
+  }
+  // Post-processing: ground-truth ambient occlusion (soft contact shadows) + gentle bloom on lights & screens.
+  setupPost() {
+    const Q = QUALITY[this.quality];
+    const sm = Q.shadow; this.env.sun.shadow.mapSize.set(sm, sm); this.env.sun.shadow.map?.dispose(); this.env.sun.shadow.map = null;
+    this.composer?.dispose(); this.composer = null; this.gtao = null; this.bloom = null;
+    if (!Q.ao && !Q.bloom) return;
+    const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
+    const rt = new THREE.WebGLRenderTarget(size.x, size.y, { type: THREE.HalfFloatType, samples: 4 });
+    const c = this.composer = new EffectComposer(this.renderer, rt);
+    this.renderPass = new RenderPass(this.scene, this.cameras.persp); c.addPass(this.renderPass);
+    if (Q.ao) {
+      this.aoCam = new THREE.PerspectiveCamera();
+      this.gtao = new GTAOPass(this.scene, this.aoCam, size.x, size.y);
+      this.gtao.blendIntensity = 0.9;
+      this.gtao.updateGtaoMaterial({ radius: 0.45, distanceExponent: 1.4, thickness: 1.2, scale: 1.1, samples: 16, distanceFallOff: 1 });
+      this.gtao.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 5, rings: 2, samples: 16 });
+      c.addPass(this.gtao);
+    }
+    if (Q.bloom) { this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.28, 0.55, 2.5); c.addPass(this.bloom); }
+    c.addPass(new OutputPass());
+    c.setPixelRatio(this.renderer.getPixelRatio()); c.setSize(innerWidth, innerHeight);
+  }
+  render(cam) {
+    if (!this.composer) return this.renderer.render(this.scene, cam);
+    this.renderPass.camera = cam;
+    if (this.gtao) {
+      const ok = cam.isPerspectiveCamera; this.gtao.enabled = ok;
+      if (ok) { this.aoCam.copy(cam, false); this.aoCam.layers.set(0); this.aoCam.updateMatrixWorld(); this.aoCam.updateProjectionMatrix(); }
+    }
+    if (this.bloom) this.bloom.threshold = 1.7 / this.renderer.toneMappingExposure;
+    this.composer.render();
   }
 
   get design() { return this.store.design; }
-  get style() { return styleById(this.design.style); }
+  get style() { return styleById(this.design?.style); }
 
   loadDesign(d, label) {
     d = migrate(JSON.parse(JSON.stringify(d)));
@@ -112,6 +164,7 @@ class App {
     this.physics.syncOpenings();
     this.items.settleAll(d.items, this.apartment);
     this.refreshItems();
+    this.sim.onDesignChange();
     if (!remote && this.live.active && label !== 'Loaded design') this.live.sendDesign(label);
     this.ui.onDesignChange({ label, remote, full });
   }
@@ -196,7 +249,7 @@ class App {
 
   // ------------------------------------------------------------ tools
   screenshot() {
-    this.renderer.render(this.scene, this.cameras.camera);
+    this.render(this.cameras.camera);
     download(`${slug(this.design.name)}-${Date.now()}.png`, this.canvas.toDataURL('image/png'));
   }
   async playTour() {
@@ -243,7 +296,9 @@ class App {
       this.live.sendPresence({ pos: this.cameras.persp.position.toArray(), dir: dir.toArray(), mode: this.cameras.mode });
     }
     this.ui.tick(dt);
-    this.renderer.render(this.scene, cam);
+    this.sim.update(dt);
+    this.render(cam);
+    this.sim.afterRender();
     this.labels.render(this.scene, cam);
   }
 }

@@ -13,6 +13,7 @@ export class Cameras extends EventTarget {
     this.persp = new THREE.PerspectiveCamera(55, 1, 0.05, 6000);
     this.ortho = new THREE.OrthographicCamera(-10, 10, 10, -10, 0.1, 500);
     this.persp.position.set(12, 14, 22);
+    this.persp.layers.enable(1); this.ortho.layers.enable(1);
     this.orbit = new OrbitControls(this.persp, canvas);
     this.orbit.enableDamping = true; this.orbit.dampingFactor = 0.08; this.orbit.maxPolarAngle = Math.PI * 0.495; this.orbit.minDistance = 1.5; this.orbit.maxDistance = 120;
     this.orbit.screenSpacePanning = true;
@@ -30,9 +31,45 @@ export class Cameras extends EventTarget {
     addEventListener('keydown', (e) => { if (!isTyping(e)) this.keys.add(e.code); });
     addEventListener('keyup', (e) => this.keys.delete(e.code));
     addEventListener('blur', () => this.keys.clear());
+    this.setupTouch(canvas);
   }
 
   get camera() { return this.mode === 'plan' ? this.ortho : this.persp; }
+  // walking with input captured (pointer lock on desktop; always on touch devices)
+  get walking() { return this.mode === 'walk' && (this.lock.isLocked || this.touch); }
+
+  // Phones & tablets: left thumb = joystick, right thumb = look, tap = click.
+  setupTouch(canvas) {
+    this.touch = matchMedia('(pointer: coarse)').matches || new URLSearchParams(location.search).has('touch');
+    if (this.touch) document.body.classList.add('touch');
+    this.joy = { x: 0, y: 0 };
+    const ptrs = new Map();
+    const stick = document.createElement('div'); stick.id = 'stick'; stick.innerHTML = '<i></i>'; document.body.append(stick);
+    canvas.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'touch' || this.mode !== 'walk') return;
+      const left = e.clientX < innerWidth * 0.45;
+      ptrs.set(e.pointerId, { left, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, t: performance.now() });
+      if (left) { stick.style.left = e.clientX + 'px'; stick.style.top = e.clientY + 'px'; stick.classList.add('on'); }
+    });
+    addEventListener('pointermove', (e) => {
+      const p = ptrs.get(e.pointerId); if (!p) return;
+      if (p.left) {
+        const dx = e.clientX - p.x0, dy = e.clientY - p.y0, len = Math.min(1, Math.hypot(dx, dy) / 55), a = Math.atan2(dy, dx);
+        this.joy = { x: Math.cos(a) * len, y: Math.sin(a) * len };
+        stick.firstChild.style.transform = `translate(${Math.cos(a) * len * 30}px, ${Math.sin(a) * len * 30}px)`;
+      } else if (!this.frozen || true) {
+        const r = this.persp.rotation; r.order = 'YXZ';
+        r.y -= (e.clientX - p.x) * 0.006; r.x = Math.max(-1.4, Math.min(1.4, r.x - (e.clientY - p.y) * 0.006));
+      }
+      p.x = e.clientX; p.y = e.clientY;
+    });
+    const up = (e) => {
+      const p = ptrs.get(e.pointerId); if (!p) return; ptrs.delete(e.pointerId);
+      if (p.left) { this.joy = { x: 0, y: 0 }; stick.classList.remove('on'); stick.firstChild.style.transform = ''; }
+      else if (Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < 10 && performance.now() - p.t < 300) this.onTap?.();
+    };
+    addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  }
 
   frame(apt) {
     this.apt = apt;
@@ -66,7 +103,8 @@ export class Cameras extends EventTarget {
       const yaw = opts.yaw ?? rad(sp[2] || 0); // spawn[2] = yaw degrees, 0 = facing north
       this.persp.rotation.set(0, yaw, 0, 'YXZ');
       this.persp.fov = 70; this.persp.updateProjectionMatrix();
-      if (opts.lock !== false) this.lock.lock();
+      if (opts.lock !== false && !this.touch) this.lock.lock();
+      if (this.touch) setTimeout(() => this.dispatchEvent(new Event('lockchange')), 0);
     } else {
       if (prev === 'walk') {
         this.physics.setPlayerActive(false);
@@ -107,8 +145,9 @@ export class Cameras extends EventTarget {
       const r = (k.has('KeyD') || k.has('ArrowRight') ? 1 : 0) - (k.has('KeyA') || k.has('ArrowLeft') ? 1 : 0);
       const dir = new THREE.Vector3(); this.persp.getWorldDirection(dir); dir.y = 0; dir.normalize();
       const right = new THREE.Vector3(-dir.z, 0, dir.x);
-      const v = dir.multiplyScalar(f).add(right.multiplyScalar(r));
+      const v = dir.clone().multiplyScalar(f - this.joy.y).add(right.multiplyScalar(r + this.joy.x));
       if (v.lengthSq() > 0) v.normalize().multiplyScalar(run ? 4.2 : 1.9);
+      if (this.frozen) { if (v.lengthSq() > 0) this.onMoveAttempt?.(); return; }
       this.physics.movePlayer(v.x, v.z, k.has('Space'));
       const p = this.physics.player.position;
       const moving = v.lengthSq() > 0 && this.physics.onGround();

@@ -39,6 +39,93 @@ export class Ambience {
     this.fan.g.gain.setTargetAtTime(Math.min(fan, 1) * 0.06, t, 0.6);
   }
 
+  // A named looping noise bed (water running, sizzling pan, steam...). level 0 = silent.
+  loop(name, level, { type = 'bandpass', freq = 1200, q = 0.8, rate = 1 } = {}) {
+    if (!this.ctx) return;
+    this.loops ||= {};
+    let L = this.loops[name];
+    if (!L) {
+      const src = this.ctx.createBufferSource(); src.buffer = this.noise; src.loop = true; src.playbackRate.value = rate;
+      const f = this.ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+      const g = this.ctx.createGain(); g.gain.value = 0;
+      src.connect(f).connect(g).connect(this.master); src.start();
+      L = this.loops[name] = { g, f };
+    }
+    L.g.gain.setTargetAtTime(level, this.ctx.currentTime, 0.2);
+  }
+
+  // Karplus–Strong plucked string — sounds like a real acoustic guitar.
+  pluck(freq, when, gain = 0.22) {
+    const ctx = this.ctx, sr = ctx.sampleRate;
+    this.strings ||= new Map();
+    const key = Math.round(freq * 10);
+    let buf = this.strings.get(key);
+    if (!buf) {
+      const N = Math.max(2, Math.round(sr / freq)), len = Math.floor(sr * 2.2);
+      buf = ctx.createBuffer(1, len, sr); const d = buf.getChannelData(0);
+      for (let i = 0; i < N; i++) d[i] = Math.random() * 2 - 1;
+      for (let i = N; i < len; i++) d[i] = 0.996 * 0.5 * (d[i - N] + d[i - N + 1]);
+      this.strings.set(key, buf);
+    }
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const g = ctx.createGain(); g.gain.value = gain;
+    const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 3200;
+    src.connect(f).connect(g).connect(this.master); src.start(when);
+  }
+  // G – D – Em – C, a classic strum pattern. Returns the duration in seconds.
+  playGuitar() {
+    if (!this.ctx || this.muted) return 0;
+    const chords = [[98, 123.47, 146.83, 196, 246.94, 392], [146.83, 220, 293.66, 369.99], [82.41, 123.47, 164.81, 196, 246.94, 329.63], [130.81, 164.81, 196, 261.63, 329.63]];
+    const pattern = [[0, 1], [0.5, 1], [0.75, -1], [1.25, -1], [1.5, 1], [1.75, -1]]; // D D U U D U
+    const t0 = this.ctx.currentTime + 0.05; let t = t0;
+    for (let rep = 0; rep < 2; rep++) for (const ch of chords) {
+      for (const [off, dir] of pattern) {
+        const notes = dir > 0 ? ch : [...ch].reverse().slice(0, 4);
+        notes.forEach((f, i) => this.pluck(f, t + off + i * 0.014, dir > 0 ? 0.2 : 0.13));
+      }
+      t += 2;
+    }
+    return t - t0;
+  }
+  // Simple 120 bpm dance beat (kick, hat, bass) for `seconds`.
+  playBeat(seconds = 15) {
+    if (!this.ctx || this.muted) return;
+    const ctx = this.ctx, t0 = ctx.currentTime + 0.05, bass = [55, 55, 65.4, 49];
+    for (let i = 0; i < seconds * 4; i++) {
+      const t = t0 + i * 0.25;
+      if (i % 2 === 0) { // kick
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.15);
+        g.gain.setValueAtTime(0.7, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+        o.connect(g).connect(this.master); o.start(t); o.stop(t + 0.3);
+      }
+      { // hat
+        const src = ctx.createBufferSource(); src.buffer = this.noise; const f = ctx.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 7000;
+        const g = ctx.createGain(); g.gain.setValueAtTime(i % 2 ? 0.12 : 0.05, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+        src.connect(f).connect(g).connect(this.master); src.start(t, Math.random()); src.stop(t + 0.06);
+      }
+      if (i % 2 === 1) { // bass
+        const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sawtooth'; o.frequency.value = bass[Math.floor(i / 8) % 4];
+        const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 400;
+        g.gain.setValueAtTime(0.18, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+        o.connect(f).connect(g).connect(this.master); o.start(t); o.stop(t + 0.24);
+      }
+    }
+  }
+  blip(freq = 880, dur = 0.08, gain = 0.15, type = 'square') {
+    if (!this.ctx || this.muted) return;
+    const t = this.ctx.currentTime, o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    o.type = type; o.frequency.value = freq; g.gain.setValueAtTime(gain, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g).connect(this.master); o.start(t); o.stop(t + dur + 0.02);
+  }
+  thud(gain = 0.4) {
+    if (!this.ctx || this.muted) return;
+    const t = this.ctx.currentTime, src = this.ctx.createBufferSource(); src.buffer = this.noise;
+    const f = this.ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 900; const g = this.ctx.createGain();
+    g.gain.setValueAtTime(gain, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+    src.connect(f).connect(g).connect(this.master); src.start(t, Math.random()); src.stop(t + 0.15);
+  }
+
   thunder(dist = 0.5) {
     if (!this.ctx || this.muted) return;
     const ctx = this.ctx, t = ctx.currentTime;

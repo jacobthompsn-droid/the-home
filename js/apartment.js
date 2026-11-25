@@ -5,6 +5,7 @@ import { OPENING_DEFAULTS } from './data/blueprints.js';
 import { FLOOR_TYPES, floorRole } from './data/styles.js';
 import { floorTexture, wallTexture, facadeTexture } from './textures.js';
 import { fmtArea, clamp } from './util.js';
+const BASE_H = 0.1, CROWN_H = 0.07;
 
 const EXT_T = 0.2, INT_T = 0.12, FLOOR_HEIGHT = 3.2;
 
@@ -44,6 +45,7 @@ export class Apartment {
       frontDoor: this.clip(new THREE.MeshStandardMaterial({ color: style.trim, roughness: 0.4 })),
       metal: this.clip(new THREE.MeshStandardMaterial({ color: '#2b2b2b', roughness: 0.4, metalness: 0.7 })),
       ceiling: new THREE.MeshStandardMaterial({ color: style.ceiling, roughness: 0.95 }),
+      base: this.clip(new THREE.MeshStandardMaterial({ color: style.baseboard || '#f2f0eb', roughness: 0.45 })),
     };
     this.wallMatCache = new Map();
 
@@ -52,6 +54,7 @@ export class Apartment {
     this.buildCeilings();
     this.buildBuilding();
     this.buildLabels();
+    this.group.traverse((o) => { if (o.isMesh && o.material === this.mat.glass) o.layers.set(1); });
     return this;
   }
 
@@ -126,6 +129,23 @@ export class Apartment {
       m.userData = { kind: 'wall', wallIndex: index };
       this.group.add(m); wall.meshes.push(m); this.wallMeshes.push(m);
       this.colliders.push({ pos, half: size.map((v) => v / 2) });
+      // baseboards & crown molding on the room-facing sides
+      const sides = opts.ext ? [-1] : [1, -1];
+      const b0 = Math.max(s0, 0), b1 = Math.min(s1, L), bl = b1 - b0, bmid = a0 + (b0 + b1) / 2;
+      if (bl > 0.04) for (const sd of sides) {
+        const off = (t / 2) * sd;
+        const n = nrm.clone().multiplyScalar(sd);
+        const trim = (hgt, depth, y) => {
+          const sz = axis === 'h' ? [bl, hgt, depth] : [depth, hgt, bl];
+          const tm = new THREE.Mesh(new THREE.BoxGeometry(...sz), this.mat.base);
+          const d = Math.abs(off) + depth / 2;
+          tm.position.set(axis === 'h' ? bmid : c + Math.sign(n.x || sd) * d, y, axis === 'h' ? c + Math.sign(n.z || sd) * d : bmid);
+          tm.receiveShadow = true; tm.userData = { kind: 'wall', wallIndex: index };
+          this.group.add(tm);
+        };
+        if (y0 === 0) trim(BASE_H, 0.014, BASE_H / 2);
+        if (y1 >= H - 0.01) trim(CROWN_H, 0.022, H - CROWN_H / 2);
+      }
     };
     const opens = (opts.open || []).map((o, k) => ({ ...OPENING_DEFAULTS[o.t], ...o, k })).sort((p, q) => p.c - q.c);
     let cur = -ext;

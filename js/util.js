@@ -68,4 +68,7 @@ export function download(filename, data, type = 'application/json') {
   a.download = filename; a.click();
 }
 
+// Layer 1 = effects (particles, glass, sky) — visible, but excluded from ambient-occlusion passes.
+export const fxLayer = (o) => { o.traverse((c) => c.layers.set(1)); return o; };
+
 export const slug = (s) => (s || 'design').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'design';

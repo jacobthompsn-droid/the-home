@@ -12,6 +12,8 @@ export class ItemsLayer {
     this.scene = scene; this.library = library;
     this.group = new THREE.Group(); this.group.name = 'items'; scene.add(this.group);
     this.entries = new Map();
+    this.forced = new Map(); // sim activities can force devices on (e.g. TV during movie night)
+    this.lightScale = 1;     // and dim the lights
     this.t = 0;
   }
 
@@ -98,6 +100,7 @@ export class ItemsLayer {
     const outer = new THREE.Group();
     const inner = buildModel(model, { style, tokens: item.tokens || {}, parts: item.parts || {}, seed: item.id });
     outer.add(inner);
+    inner.traverse((o) => { if (o.isMesh && o.material.transparent) o.layers.set(1); });
     outer.userData = { kind: 'item', itemId: item.id };
     inner.traverse((o) => { o.userData.itemId = item.id; });
     const e = { item, model, outer, inner, key, lights: [], behaviors: model.behaviors || [], dynamic: model.physics?.body === 'dynamic', displayY: item.y ?? 0, vy: 0, spin: {} };
@@ -154,7 +157,7 @@ export class ItemsLayer {
     return out;
   }
 
-  isOn(e) { return e.item.state?.on ?? e.model.defaultOn ?? true; }
+  isOn(e) { return this.forced.get(e.item.id) ?? e.item.state?.on ?? e.model.defaultOn ?? true; }
 
   // ------------------------------------------------------------------ per-frame
   update(dt, ctx) {
@@ -174,7 +177,7 @@ export class ItemsLayer {
         switch (b.type) {
           case 'light': {
             const lit = on && (!autoLights || dark > 0.35);
-            for (const L of e.lights) L.intensity = lit && L.userData.allowed ? L.userData.base * 7 : 0;
+            for (const L of e.lights) L.intensity = lit && L.userData.allowed ? L.userData.base * 7 * this.lightScale : 0;
             for (const m of e.inner.userData.glowMats) m.emissiveIntensity = lit ? m.userData.glowMax : 0;
             break;
           }
@@ -205,7 +208,8 @@ export class ItemsLayer {
           case 'sway': {
             const air = climate ? climate.airAt(e.outer.position.clone().setY(1.2)).length() : 0;
             const amp = (b.amount || 1) * (0.012 + Math.min(air, 3) * 0.05);
-            for (const p of parts) { p.rotation.z = Math.sin(this.t * 2.1 + e.item.x) * amp; p.rotation.x = Math.cos(this.t * 1.7 + e.item.z) * amp * 0.7; }
+            const droop = e.droop || 0; // thirsty plants sag (set by the sim)
+            for (const p of parts) { p.rotation.z = Math.sin(this.t * 2.1 + e.item.x) * amp + droop * 0.18; p.rotation.x = Math.cos(this.t * 1.7 + e.item.z) * amp * 0.7 + droop * 0.32; }
             break;
           }
           case 'cloth': {

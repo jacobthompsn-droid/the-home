@@ -25,6 +25,10 @@ run `node tools/models.mjs validate`, then `node tools/models.mjs manifest`, che
 - `js/environment.js`: sky, sun, seasons, weather
 - `js/climate.js`: thermostat, airflow, heat map
 - `js/physics.js`: physics
+- `js/sim.js`: life sim (needs, chores, mood meters, activities, darts and pool, memories)
+- `js/minigames.js`: the arcade game
+- `js/thumbs.js`: rendered Playbox thumbnails
+- `js/icons.js`: UI icons
 - `js/cameras.js`: dollhouse, blueprint and walk camera modes
 - `js/editor.js`: interaction
 - `js/ui.js`: all panels

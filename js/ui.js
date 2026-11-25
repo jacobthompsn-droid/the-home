@@ -8,12 +8,15 @@ import { SEASONS, WEATHERS } from './environment.js';
 import { newDesign, migrate, USER_COLORS } from './store.js';
 import { isTyping } from './cameras.js';
 import { CONFIG } from './config.js';
+import { icon } from './icons.js';
+import { METERS, CHORES } from './sim.js';
 
 const SEASON_ICON = { spring: '🌸', summer: '☀️', autumn: '🍂', winter: '❄️' };
 const WEATHER_ICON = { clear: '☀️', cloudy: '☁️', rain: '🌧️', storm: '⛈️', snow: '🌨️', fog: '🌫️' };
 const fmtHour = (hr) => { const H = Math.floor(hr) % 24, M = Math.floor((hr % 1) * 60); return `${((H + 11) % 12) + 1}:${String(M).padStart(2, '0')} ${H < 12 ? 'AM' : 'PM'}`; };
 const ago = (t) => { const s = (Date.now() - t) / 1000; return s < 60 ? 'just now' : s < 3600 ? `${Math.floor(s / 60)}m ago` : s < 86400 ? `${Math.floor(s / 3600)}h ago` : `${Math.floor(s / 86400)}d ago`; };
 const $ = (id) => document.getElementById(id);
+const ico = (n, sz) => icon(n, sz);
 const add = (el, ...kids) => el.append(...kids.flat(Infinity).filter((k) => k != null && k !== false));
 
 export class UI {
@@ -37,35 +40,38 @@ export class UI {
   // ================================================================ top bar
   buildTop() {
     const bar = $('topbar');
-    const modeBtn = (mode, icon, label, key) => h('button.seg', { dataset: { mode }, title: `${label} (${key})`, onclick: () => this.app.setMode(mode) }, icon, h('span', {}, label));
-    this.nameInput = h('input.design-name', { value: '', onchange: (e) => this.store.commit('Renamed design', (d) => { d.name = e.target.value || 'Our Home'; }) });
-    const menu = (label, items) => {
-      const m = h('div.menu', {}, items.map(([t, fn]) => t === '-' ? h('hr') : h('button', { onclick: () => { m.classList.remove('open'); fn(); } }, t)));
-      return h('div.menu-wrap', {}, h('button.btn', { onclick: (e) => { e.stopPropagation(); document.querySelectorAll('.menu').forEach((x) => x !== m && x.classList.remove('open')); m.classList.toggle('open'); } }, label), m);
+    const modeBtn = (mode, ic, label, key) => h('button.seg', { dataset: { mode }, title: `${label} (${key})`, onclick: () => this.app.setMode(mode) }, ico(ic, 16), h('span', {}, label));
+    this.nameInput = h('input.design-name', { value: '', title: 'Rename this design', onchange: (e) => this.store.commit('Renamed design', (d) => { d.name = e.target.value || 'Our Home'; }) });
+    const menu = (content, items) => {
+      const m = h('div.menu', {}, items.map(([ic, t, fn]) => t === '-' ? h('hr') : h('button', { onclick: () => { m.classList.remove('open'); fn(); } }, ico(ic, 15), h('span', {}, t))));
+      return h('div.menu-wrap', {}, h('button.btn', { onclick: (e) => { e.stopPropagation(); document.querySelectorAll('.menu').forEach((x) => x !== m && x.classList.remove('open')); m.classList.toggle('open'); } }, ...content), m);
     };
+    const iconBtn = (ic, title, fn) => h('button.btn.icon', { title, onclick: fn }, ico(ic, 17));
     this.userChip = h('button.user-chip', { onclick: () => this.settings() });
-    this.liveBtn = h('button.btn.live-btn', { onclick: () => this.liveModal() }, '💞 Live');
+    this.liveBtn = h('button.btn.live-btn', { onclick: () => this.liveModal() }, ico('users', 16), h('span', {}, 'Live'));
     bar.append(
-      h('div.brand', {}, h('span.logo', {}, '🏡'), h('b', {}, CONFIG.appName)),
+      h('div.brand', {}, h('div.logo-mark', {}, ico('house', 18)), h('b', {}, CONFIG.appName)),
+      h('div.divider'),
       this.nameInput,
-      h('div.segs', {}, modeBtn('orbit', '🏠', 'Dollhouse', '1'), modeBtn('plan', '📐', 'Blueprint', '2'), modeBtn('walk', '🚶', 'Walk', '3')),
-      this.cutBtn = h('button.btn.icon', { title: 'Cutaway walls', onclick: () => { this.app.setCutaway(!this.app.cutawayOn); this.cutBtn.classList.toggle('on', this.app.cutawayOn); } }, '✂️'),
-      h('button.btn.icon', { title: 'Undo (Ctrl+Z)', onclick: () => this.store.undo() }, '↶'),
-      h('button.btn.icon', { title: 'Redo (Ctrl+Shift+Z)', onclick: () => this.store.redo() }, '↷'),
+      h('div.segs', {}, modeBtn('orbit', 'house', 'Dollhouse', '1'), modeBtn('plan', 'map', 'Blueprint', '2'), modeBtn('walk', 'walk', 'Walk', '3')),
+      h('div.tool-group', {},
+        this.cutBtn = h('button.btn.icon', { title: 'Cutaway walls', onclick: () => { this.app.setCutaway(!this.app.cutawayOn); this.cutBtn.classList.toggle('on', this.app.cutawayOn); } }, ico('scissors', 17)),
+        iconBtn('undo', 'Undo (Ctrl+Z)', () => this.store.undo()),
+        iconBtn('redo', 'Redo (Ctrl+Shift+Z)', () => this.store.redo()),
+        iconBtn('camera', 'Screenshot', () => this.app.screenshot())),
       h('div.spacer'),
-      menu('💾 Designs ▾', [
-        ['💾 Save in this browser', () => { this.store.saveAs(); this.toast('Saved in this browser ✓'); }],
-        ['☁️ Save to our GitHub repo', () => this.saveToRepo()],
-        ['📂 Open a design…', () => this.designsModal()],
-        ['✨ New design…', () => this.wizard()],
-        ['-'],
-        ['⬇️ Export .json', () => download(`${slug(this.d.name)}.json`, JSON.stringify(this.d, null, 1))],
-        ['⬆️ Import .json', () => this.importDesign()],
-        ['📸 Screenshot', () => this.app.screenshot()],
-        ['-'],
-        ['⚙️ Settings', () => this.settings()],
+      menu([ico('folder', 16), h('span', {}, 'Designs'), ico('chevron', 14)], [
+        ['download', 'Save in this browser', () => { this.store.saveAs(); this.toast('Saved in this browser ✓'); }],
+        ['upload', 'Save to our GitHub repo', () => this.saveToRepo()],
+        ['folder', 'Open a design…', () => this.designsModal()],
+        ['sparkles', 'New design…', () => this.wizard()],
+        ['-', '-'],
+        ['download', 'Export .json', () => download(`${slug(this.d.name)}.json`, JSON.stringify(this.d, null, 1))],
+        ['upload', 'Import .json', () => this.importDesign()],
+        ['-', '-'],
+        ['sliders', 'Settings', () => this.settings()],
       ]),
-      h('button.btn', { onclick: () => this.shareModal() }, '🔗 Share'),
+      h('button.btn', { onclick: () => this.shareModal() }, ico('link', 16), h('span', {}, 'Share')),
       this.liveBtn, this.userChip,
     );
   }
@@ -73,22 +79,22 @@ export class UI {
   // ================================================================ left panel
   buildLeft() {
     const p = $('left');
-    const tabs = [['playbox', '🧸 Playbox'], ['home', '🏠 Home'], ['views', '🎥 Views'], ['activity', '💬 Activity']];
-    this.leftTabs = h('div.tabs', {}, tabs.map(([id, t]) => h('button', { dataset: { tab: id }, onclick: () => { this.leftTab = id; this.renderLeft(); } }, t)));
+    const tabs = [['playbox', 'box', 'Playbox'], ['life', 'sprout', 'Life'], ['home', 'palette', 'Home'], ['views', 'video', 'Views'], ['activity', 'history', 'Log']];
+    this.leftTabs = h('div.tabs', {}, tabs.map(([id, ic, t]) => h('button', { dataset: { tab: id }, title: t, onclick: () => { this.leftTab = id; this.renderLeft(); } }, ico(ic, 16), h('span', {}, t))));
     this.leftBody = h('div.panel-body');
     p.append(h('button.collapse', { title: 'Hide panel', onclick: () => p.classList.toggle('collapsed') }, '⟨'), this.leftTabs, this.leftBody);
   }
   renderLeft() {
     this.leftTabs.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.tab === this.leftTab));
     const body = this.leftBody; body.innerHTML = '';
-    ({ playbox: () => this.renderPlaybox(body), home: () => this.renderHome(body), views: () => this.renderViews(body), activity: () => this.renderActivity(body) })[this.leftTab]();
+    ({ playbox: () => this.renderPlaybox(body), life: () => this.renderLife(body), home: () => this.renderHome(body), views: () => this.renderViews(body), activity: () => this.renderActivity(body) })[this.leftTab]();
   }
   refreshPlaybox() { if (this.leftTab === 'playbox') this.renderLeft(); }
 
   renderPlaybox(body) {
     const lib = this.app.library;
     const all = lib.list();
-    const search = h('input.search', { placeholder: 'Search the Playbox…', value: this.q, oninput: (e) => { this.q = e.target.value; draw(); } });
+    const search = h('label.search', {}, ico('search', 15), h('input', { placeholder: 'Search the Playbox…', value: this.q, oninput: (e) => { this.q = e.target.value; draw(); } }));
     const hasCustom = all.some((m) => m.collection !== 'Built-in');
     const cats = ['all', ...(hasCustom ? ['custom'] : []), ...CATEGORIES.filter((c) => all.some((m) => m.category === c))];
     const chips = h('div.chips', {}, cats.map((c) => h('button.chip', { className: 'chip' + (this.cat === c ? ' on' : ''), onclick: () => { this.cat = c; this.renderLeft(); } }, c === 'all' ? 'All' : c === 'custom' ? '⭐ From photos' : CATEGORY_LABELS[c])));
@@ -106,15 +112,91 @@ export class UI {
           ondragend: () => { this.app.editor.dragModelId = null; if (this.app.editor.placing?.fromDrag) this.app.editor.cancelPlacing(); },
           onclick: () => { if (this.app.cameras.mode === 'walk') this.app.setMode('orbit'); this.app.editor.startPlacing(m.id); },
         },
-        h('div.card-icon', {}, m.icon), h('div.card-name', {}, m.name), h('div.card-price', {}, m.price ? fmtMoney(m.price) : ''),
+        this.thumbFor(m), h('div.card-name', {}, m.name), h('div.card-price', {}, m.price ? fmtMoney(m.price) : ''),
         m.collection !== 'Built-in' ? h('span.badge', {}, m.local ? 'local' : 'new') : null));
       }
     };
     draw();
     add(body, search, chips, grid,
       h('div.add-model', {},
-        h('button.btn.primary.wide', { onclick: () => this.importModelModal() }, '📷 Add a model from a photo'),
+        h('button.btn.primary.wide', { onclick: () => this.importModelModal() }, ico('image', 16), h('span', {}, 'Add a model from a photo')),
         h('p.tiny', {}, 'Drag any card into the home. Everything you add drops with gravity onto the floor, a table, a shelf or a wall.')));
+  }
+
+  // Real rendered 3D thumbnail (falls back to the emoji until it's ready)
+  thumbFor(m) {
+    const box = h('div.card-thumb', {}, h('span.card-emoji', {}, m.icon));
+    const model = this.app.library.get(m.id); if (!model) return box;
+    const put = (url) => { if (!url) return; box.innerHTML = ''; box.append(h('img', { src: url, alt: '', draggable: false })); };
+    const url = this.app.thumbs.get(model, this.app.style, put);
+    if (url) put(url);
+    return box;
+  }
+
+  // ================================================================ life (sim)
+  renderLife(body) {
+    const sim = this.app.sim;
+    const hap = sim.happiness(), pct = Math.round(hap * 100);
+    const mood = hap > 0.8 ? 'Thriving' : hap > 0.6 ? 'Happy & cozy' : hap > 0.4 ? 'Could use some love' : 'Needs attention';
+    const ring = h('div.ring', { style: { '--p': pct } }, h('div', {}, h('b', {}, `${pct}%`), h('span', {}, 'happy')));
+    const meters = h('div.meters', {}, METERS.map((m) => {
+      const v = sim.meter(m.id);
+      return h('div.meter', {}, h('span', {}, `${m.icon} ${m.name}`), h('i', {}, h('em', { style: { width: `${Math.round(v * 100)}%`, background: v < 0.3 ? 'var(--danger)' : v < 0.6 ? 'var(--warn)' : 'var(--ok)' } })));
+    }));
+    const tasks = sim.tasks();
+    const choreDef = (t) => t.kind === 'water' ? { id: 'water', ...CHORES.water, chore: true, name: 'Water the plant' } : { id: t.kind, ...CHORES[t.kind], chore: true };
+    const taskList = tasks.length ? h('div.task-list', {}, tasks.map((t) => h('div.task', {},
+      h('span.task-ic', {}, t.icon), h('div', {}, h('b', {}, t.label), h('span', {}, t.sub)),
+      h('button.btn.small.primary', { onclick: () => sim.goTo(t.id, choreDef(t)) }, 'Go', ico('arrow', 13)))))
+      : h('div.all-good', {}, '✨ Everything’s taken care of.');
+    const acts = h('div.act-grid', {}, sim.available().map(({ a, e }) => h('button.act', {
+      className: 'act' + (e ? '' : ' off'), title: e ? a.blurb : `Add a ${a.models[0].replace(/-/g, ' ')} from the Playbox to unlock`,
+      onclick: () => e ? sim.goTo(e.item.id, a) : this.toast(`Add a ${a.models[0].replace(/-/g, ' ')} from the Playbox to unlock ${a.name}`),
+    }, h('span.act-ic', {}, a.icon), h('b', {}, a.name), h('span', {}, e ? (sim.s.scores[a.id] ? `best ${sim.s.scores[a.id]}` : a.blurb) : '🔒 needs furniture'))));
+    const mems = sim.s.memories.slice(0, 24);
+    const journal = mems.length ? h('div.journal', {}, mems.map((m) => {
+      const th = sim.thumb(m.id);
+      return h('div.memory', {}, th ? h('img', { src: th, alt: '' }) : h('div.mem-ic', {}, m.icon),
+        h('div', {}, h('b', {}, `${m.icon} ${m.title}`), h('span', {}, `${(m.who || []).join(' & ')}${m.room ? ' · ' + m.room : ''} · ${ago(m.at)}`)));
+    })) : h('p.muted', {}, 'Do an activity and it’s saved here with a snapshot of the moment.');
+    const pace = h('select', { onchange: (e) => this.store.commit('Changed life pace', (dd) => { dd.sim.pace = +e.target.value; }) },
+      [[1, 'Real time — plants need water every few days'], [6, 'Quick — 6× faster'], [48, 'Demo — 48× faster']].map(([v, t]) => h('option', { value: v, selected: (sim.s.pace || 1) === v }, t)));
+    add(body,
+      h('div.life-hero', {}, ring, h('div.life-meters', {}, h('b.mood', {}, mood), meters)),
+      h('section', {}, h('h4', {}, `Needs attention${tasks.length ? ` · ${tasks.length}` : ''}`), taskList),
+      h('section', {}, h('h4', {}, 'Things to do'), acts, h('p.tiny', {}, 'In walk mode, look at something and press E to use it or Q for an activity. Activities during a Live session count double for Together.')),
+      h('section', {}, h('h4', {}, 'Memories'), journal),
+      h('section', {}, h('h4', {}, 'Pace of life'), pace));
+  }
+  refreshLife() { if (this.leftTab === 'life') this.renderLeft(); }
+
+  welcomeBack({ away, tasks, since, mems }) {
+    const days = away / 86400000, when = days >= 1 ? `${Math.floor(days)} day${days >= 2 ? 's' : ''}` : `${Math.round(away / 3600000)} hours`;
+    const m = this.modal(`Welcome home, ${this.store.user?.name} 🏡`,
+      h('p', {}, `You’ve been away ${when}. Here’s what happened while you were gone:`),
+      tasks.length ? h('div.task-list', {}, tasks.slice(0, 6).map((t) => h('div.task', {}, h('span.task-ic', {}, t.icon), h('div', {}, h('b', {}, t.label), h('span', {}, t.sub))))) : null,
+      since.length ? h('section', {}, h('h4', {}, 'Meanwhile'), h('div.log', {}, since.slice(0, 8).map((l) => h('div.log-row', {}, h('b', { style: { color: this.colorFor(l.who) } }, l.who), ' ', l.what, h('em', {}, ago(l.at)))))) : null,
+      mems.length ? h('p', {}, `📸 ${mems.length} new memor${mems.length > 1 ? 'ies' : 'y'} in the journal.`) : null,
+      h('div.btn-row', {}, h('button.btn.primary', { onclick: () => { m.close(); this.leftTab = 'life'; this.renderLeft(); } }, 'See what needs doing'), h('button.btn', { onclick: () => m.close() }, 'Later')));
+  }
+
+  // Activity progress pill (bottom center)
+  updateActivity(A) {
+    const el = $('activity');
+    if (!A) { el.classList.remove('on'); this.actKey = null; return; }
+    const key = A.def.id + A.e.item.id;
+    if (this.actKey !== key) {
+      this.actKey = key; el.innerHTML = '';
+      el.append(h('span.act-ic', {}, A.def.icon), h('div.act-txt', {}, h('b', {}, A.def.name), this.actSub = h('span', {}, '')),
+        h('div.act-bar', {}, this.actBar = h('i')), h('button.icon-btn', { title: 'Stop', onclick: () => this.app.sim.cancel() }, ico('x', 16)));
+      el.classList.add('on');
+    }
+    const p = A.def.game ? null : Math.min(1, A.t / A.dur);
+    this.actBar.style.width = p == null ? '100%' : `${p * 100}%`;
+    this.actBar.parentElement.classList.toggle('game', p == null);
+    const D = this.app.sim.darts;
+    const sub = D ? `${D.left} dart${D.left === 1 ? '' : 's'} left · ${D.score} pts` : p == null ? 'playing…' : A.def.seat ? 'look around · WASD to get up' : `${Math.ceil(A.dur - A.t)}s`;
+    if (this.actSub.textContent !== sub) this.actSub.textContent = sub;
   }
 
   renderHome(body) {
@@ -207,7 +289,7 @@ export class UI {
   // ================================================================ right panel
   buildRight() {
     const p = $('right');
-    this.rightTabs = h('div.tabs', {}, [['inspect', '🔍 Inspect'], ['climate', '🌦️ Climate']].map(([id, t]) => h('button', { dataset: { tab: id }, onclick: () => { this.rightTab = id; this.renderRight(); } }, t)));
+    this.rightTabs = h('div.tabs', {}, [['inspect', 'pointer', 'Inspect'], ['climate', 'cloudsun', 'Climate']].map(([id, ic, t]) => h('button', { dataset: { tab: id }, onclick: () => { this.rightTab = id; this.renderRight(); } }, ico(ic, 16), h('span', {}, t))));
     this.rightBody = h('div.panel-body');
     p.append(h('button.collapse', { title: 'Hide panel', onclick: () => p.classList.toggle('collapsed') }, '⟩'), this.rightTabs, this.rightBody);
   }
@@ -390,33 +472,46 @@ export class UI {
   tick(dt) {
     this.hudT -= dt;
     if (this.hudT > 0) return;
-    this.hudT = 0.4;
-    const app = this.app, d = this.d, env = d.env, c = app.climate, u = d.settings.units;
+    this.hudT = 0.5;
+    const app = this.app, d = this.d, env = d.env, c = app.climate, u = d.settings.units, sim = app.sim;
     const night = app.env.daylight < 0.3;
     let total = 0; for (const it of d.items) total += it.price ?? app.library.get(it.model)?.price ?? 0;
+    const hap = sim.happiness(), tasks = sim.tasks().length;
     this.hud.innerHTML = '';
-    this.hud.append(...[
-      h('div.hud-group', {}, h('b', {}, fmtHour(env.hour)), ` ${SEASON_ICON[env.season]} ${env.weather === 'clear' && night ? '🌙' : WEATHER_ICON[env.weather]} ${env.weather}${env.live ? ' · live' : ''}`),
-      h('div.hud-group', {}, `🌡️ Out ${fmtTemp(app.env.outdoorTemp ?? 70, u)} · In ${fmtTemp(c.Tin, u)}`, h('span.chip-s', { className: 'chip-s ' + (c.hvacMode || 'idle') }, c.hvacMode === 'cool' ? '❄️ cooling' : c.hvacMode === 'heat' ? '🔥 heating' : 'idle')),
+    add(this.hud,
+      h('div.pill', {}, h('span.big-emoji', {}, env.weather === 'clear' && night ? '🌙' : WEATHER_ICON[env.weather]), h('div.stack', {}, h('b', {}, fmtHour(env.hour)), h('span', {}, `${SEASON_ICON[env.season]} ${env.season} · ${env.weather}${env.live ? ' · live' : ''}`))),
+      h('div.pill', {}, ico('thermo', 16), h('div.stack', {}, h('b', {}, `${fmtTemp(c.Tin, u)} inside`), h('span', {}, `${fmtTemp(app.env.outdoorTemp ?? 70, u)} outside`)), h('span.chip-s', { className: 'chip-s ' + (c.hvacMode || 'idle') }, c.hvacMode === 'cool' ? '❄ cooling' : c.hvacMode === 'heat' ? '🔥 heating' : 'idle')),
       h('div.spacer'),
-      h('div.hud-group', {}, `💰 ${fmtMoney(total)} · ${d.items.length} items`),
-      this.app.live.active ? h('div.hud-group.live', {}, `💞 Live ${this.app.live.code} · ${this.app.live.count + 1} here`) : null,
-    ].filter(Boolean));
+      h('button.pill.life-pill', { title: 'Home life — needs & activities', onclick: () => { this.leftTab = 'life'; $('left').classList.remove('collapsed'); this.renderLeft(); } },
+        h('div.mini-ring', { style: { '--p': Math.round(hap * 100) } }),
+        h('div.stack', {}, h('b', {}, `${Math.round(hap * 100)}% happy`), h('span', {}, tasks ? `${tasks} thing${tasks > 1 ? 's' : ''} need${tasks > 1 ? '' : 's'} you` : 'all cared for ✨')),
+        h('div.mini-meters', {}, METERS.map((m) => { const v = sim.meter(m.id); return h('i', { title: `${m.name} ${Math.round(v * 100)}%`, style: { height: `${Math.max(12, v * 100)}%`, background: v < 0.3 ? 'var(--danger)' : v < 0.6 ? 'var(--warn)' : 'var(--ok)' } }); }))),
+      h('div.spacer'),
+      h('div.pill', {}, ico('wallet', 16), h('div.stack', {}, h('b', {}, fmtMoney(total)), h('span', {}, `${d.items.length} items`))),
+      app.live.active ? h('div.pill.live', {}, ico('users', 16), h('div.stack', {}, h('b', {}, `Live · ${app.live.code}`), h('span', {}, `${app.live.count + 1} here`))) : null,
+    );
     if (this.timeInput?.isConnected && document.activeElement !== this.timeInput) { this.timeInput.value = env.hour; this.timeLbl.textContent = fmtHour(env.hour); }
     this.updateReadouts();
+    if (this.leftTab === 'life' && !this.leftBody.matches(':hover')) { this.lifeT = (this.lifeT || 0) - 1; if (this.lifeT <= 0) { this.lifeT = 12; this.renderLeft(); } }
   }
   buildWalk() {
+    // on-screen buttons for touch devices
+    const key = (code, down) => dispatchEvent(new KeyboardEvent(down ? 'keydown' : 'keyup', { code, key: code }));
+    const tb = (label, code, hold) => h('button.tbtn', hold
+      ? { onpointerdown: (e) => { e.preventDefault(); this.app.cameras.keys.add(code); }, onpointerup: () => this.app.cameras.keys.delete(code), onpointerleave: () => this.app.cameras.keys.delete(code) }
+      : { onpointerdown: (e) => { e.preventDefault(); key(code, true); key(code, false); } }, label);
+    document.body.append(h('div#touch-ui', {}, tb('Use', 'KeyE'), tb('Do', 'KeyQ'), tb('Grab', 'KeyG'), tb('Jump', 'Space', true), h('button.tbtn.exit', { onclick: () => this.app.setMode('orbit') }, '✕')));
     const o = $('walk-overlay');
     o.append(h('div.walk-card', {},
       h('h2', {}, '🚶 Walk through The Home'),
       h('div.walk-keys', {},
-        ...[['W A S D', 'move'], ['Shift', 'run'], ['Space', 'jump'], ['Mouse', 'look'], ['E', 'open doors & windows / switch things on'], ['G', 'grab a physics object'], ['Click', 'push / throw'], ['B', 'throw a ball'], ['F', 'flashlight'], ['Esc', 'pause · 1 / 2 to leave']]
+        ...[['W A S D', 'move'], ['Shift', 'run'], ['Space', 'jump'], ['Mouse', 'look'], ['E', 'use: doors, windows, lights, water plants, chores'], ['Q', 'activity: movie night, darts, guitar, cook…'], ['G', 'grab a physics object'], ['Click', 'push / throw'], ['B', 'throw a ball'], ['F', 'flashlight'], ['Esc', 'pause · 1 / 2 to leave']]
           .map(([k, t]) => h('div', {}, h('kbd', {}, k), h('span', {}, t)))),
       h('button.btn.primary.wide', { onclick: () => this.app.cameras.lock.lock() }, 'Click to start walking'),
       h('button.btn.wide', { onclick: () => this.app.setMode('orbit') }, 'Back to dollhouse')));
   }
   setWalkHint(t) { const el = $('walk-hint'); if (el.textContent !== t) el.textContent = t; }
-  onLock() { document.body.classList.toggle('locked', this.app.cameras.lock.isLocked); }
+  onLock() { document.body.classList.toggle('locked', this.app.cameras.walking); }
   onMode() {
     document.querySelectorAll('#topbar .seg').forEach((b) => b.classList.toggle('on', b.dataset.mode === this.app.cameras.mode));
     this.onLock();
@@ -489,7 +584,7 @@ export class UI {
     const m = this.modal('⚙️ Settings',
       h('label.field', {}, 'Your name', name), colors,
       h('label.field', {}, 'Units', h('select', { onchange: (e) => this.store.commit('Changed units', (d) => { d.settings.units = e.target.value; }) }, h('option', { value: 'imperial', selected: this.d.settings.units !== 'metric' }, 'Feet & °F'), h('option', { value: 'metric', selected: this.d.settings.units === 'metric' }, 'Meters & °C'))),
-      h('label.field', {}, 'Graphics', h('select', { onchange: (e) => this.app.setQuality(e.target.value) }, h('option', { value: 'high', selected: this.app.quality === 'high' }, 'High (sharp shadows)'), h('option', { value: 'low', selected: this.app.quality === 'low' }, 'Low (faster on laptops)'))),
+      h('label.field', {}, 'Graphics', h('select', { onchange: (e) => this.app.setQuality(e.target.value) }, [['ultra', 'Ultra (sharpest, soft shadows, glow)'], ['high', 'High (ambient occlusion + glow)'], ['medium', 'Medium (glow only)'], ['low', 'Low (fastest)']].map(([v, t]) => h('option', { value: v, selected: this.app.quality === v }, t)))),
       h('hr'),
       h('h4', {}, 'GitHub repo (for saving designs & publishing models)'),
       h('label.field', {}, 'Repository', repo),

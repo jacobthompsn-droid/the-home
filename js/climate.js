@@ -1,7 +1,7 @@
 // Indoor climate: thermostat + AC/heat, fans, open windows letting the wind in,
 // visible airflow particles and a thermal heat-map on the floor.
 import * as THREE from 'three';
-import { clamp, lerp } from './util.js';
+import { clamp, lerp, fxLayer } from './util.js';
 import { spriteTexture } from './textures.js';
 
 const N = 1600;
@@ -17,7 +17,7 @@ export class Climate {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(this.pos, 3)); g.setAttribute('color', new THREE.BufferAttribute(this.col, 3));
     this.points = new THREE.Points(g, new THREE.PointsMaterial({ size: 0.035, map: spriteTexture('dot'), vertexColors: true, transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending }));
-    this.points.frustumCulled = false; scene.add(this.points);
+    this.points.frustumCulled = false; scene.add(fxLayer(this.points));
     this.cursor = 0; this.heatTimer = 0;
   }
 
@@ -31,7 +31,7 @@ export class Climate {
     this.heatTex = new THREE.CanvasTexture(this.canvas); this.heatTex.colorSpace = THREE.SRGBColorSpace; this.heatTex.magFilter = THREE.LinearFilter;
     this.heat = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: this.heatTex, transparent: true, depthWrite: false, opacity: 0.85 }));
     this.heat.rotation.x = -Math.PI / 2; this.heat.position.set(b.minX + w / 2, 0.03, b.minZ + d / 2); this.heat.renderOrder = 2;
-    this.heat.visible = this.showHeat; this.scene.add(this.heat);
+    this.heat.visible = this.showHeat; this.scene.add(fxLayer(this.heat));
   }
 
   // Gather everything that moves air: devices from items + open windows/doors.

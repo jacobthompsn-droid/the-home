@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { Sky } from 'three/addons/objects/Sky.js';
 import { CONFIG } from './config.js';
-import { clamp, lerp, smoothstep, seeded, rad } from './util.js';
+import { clamp, lerp, smoothstep, seeded, rad, fxLayer } from './util.js';
 import { groundTexture, facadeTexture, spriteTexture } from './textures.js';
 
 export const SEASONS = ['spring', 'summer', 'autumn', 'winter'];
@@ -107,6 +107,7 @@ export class Environment {
     this.snow = new THREE.Points(ng, new THREE.PointsMaterial({ map: spriteTexture('snow'), size: 0.09, transparent: true, depthWrite: false, opacity: 0.95 }));
     this.snow.frustumCulled = false; this.group.add(this.snow);
     this.rand = seeded(5);
+    [this.sky, this.overcast, this.stars, this.moon, this.clouds, this.rain, this.snow].forEach(fxLayer);
   }
 
   // Build the neighborhood around the apartment (call after apartment.build)

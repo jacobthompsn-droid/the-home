@@ -92,5 +92,6 @@ export function migrate(d) {
   d.env = { season: 'summer', hour: 16.5, weather: 'clear', wind: 0.25, windDir: 300, timeSpeed: 0, live: false, level: 6, ...(d.env || {}) };
   d.climate = { mode: 'auto', set: 71, ...(d.climate || {}) };
   d.settings = { autoLights: true, units: 'imperial', ...(d.settings || {}) };
+  d.sim ||= {};
   return d;
 }

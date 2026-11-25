@@ -98,6 +98,13 @@ wall items snap to walls; ceiling items hang from the ceiling; `dynamic` items a
 **Every part needs a unique-ish `name`** — users can recolor, change finish, or hide each part in the
 inspector by name ("Edit every part"). Name parts like a person would: `seat-cushion-1`, `left-arm`, `shade`.
 
+## Life-sim hooks
+
+- Add `"plant"` to `tags` and the item becomes a living plant that needs watering. Group its leaves in a part named
+  `foliage` so they can brown and droop. Optional `"thirstDays": 5` sets how many days it lasts between waterings.
+- Activities attach by model id (see `ACTIVITIES` in `js/sim.js`). To give a new model an activity, add its id to
+  that activity's `models` list.
+
 ## Tips for good results
 
 - Match proportions first, details second. Round edges (`roundedBox`) make soft goods look real.
