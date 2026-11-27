@@ -1,0 +1,725 @@
+{
+ "app": "the-home",
+ "version": 1,
+ "id": "ve2udx6",
+ "name": "Jacob's Pierce St Flats #204",
+ "blueprint": "pierce-204",
+ "style": "modern",
+ "structure": {
+  "floors": {
+   "Dining": "whiteoak",
+   "Living Room": "whiteoak"
+  },
+  "wallColors": {},
+  "wallFinishes": {},
+  "openState": {
+   "w10o0": true,
+   "w5o1": false,
+   "w5o0": true,
+   "w8o0": true,
+   "w0o0": true,
+   "w1o1": false,
+   "w2o1": true,
+   "w4o0": false
+  }
+ },
+ "items": [
+  {
+   "id": "ufrhqk8",
+   "model": "dining-table",
+   "x": 6.1000000000000005,
+   "y": 0,
+   "z": 9.850000000000001,
+   "rot": 90,
+   "addedBy": "Jacob",
+   "scale": [
+    1.35,
+    1,
+    1.6
+   ]
+  },
+  {
+   "id": "cffh51w",
+   "model": "scallop-accent-chair",
+   "x": 6.95,
+   "y": 0,
+   "z": 1.9000000000000001,
+   "rot": 5,
+   "addedBy": "Jacob",
+   "parts": {
+    "seat-base": {
+     "color": "#dbbdda"
+    },
+    "seat-cushion": {
+     "color": "#dbbdd9"
+    },
+    "seat-welt": {
+     "color": "#dbbdd6"
+    },
+    "petal-left-outer": {
+     "color": "#dbbdd9"
+    },
+    "petal-left-outer-top": {
+     "color": "#ff7ae2"
+    },
+    "petal-right-outer": {
+     "color": "#ff7ae2"
+    }
+   }
+  },
+  {
+   "id": "d72z2jh",
+   "model": "desk",
+   "x": 6.3500000000000005,
+   "y": 0,
+   "z": 2.35,
+   "rot": 0,
+   "addedBy": "Jacob",
+   "scale": [
+    1.55,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "rj11gwa",
+   "model": "mini-split",
+   "x": 4.0729999999999995,
+   "y": 2.6,
+   "z": 5.1000000000000005,
+   "rot": 90,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "u31ygyu",
+   "model": "tv-console",
+   "x": 2.3000000000000003,
+   "y": 0,
+   "z": 6.800000000000001,
+   "rot": 0,
+   "addedBy": "Amaya",
+   "scale": [
+    1.5,
+    1.45,
+    1
+   ],
+   "state": {
+    "on": true
+   }
+  },
+  {
+   "id": "nx24nfq",
+   "model": "coffee-table",
+   "x": 1.6500000000000001,
+   "y": 0,
+   "z": 9.25,
+   "rot": 0,
+   "addedBy": "Amaya"
+  },
+  {
+   "id": "tmzr8lj",
+   "model": "curtains",
+   "x": 0.17300000000000001,
+   "y": 0.02,
+   "z": 9.25,
+   "rot": 90,
+   "addedBy": "Amaya"
+  },
+  {
+   "id": "7u2cw30",
+   "model": "plant-fiddle",
+   "x": 0.55,
+   "y": 0,
+   "z": 6.7,
+   "rot": 0,
+   "addedBy": "Amaya"
+  },
+  {
+   "id": "r6wq54d",
+   "model": "floor-lamp",
+   "x": 3.85,
+   "y": 0,
+   "z": 6.75,
+   "rot": 0,
+   "addedBy": "Amaya"
+  },
+  {
+   "id": "uue1t9o",
+   "model": "sectional-l",
+   "x": 2.2,
+   "y": 0,
+   "z": 10.100000000000001,
+   "rot": 180,
+   "addedBy": "Amaya"
+  },
+  {
+   "id": "dk7cpbw",
+   "model": "vanity",
+   "x": 3.6,
+   "y": 0,
+   "z": 4.75,
+   "rot": 270,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "d071wjs",
+   "model": "bathtub",
+   "x": 3.1,
+   "y": 0,
+   "z": 5.75,
+   "rot": 180,
+   "addedBy": "Jacob",
+   "scale": [
+    0.9,
+    1,
+    0.95
+   ]
+  },
+  {
+   "id": "wd0t3lg",
+   "model": "toilet",
+   "x": 2,
+   "y": 0,
+   "z": 5.7,
+   "rot": 180,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "vd06ec4",
+   "model": "wardrobe",
+   "x": 0.7000000000000001,
+   "y": 0,
+   "z": 5.95,
+   "rot": 180,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "3h2pppa",
+   "model": "bed-queen",
+   "x": 1.1,
+   "y": 0,
+   "z": 1.25,
+   "rot": 0,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "v9i17vd",
+   "model": "stove-range",
+   "x": 7.3500000000000005,
+   "y": 0,
+   "z": 6.9,
+   "rot": 270,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "t4ef1q6",
+   "model": "fridge",
+   "x": 5.8500000000000005,
+   "y": 0,
+   "z": 4.75,
+   "rot": 0,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "df54wud",
+   "model": "kitchen-counter",
+   "x": 7.3500000000000005,
+   "y": 0,
+   "z": 5.8500000000000005,
+   "rot": 270,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "1rber2c",
+   "model": "kitchen-island",
+   "x": 5.95,
+   "y": 0,
+   "z": 6.45,
+   "rot": 90,
+   "addedBy": "Jacob",
+   "scale": [
+    0.75,
+    1,
+    1.05
+   ]
+  },
+  {
+   "id": "i2wh4he",
+   "model": "curtains",
+   "x": 7.627,
+   "y": 0.02,
+   "z": 9.713,
+   "rot": -90,
+   "addedBy": "Amaya"
+  },
+  {
+   "id": "6rnoms9",
+   "model": "washer",
+   "x": 6.2,
+   "y": 0,
+   "z": 3.6500000000000004,
+   "rot": 270,
+   "addedBy": "Jacob"
+  },
+  {
+   "id": "d7yxmmq",
+   "model": "dryer",
+   "x": 6.25,
+   "y": 0,
+   "z": 3.65,
+   "rot": 270,
+   "addedBy": "Jacob",
+   "notes": "ONE ON top of the other"
+  }
+ ],
+ "cameras": [],
+ "env": {
+  "season": "summer",
+  "hour": 7,
+  "weather": "clear",
+  "wind": 0.8824242893839256,
+  "windDir": 78,
+  "timeSpeed": 0,
+  "live": false,
+  "level": 2
+ },
+ "climate": {
+  "mode": "auto",
+  "set": 71
+ },
+ "settings": {
+  "autoLights": true,
+  "units": "imperial"
+ },
+ "customModels": {},
+ "createdBy": "Jacob",
+ "updatedBy": "Jacob",
+ "updatedAt": 1795758310894,
+ "log": [
+  {
+   "who": "Jacob",
+   "what": "Edited notes",
+   "at": 1795758310894
+  },
+  {
+   "who": "Jacob",
+   "what": "Rotated",
+   "at": 1795758280749
+  },
+  {
+   "who": "Jacob",
+   "what": "Added Dryer",
+   "at": 1795758279325
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Washer",
+   "at": 1795758274293
+  },
+  {
+   "who": "Jacob",
+   "what": "Rotated",
+   "at": 1795758268296
+  },
+  {
+   "who": "Jacob",
+   "what": "Added Washer",
+   "at": 1795758266160
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Floor Lamp",
+   "at": 1795758237596
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved TV + Media Console",
+   "at": 1795758230859
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Fiddle Leaf Fig",
+   "at": 1795758226884
+  },
+  {
+   "who": "Jacob",
+   "what": "🍿 Movie night",
+   "at": 1795758140783
+  },
+  {
+   "who": "Jacob",
+   "what": "🍿 Movie night",
+   "at": 1795758115695
+  },
+  {
+   "who": "Jacob",
+   "what": "Closed door",
+   "at": 1795758084998
+  },
+  {
+   "who": "Amaya",
+   "what": "Opened door",
+   "at": 1795758025108
+  },
+  {
+   "who": "Amaya",
+   "what": "Closed door",
+   "at": 1795758018136
+  },
+  {
+   "who": "Jacob",
+   "what": "Opened door",
+   "at": 1795758015090
+  },
+  {
+   "who": "Jacob",
+   "what": "Opened window",
+   "at": 1795757976574
+  },
+  {
+   "who": "Amaya",
+   "what": "Added Curtains",
+   "at": 1795757962969
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Kitchen Island",
+   "at": 1795757958691
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Kitchen Island",
+   "at": 1795757952589
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Kitchen Island",
+   "at": 1795757950793
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Kitchen Island",
+   "at": 1795757949228
+  },
+  {
+   "who": "Jacob",
+   "what": "Resized Kitchen Island",
+   "at": 1795757946490
+  },
+  {
+   "who": "Jacob",
+   "what": "Resized Kitchen Island",
+   "at": 1795757943158
+  },
+  {
+   "who": "Jacob",
+   "what": "Resized Kitchen Island",
+   "at": 1795757939019
+  },
+  {
+   "who": "Jacob",
+   "what": "Reset size",
+   "at": 1795757936298
+  },
+  {
+   "who": "Jacob",
+   "what": "Resized Kitchen Island",
+   "at": 1795757935528
+  },
+  {
+   "who": "Jacob",
+   "what": "Resized Kitchen Island",
+   "at": 1795757933846
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Kitchen Island",
+   "at": 1795757923302
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Kitchen Island",
+   "at": 1795757915271
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Kitchen Island",
+   "at": 1795757904802
+  },
+  {
+   "who": "Jacob",
+   "what": "Rotated",
+   "at": 1795757901618
+  },
+  {
+   "who": "Jacob",
+   "what": "Added Kitchen Island",
+   "at": 1795757899653
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Counter + Cabinets",
+   "at": 1795757873362
+  },
+  {
+   "who": "Jacob",
+   "what": "Rotated",
+   "at": 1795757867824
+  },
+  {
+   "who": "Jacob",
+   "what": "Added Counter + Cabinets",
+   "at": 1795757866476
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Range + Hood",
+   "at": 1795757860566
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Range + Hood",
+   "at": 1795757853120
+  },
+  {
+   "who": "Jacob",
+   "what": "Rotated",
+   "at": 1795757849330
+  },
+  {
+   "who": "Jacob",
+   "what": "Rotated",
+   "at": 1795757849158
+  },
+  {
+   "who": "Jacob",
+   "what": "Rotated",
+   "at": 1795757847899
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Refrigerator",
+   "at": 1795757845049
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Range + Hood",
+   "at": 1795757840533
+  },
+  {
+   "who": "Jacob",
+   "what": "Added Refrigerator",
+   "at": 1795757837442
+  },
+  {
+   "who": "Amaya",
+   "what": "Closed door",
+   "at": 1795757829494
+  },
+  {
+   "who": "Amaya",
+   "what": "Opened door",
+   "at": 1795757827509
+  },
+  {
+   "who": "Jacob",
+   "what": "Added Range + Hood",
+   "at": 1795757819024
+  },
+  {
+   "who": "Amaya",
+   "what": "Removed Area Rug",
+   "at": 1795757806776
+  },
+  {
+   "who": "Amaya",
+   "what": "Added Area Rug",
+   "at": 1795757805744
+  },
+  {
+   "who": "Jacob",
+   "what": "Closed door",
+   "at": 1795757802190
+  },
+  {
+   "who": "Jacob",
+   "what": "Opened front door",
+   "at": 1795757716961
+  },
+  {
+   "who": "Jacob",
+   "what": "Closed front door",
+   "at": 1795757716811
+  },
+  {
+   "who": "Amaya",
+   "what": "Removed Bathtub",
+   "at": 1795757646604
+  },
+  {
+   "who": "Jacob",
+   "what": "🛁 Bubble bath",
+   "at": 1795757642542
+  },
+  {
+   "who": "Amaya",
+   "what": "Nudged",
+   "at": 1795757640938
+  },
+  {
+   "who": "Amaya",
+   "what": "Nudged",
+   "at": 1795757640805
+  },
+  {
+   "who": "Amaya",
+   "what": "Moved Bathtub",
+   "at": 1795757637324
+  },
+  {
+   "who": "Amaya",
+   "what": "Added Bathtub",
+   "at": 1795757617559
+  },
+  {
+   "who": "Jacob",
+   "what": "Moved Queen Bed",
+   "at": 1795757505913
+  },
+  {
+   "who": "Jacob",
+   "what": "Added Queen Bed",
+   "at": 1795757502841
+  },
+  {
+   "who": "Jacob",
+   "what": "Removed King Bed",
+   "at": 1795757496264
+  }
+ ],
+ "sim": {
+  "plants": {
+   "qe3asgj": 1795675366511,
+   "7u2cw30": 1795675850330
+  },
+  "chores": {
+   "dishes": {
+    "n": 0,
+    "t": 1795625140663
+   },
+   "laundry": {
+    "t": 1795625140663
+   },
+   "bed": {
+    "messy": false,
+    "t": 1795756749638
+   }
+  },
+  "meters": {
+   "fun": {
+    "v": 0.8112263900462964,
+    "t": 1795758140777
+   },
+   "cozy": {
+    "v": 1,
+    "t": 1795758140777
+   },
+   "together": {
+    "v": 1,
+    "t": 1795758140777
+   }
+  },
+  "memories": [
+   {
+    "id": "kllp66e",
+    "act": "movie",
+    "icon": "🍿",
+    "title": "Movie night",
+    "who": [
+     "Jacob",
+     "Amaya"
+    ],
+    "at": 1795758140777,
+    "room": "Living Room"
+   },
+   {
+    "id": "4njhnd2",
+    "act": "movie",
+    "icon": "🍿",
+    "title": "Movie night",
+    "who": [
+     "Jacob",
+     "Amaya"
+    ],
+    "at": 1795758115695,
+    "room": "Living Room"
+   },
+   {
+    "id": "exr7g2f",
+    "act": "bath",
+    "icon": "🛁",
+    "title": "Bubble bath",
+    "who": [
+     "Jacob",
+     "Amaya"
+    ],
+    "at": 1795757642542,
+    "room": "Primary Bath"
+   },
+   {
+    "id": "6uj08az",
+    "act": "sleep",
+    "icon": "😴",
+    "title": "Sleep till morning",
+    "who": [
+     "Amaya",
+     "Jacob"
+    ],
+    "at": 1795629028075,
+    "room": "Primary Bedroom"
+   },
+   {
+    "id": "my78k0a",
+    "act": "sleep",
+    "icon": "😴",
+    "title": "Sleep till morning",
+    "who": [
+     "Jacob",
+     "Amaya"
+    ],
+    "at": 1795629013234,
+    "room": "Primary Bedroom"
+   },
+   {
+    "id": "30e1t3i",
+    "act": "read",
+    "icon": "📚",
+    "title": "Read a book",
+    "who": [
+     "Jacob",
+     "Amaya"
+    ],
+    "at": 1795628579940,
+    "room": "Study"
+   },
+   {
+    "id": "4x3k541",
+    "act": "dinner",
+    "icon": "🕯️",
+    "title": "Candlelit dinner",
+    "who": [
+     "Jacob",
+     "Amaya"
+    ],
+    "at": 1795628322718,
+    "room": "Dining"
+   }
+  ],
+  "scores": {},
+  "visits": {
+   "Jacob": 1795628001124,
+   "Amaya": 1795757509712
+  },
+  "pace": 1
+ }
+}
