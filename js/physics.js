@@ -17,9 +17,7 @@ export class Physics {
     this.structure = []; this.furniture = new Map(); this.openingBodies = new Map(); this.dynamic = new Map(); this.temp = [];
     // player
     this.player = new CANNON.Body({ mass: 70, material: this.playerMat, fixedRotation: true, linearDamping: 0.0, allowSleep: false });
-    this.player.addShape(new CANNON.Sphere(0.28), new CANNON.Vec3(0, 0.28, 0));
-    this.player.addShape(new CANNON.Sphere(0.25), new CANNON.Vec3(0, 0.75, 0));
-    this.player.addShape(new CANNON.Sphere(0.22), new CANNON.Vec3(0, 1.25, 0));
+    this.setPlayerHeight(1.70);
     this.playerActive = false;
   }
 
@@ -98,6 +96,17 @@ export class Physics {
     for (const [id, d] of [...this.dynamic]) if (!seen.has(id)) { this.world.removeBody(d.body); this.dynamic.delete(id); }
   }
   removeFurniture(id) { const f = this.furniture.get(id); if (f) { this.world.removeBody(f.body); this.furniture.delete(id); } }
+
+  // Body sized to the person: a stack of spheres from feet to head (so you can't walk under a 5' shelf
+  // if you're 6' tall), slim enough to fit through a 2'8" door.
+  setPlayerHeight(h) {
+    const p = this.player;
+    while (p.shapes.length) p.removeShape(p.shapes[0]);
+    const r = Math.min(0.26, Math.max(0.2, 0.145 * h));
+    const top = h - r * 0.9, n = Math.max(3, Math.ceil((top - r) / (r * 1.2)) + 1);
+    for (let i = 0; i < n; i++) { const y = r + (top - r) * (i / (n - 1)); p.addShape(new CANNON.Sphere(i === n - 1 ? r * 0.85 : r), new CANNON.Vec3(0, y, 0)); }
+    p.updateMassProperties(); this.playerHeight = h;
+  }
 
   setPlayerActive(on, pos) {
     if (on && !this.playerActive) { this.world.addBody(this.player); }

@@ -3,8 +3,12 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 import { clamp, rad } from './util.js';
+import { DEFAULT_HEIGHT, eyeHeight, clampH } from './avatar.js';
 
-const EYE = 1.62;
+// Walk-mode field of view (vertical degrees). ~60° matches how big things look to your own eyes;
+// wider angles make rooms feel huge and furniture tiny.
+export const DEFAULT_WALK_FOV = 60;
+const LS_FOV = 'thehome.walkFov';
 
 export class Cameras extends EventTarget {
   constructor(canvas, physics) {
@@ -39,6 +43,22 @@ export class Cameras extends EventTarget {
     this.setupTouch(canvas);
     this.setupDragLook(canvas);
     this.speed = 0; this.vel = new THREE.Vector3();
+    this.height = DEFAULT_HEIGHT;
+    let fov = DEFAULT_WALK_FOV; try { fov = +localStorage.getItem(LS_FOV) || DEFAULT_WALK_FOV; } catch {}
+    this.walkFov = clamp(fov, 45, 90);
+  }
+
+  get eye() { return eyeHeight(this.height); }
+  // Your real height: sets eye level and the size of your body in the physics world.
+  setHeight(h) {
+    this.height = clampH(h);
+    this.physics.setPlayerHeight(this.height);
+    if (this.mode === 'walk') this.persp.position.y = (this.physics.player.position.y || 0) + this.eye;
+  }
+  setWalkFov(f) {
+    this.walkFov = clamp(+f || DEFAULT_WALK_FOV, 45, 90);
+    try { localStorage.setItem(LS_FOV, String(this.walkFov)); } catch {}
+    if (this.mode === 'walk') { this.persp.fov = this.walkFov; this.persp.updateProjectionMatrix(); }
   }
 
   get camera() { return this.mode === 'plan' ? this.ortho : this.persp; }
@@ -158,10 +178,10 @@ export class Cameras extends EventTarget {
       let pos = new THREE.Vector3(sp[0], 0.05, sp[1]);
       if (opts.at) pos = opts.at.clone().setY(0.05);
       this.physics.setPlayerActive(true, pos);
-      this.persp.position.set(pos.x, EYE, pos.z);
+      this.persp.position.set(pos.x, this.eye, pos.z);
       const yaw = opts.yaw ?? rad(sp[2] || 0); // spawn[2] = yaw degrees, 0 = facing north
       this.persp.rotation.set(0, yaw, 0, 'YXZ');
-      this.persp.fov = 72; this.persp.updateProjectionMatrix();
+      this.persp.fov = this.walkFov; this.persp.updateProjectionMatrix();
       this.vel.set(0, 0, 0); this.speed = 0;
       if (opts.lock === true && !this.touch) this.lock.lock();
       setTimeout(() => this.dispatchEvent(new Event('lockchange')), 0);
@@ -237,7 +257,7 @@ export class Cameras extends EventTarget {
       this.speed += (sp - this.speed) * Math.min(1, dt * 8);
       if (ground) this.bob += dt * (4.2 + this.speed * 2.2);
       const amp = Math.min(this.speed / 4.6, 1) * 0.028;
-      const eye = p.y + EYE + Math.sin(this.bob * 2) * amp;
+      const eye = p.y + this.eye + Math.sin(this.bob * 2) * amp;
       // smooth camera follow removes physics jitter
       this.persp.position.x = p.x; this.persp.position.z = p.z;
       this.persp.position.y += (eye - this.persp.position.y) * Math.min(1, dt * 18);

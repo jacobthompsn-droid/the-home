@@ -21,7 +21,7 @@
     0.04
   ],
   "placement": "wall",
-  "mountHeight": 1.35,
+  "mountHeight": 1.15,
   "parts": [
     {
       "name": "frame",

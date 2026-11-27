@@ -321,7 +321,7 @@ M({
   ],
 });
 M({
-  id: 'wall-art', name: 'Framed Art', category: 'decor', icon: '🖼️', price: 149, size: [1.0, 0.7, 0.04], placement: 'wall', mountHeight: 1.35,
+  id: 'wall-art', name: 'Framed Art', category: 'decor', icon: '🖼️', price: 149, size: [1.0, 0.7, 0.04], placement: 'wall', mountHeight: 1.15, // centre at 1.5 m, gallery standard
   tags: ['art'], physics: { body: 'none' },
   parts: [
     B('frame', [1.0, 0.7, 0.03], [0, 0, -0.005], '@woodDark'),
@@ -466,12 +466,13 @@ M({
   ],
 });
 M({
-  id: 'bar-stool', name: 'Bar Stool', category: 'dining', icon: '🪑', price: 119, size: [0.42, 0.76, 0.42], placement: 'floor',
+  // counter-height stool (seat 66 cm) to suit 94 cm counters and islands — bar-height (76 cm) seats are for 107 cm bars
+  id: 'bar-stool', name: 'Counter Stool', category: 'dining', icon: '🪑', price: 119, size: [0.42, 0.66, 0.42], placement: 'floor',
   tags: ['stool', 'seating'],
   parts: [
-    B('leg', [0.03, 0.71, 0.03], [0.15, 0, 0.15], '@metal', { mirror: 'xz' }),
-    Tc('footrest', [0.36, 0.02, 0.36], [0, 0.25, 0], '@metal'),
-    C('seat', [0.4, 0.05, 0.4], [0, 0.71, 0], '@wood'),
+    B('leg', [0.03, 0.61, 0.03], [0.15, 0, 0.15], '@metal', { mirror: 'xz' }),
+    Tc('footrest', [0.36, 0.02, 0.36], [0, 0.22, 0], '@metal'),
+    C('seat', [0.4, 0.05, 0.4], [0, 0.61, 0], '@wood'),
   ],
 });
 

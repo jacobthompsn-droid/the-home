@@ -24,6 +24,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { Sim } from './sim.js';
 import { Thumbs } from './thumbs.js';
 import { Updater } from './updater.js';
+import { makeAvatar, eyeHeight, DEFAULT_HEIGHT } from './avatar.js';
 
 // quality presets: pixel ratio cap, ambient occlusion, bloom, shadow map size
 const QUALITY = {
@@ -60,6 +61,7 @@ class App {
     this.thumbs = new Thumbs();
     this.ui = new UI(this);
     this.partners = new Map();
+    this.me = { key: '', body: null, avatar: null, label: null };
     this.cutaway = null;
 
     this.store.beforeCommit = (d) => this.items.settleAll(d.items, this.apartment);
@@ -87,6 +89,11 @@ class App {
     else { this.loadDesign(newDesign({ user: this.store.user || { name: 'Us' } }), 'Preview'); this.ui.wizard(); }
 
     this.sim.welcome();
+    // ask for your height once, as soon as no other window is open
+    const ask = setInterval(() => {
+      if (!this.store.user || this.store.user.height) return clearInterval(ask);
+      if (!document.getElementById('modal').classList.contains('open') && this.cameras.mode !== 'walk') { clearInterval(ask); this.ui.askHeight(); }
+    }, 1500);
     this.updater = new Updater(this); this.updater.start();
     if (sessionStorage.getItem('thehome.updated')) { sessionStorage.removeItem('thehome.updated'); setTimeout(() => this.ui.toast('✨ Updated to the latest version', 3000), 800); }
     this.clock = new THREE.Clock();
@@ -160,7 +167,7 @@ class App {
       this.apartment.build(bp, style, d);
       this.physics.setStructure(this.apartment);
       this.climate.setApartment(this.apartment);
-      if (blueprintChanged) { this.env.setSite(this.apartment); this.cameras.frame(this.apartment); }
+      if (blueprintChanged) { this.env.setSite(this.apartment); this.cameras.frame(this.apartment); this.me.body = null; }
       this.lastShell = shellSig; this.lastBlueprint = bp.id; this.lastLevel = d.env.level;
       this.applyCutaway();
     }
@@ -235,30 +242,53 @@ class App {
   }
   updatePartner(peer, msg) {
     let p = this.partners.get(peer);
-    const color = msg.user?.color || USER_COLORS[1];
+    const color = msg.user?.color || USER_COLORS[1], height = msg.user?.height || DEFAULT_HEIGHT, key = `${color}|${height}`;
     if (!p) {
-      const group = new THREE.Group();
-      const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.5 });
-      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.22, 1.0, 6, 16), mat); body.position.y = 0.85; body.castShadow = true;
-      const head = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 14), mat); head.position.y = 1.62; head.castShadow = true;
-      const nose = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.16, 12), new THREE.MeshStandardMaterial({ color: '#ffffff' })); nose.rotation.x = -Math.PI / 2; nose.position.set(0, 1.62, -0.2);
-      const cam = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.5, 4), mat); cam.rotation.x = Math.PI / 2; cam.visible = false;
-      group.add(body, head, nose); this.scene.add(group, cam);
+      const group = new THREE.Group(); group.visible = false;
+      const cam = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.5, 4), new THREE.MeshStandardMaterial({ color, roughness: 0.5 })); cam.rotation.x = Math.PI / 2; cam.visible = false;
+      this.scene.add(group, cam);
       const el = document.createElement('div'); el.className = 'partner-label'; el.style.background = color;
       const label = new CSS2DObject(el); this.scene.add(label);
-      p = { group, cam, label, el }; this.partners.set(peer, p);
+      p = { group, cam, label, el, key: '' }; this.partners.set(peer, p);
+    }
+    if (p.key !== key) { // (re)build their body at their real height
+      p.group.clear(); p.group.add(makeAvatar({ color, height })); p.key = key; p.height = height;
+      p.el.style.background = color; p.cam.material.color.set(color);
     }
     p.el.textContent = msg.user?.name || 'Partner';
     const pos = new THREE.Vector3(...msg.pos), dir = new THREE.Vector3(...msg.dir);
-    if (msg.mode === 'walk') {
-      p.group.visible = true; p.cam.visible = false;
-      p.group.position.set(pos.x, pos.y - 1.62, pos.z); p.group.rotation.y = Math.atan2(-dir.x, -dir.z);
-      p.label.position.set(pos.x, pos.y + 0.35, pos.z);
-    } else {
-      p.group.visible = false; p.cam.visible = true;
+    // where their body stands: sent directly by newer versions, otherwise worked out from their eyes
+    const body = msg.body || (msg.mode === 'walk' ? [pos.x, pos.y - eyeHeight(height), pos.z, Math.atan2(-dir.x, -dir.z)] : null);
+    if (body) { p.group.visible = true; p.group.position.set(body[0], body[1], body[2]); p.group.rotation.y = body[3]; }
+    p.cam.visible = msg.mode !== 'walk';
+    if (msg.mode === 'walk') p.label.position.set(body[0], body[1] + p.height + 0.25, body[2]);
+    else {
       p.cam.position.copy(pos); p.cam.lookAt(pos.clone().add(dir)); p.cam.rotateX(Math.PI / 2);
       p.label.position.copy(pos).add(new THREE.Vector3(0, 0.5, 0));
     }
+  }
+
+  // Your own body: matches your height, and stands where you last walked so you can size things up
+  // from the dollhouse (hidden while you're looking through its eyes in walk mode).
+  updateMe() {
+    const me = this.me, u = this.store.user, cams = this.cameras;
+    const height = u?.height || DEFAULT_HEIGHT, color = u?.color || USER_COLORS[0], key = `${color}|${height}|${u?.name}`;
+    if (me.key !== key) {
+      cams.setHeight(height);
+      if (me.avatar) this.scene.remove(me.avatar);
+      me.avatar = makeAvatar({ color, height }); this.scene.add(me.avatar);
+      if (!me.label) { me.el = document.createElement('div'); me.el.className = 'partner-label me-label'; me.label = new CSS2DObject(me.el); this.scene.add(me.label); }
+      me.el.style.background = color; me.el.textContent = u?.name ? `${u.name} (you)` : 'You';
+      me.key = key;
+    }
+    if (!me.body && this.apartment?.bp) { const sp = this.apartment.bp.spawn || [0, 0, 0]; me.body = [sp[0], 0, sp[1], (sp[2] || 0) * Math.PI / 180]; }
+    if (cams.mode === 'walk') {
+      const p = this.physics.player.position;
+      me.body = [p.x, Math.max(0, p.y), p.z, cams.persp.rotation.y];
+    }
+    const b = me.body, show = cams.mode !== 'walk' && !!b;
+    me.avatar.visible = show; me.label.visible = show; me.el.style.display = show ? '' : 'none';
+    if (b) { me.avatar.position.set(b[0], b[1], b[2]); me.avatar.rotation.y = b[3]; me.label.position.set(b[0], b[1] + height + 0.25, b[2]); }
   }
 
   // ------------------------------------------------------------ tools
@@ -305,9 +335,10 @@ class App {
     const fans = devices.filter((x) => x.kind === 'fan' && x.on).length;
     this.audio.update({ rain: this.env.state.rain, wind: Math.min(1, this.env.windSpeed / 14), hvac: this.climate.hvacMode ? 1 : 0, fan: fans * 0.5, exposure: inside ? Math.min(1, openness / 3) : 1 });
     // live presence
+    this.updateMe();
     if (this.live.active) {
       const dir = new THREE.Vector3(); this.cameras.persp.getWorldDirection(dir);
-      this.live.sendPresence({ pos: this.cameras.persp.position.toArray(), dir: dir.toArray(), mode: this.cameras.mode });
+      this.live.sendPresence({ pos: this.cameras.persp.position.toArray(), dir: dir.toArray(), mode: this.cameras.mode, body: this.me.body?.map((v) => +v.toFixed(3)) });
     }
     this.ui.tick(dt);
     this.sim.update(dt);

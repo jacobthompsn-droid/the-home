@@ -444,7 +444,7 @@
     "art"
    ],
    "source": "builtin",
-   "hash": "f562cb31e8"
+   "hash": "f0e65de1d7"
   },
   {
    "id": "mirror-round",
@@ -509,13 +509,13 @@
   {
    "id": "bar-stool",
    "path": "models/dining/bar-stool.json",
-   "name": "Bar Stool",
+   "name": "Counter Stool",
    "category": "dining",
    "icon": "🪑",
    "price": 119,
    "size": [
     0.42,
-    0.76,
+    0.66,
     0.42
    ],
    "placement": "floor",
@@ -525,7 +525,7 @@
     "seating"
    ],
    "source": "builtin",
-   "hash": "bbe35a1560"
+   "hash": "6c725101be"
   },
   {
    "id": "dining-chair",

@@ -10,6 +10,15 @@ import { isTyping } from './cameras.js';
 import { CONFIG } from './config.js';
 import { icon } from './icons.js';
 import { METERS, CHORES } from './sim.js';
+import { heightOptions, fmtHeight, DEFAULT_HEIGHT } from './avatar.js';
+import { DEFAULT_WALK_FOV } from './cameras.js';
+
+// A <select> of heights (feet & inches with cm), closest option to `value` selected.
+const heightSelect = (value, onchange) => {
+  const opts = heightOptions(), v = value || DEFAULT_HEIGHT;
+  const best = opts.reduce((a, o) => Math.abs(o.m - v) < Math.abs(a.m - v) ? o : a, opts[0]);
+  return h('select', { onchange: (e) => onchange(+e.target.value) }, opts.map((o) => h('option', { value: o.m, selected: o === best }, o.label)));
+};
 
 const SEASON_ICON = { spring: '🌸', summer: '☀️', autumn: '🍂', winter: '❄️' };
 const WEATHER_ICON = { clear: '☀️', cloudy: '☁️', rain: '🌧️', storm: '⛈️', snow: '🌨️', fog: '🌫️' };
@@ -570,14 +579,25 @@ export class UI {
     return { close, card };
   }
 
+  // People who set up before heights existed get asked once.
+  askHeight() {
+    const u = this.store.user; if (!u || u.height) return;
+    let height = DEFAULT_HEIGHT;
+    const m = this.modal('📏 How tall are you?',
+      h('p', {}, 'The Home is now life-size: your eye level, your body and what you can fit under all match your real height. You can change it any time in Settings.'),
+      h('label.field', {}, 'Your height', heightSelect(height, (v) => { height = v; })),
+      h('div.btn-row', {}, h('button.btn.primary', { onclick: () => { this.store.setUser({ ...this.store.user, height }); m.close(); this.toast(`Set to ${fmtHeight(height)} 📏`); } }, 'Save')));
+  }
+
   wizard() {
-    const st = { step: this.store.user ? 1 : 0, name: this.store.user?.name || '', color: this.store.user?.color || USER_COLORS[0], blueprint: 'the-home', style: 'modern', furnished: true };
+    const st = { step: this.store.user ? 1 : 0, name: this.store.user?.name || '', color: this.store.user?.color || USER_COLORS[0], height: this.store.user?.height || DEFAULT_HEIGHT, blueprint: 'the-home', style: 'modern', furnished: true };
     const root = $('modal'); root.dataset.locked = '1';
     const render = () => {
       const steps = [
         () => [h('p', {}, 'Welcome! Let\'s build our dream place together. First — who\'s designing on this device?'),
           h('input.big-input', { placeholder: 'Your name', value: st.name, oninput: (e) => { st.name = e.target.value; } }),
-          h('div.color-pick', {}, USER_COLORS.map((c) => h('button', { className: st.color === c ? 'on' : '', style: { background: c }, onclick: () => { st.color = c; render(); } })))],
+          h('div.color-pick', {}, USER_COLORS.map((c) => h('button', { className: st.color === c ? 'on' : '', style: { background: c }, onclick: () => { st.color = c; render(); } }))),
+          h('label.field', {}, 'How tall are you? (so the home is life-size around you)', heightSelect(st.height, (v) => { st.height = v; }))],
         () => [h('p', {}, 'Pick a floor plan (you can switch any time).'),
           h('div.plan-list.big', {}, BLUEPRINTS.map((bp) => { const c = h('canvas', { width: 240, height: 160 }); drawPlan(c, bp); return h('button.plan-card', { className: 'plan-card' + (st.blueprint === bp.id ? ' on' : ''), onclick: () => { st.blueprint = bp.id; render(); } }, c, h('b', {}, bp.name), h('span', {}, bp.blurb)); }))],
         () => [h('p', {}, 'Choose a style — it sets the paint, floors, fabrics and woods.'),
@@ -587,7 +607,7 @@ export class UI {
       ];
       const titles = ['Who\'s designing?', 'Floor plan', 'Style', 'Furnish'];
       const next = () => {
-        if (st.step === 0) { if (!st.name.trim()) return this.toast('Type your name first 🙂'); this.store.setUser({ name: st.name.trim(), color: st.color }); }
+        if (st.step === 0) { if (!st.name.trim()) return this.toast('Type your name first 🙂'); this.store.setUser({ ...this.store.user, name: st.name.trim(), color: st.color, height: st.height }); }
         if (st.step < steps.length - 1) { st.step++; render(); return; }
         delete root.dataset.locked;
         this.app.loadDesign(newDesign({ blueprint: st.blueprint, style: st.style, furnished: st.furnished, user: this.store.user }), 'New design');
@@ -605,12 +625,16 @@ export class UI {
   settings() {
     const u = this.store.user || { name: '', color: USER_COLORS[0] }, gh = this.app.github;
     const name = h('input', { value: u.name });
-    let color = u.color;
+    let color = u.color, height = u.height || DEFAULT_HEIGHT;
+    const fovOut = h('b', {}, `${this.app.cameras.walkFov}°`);
     const colors = h('div.color-pick', {}, USER_COLORS.map((c) => h('button', { className: color === c ? 'on' : '', style: { background: c }, onclick: (e) => { color = c; colors.querySelectorAll('button').forEach((b) => b.classList.remove('on')); e.target.classList.add('on'); } })));
     const repo = h('input', { value: gh.repo, placeholder: 'owner/repo' });
     const token = h('input', { type: 'password', value: gh.token, placeholder: 'github_pat_… (optional)' });
     const m = this.modal('⚙️ Settings',
       h('label.field', {}, 'Your name', name), colors,
+      h('label.field', {}, 'Your height', heightSelect(height, (v) => { height = v; })),
+      h('label.field', {}, h('span', {}, 'Walk view angle ', fovOut), h('input', { type: 'range', min: 45, max: 90, step: 1, value: this.app.cameras.walkFov, oninput: (e) => { this.app.cameras.setWalkFov(e.target.value); fovOut.textContent = `${e.target.value}°`; } }),
+        h('span.tiny', {}, `${DEFAULT_WALK_FOV}° is closest to real life. Wider shows more of the room but makes everything look smaller.`)),
       h('label.field', {}, 'Units', h('select', { onchange: (e) => this.store.commit('Changed units', (d) => { d.settings.units = e.target.value; }) }, h('option', { value: 'imperial', selected: this.d.settings.units !== 'metric' }, 'Feet & °F'), h('option', { value: 'metric', selected: this.d.settings.units === 'metric' }, 'Meters & °C'))),
       h('label.field', {}, 'Graphics', h('select', { onchange: (e) => this.app.setQuality(e.target.value) }, [['ultra', 'Ultra (sharpest, soft shadows, glow)'], ['high', 'High (ambient occlusion + glow)'], ['medium', 'Medium (glow only)'], ['low', 'Low (fastest)']].map(([v, t]) => h('option', { value: v, selected: this.app.quality === v }, t)))),
       h('hr'),
@@ -620,7 +644,7 @@ export class UI {
       h('p.tiny', {}, 'Optional. With a fine-grained token (Contents: read & write on just this repo) the Save and Publish buttons commit straight to GitHub. Without one, they open GitHub with the file ready to commit. The token is stored only in this browser.',
         ' ', h('a', { href: 'https://github.com/settings/personal-access-tokens/new', target: '_blank', rel: 'noopener' }, 'Create a token ↗')),
       h('div.btn-row', {}, h('button.btn.primary', { onclick: () => {
-        if (name.value.trim()) this.store.setUser({ name: name.value.trim(), color });
+        if (name.value.trim()) this.store.setUser({ ...this.store.user, name: name.value.trim(), color, height });
         gh.setRepo(repo.value); gh.setToken(token.value);
         m.close(); this.onDesignChange({}); this.toast('Settings saved');
       } }, 'Save')));
